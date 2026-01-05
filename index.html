@@ -3,25 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stroud Little League Baseball</title>
-  <meta name="description" content="Stroud Little League Baseball — A tradition of excellence." />
+  <title>Oklahoma Royals HQ</title>
+  <meta name="description" content="Royal + bright league hub." />
 
   <style>
     :root{
-      /* ===== ROYAL BLUE BASE (site-wide) ===== */
-      --royal:#0B3D91;          /* overridden by CONFIG.primary_color if set */
-      --royalGlow:#1E60FF;      /* bright royal glow */
-      --gold:#f5c84b;
-
-      /* Background (lightened "a tick") */
-      --bg: #0A2452;
+      /* ===== ROYAL + BRIGHT THEME ===== */
+      --bg:#0A2452;           /* slightly lighter tick */
       --bg2:#081C42;
 
-      /* Surfaces + text */
-      --card: rgba(255,255,255,.10);
-      --card2: rgba(255,255,255,.14);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.74);
+
+      --royal:#0B3D91;
+      --royalGlow:#1E60FF;
+      --gold:#f5c84b;
+
+      --card: rgba(255,255,255,.10);
+      --card2: rgba(255,255,255,.14);
       --line: rgba(255,255,255,.14);
 
       --shadow: 0 18px 44px rgba(0,0,0,.32);
@@ -47,7 +46,6 @@
         radial-gradient(900px 500px at 50% 115%, rgba(11,61,145,.24), transparent 52%),
         linear-gradient(180deg, var(--bg), var(--bg2));
     }
-
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width:var(--max); margin:0 auto; padding:0 16px; }
 
@@ -86,7 +84,6 @@
       color: rgba(255,255,255,.72);
       font-weight: 850;
     }
-
     .navLinks{ display:flex; align-items:center; gap:8px; }
     .navLinks a{
       font-weight: 950;
@@ -262,19 +259,16 @@
       color: rgba(255,255,255,.78);
       text-transform: uppercase;
     }
-
     .qaGrid{
       display:grid;
-      grid-template-columns: 1fr 1fr; /* ALWAYS 2 columns by default */
+      grid-template-columns: 1fr 1fr; /* always 2 columns */
       gap: 10px;
     }
-
     @keyframes qaGlow{
       0%   { box-shadow: 0 10px 20px rgba(0,0,0,.18), 0 0 0 0 rgba(30,96,255,.24); }
       60%  { box-shadow: 0 14px 26px rgba(0,0,0,.22), 0 0 0 12px rgba(30,96,255,0); }
       100% { box-shadow: 0 10px 20px rgba(0,0,0,.18), 0 0 0 0 rgba(30,96,255,0); }
     }
-
     .qaBtn{
       display:flex;
       align-items:center;
@@ -295,7 +289,6 @@
       box-shadow: 0 18px 32px rgba(0,0,0,.28);
       animation: none;
     }
-
     .qaLeft{ display:flex; flex-direction:column; gap:2px; min-width: 0; }
     .qaLabel{
       font-weight: 1000;
@@ -351,6 +344,7 @@
     }
 
     .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
     .card{
       border-radius: var(--radius);
       background: rgba(255,255,255,.10);
@@ -467,12 +461,8 @@
       box-shadow: 0 0 0 4px rgba(245,200,75,.18);
     }
 
-    /* ===== SCHEDULE (CLEAN "SHEET-STYLE" GRID) ===== */
-    .schedWrap{
-      display:flex;
-      flex-direction:column;
-      gap: 14px;
-    }
+    /* ===== SHEET-STYLE FIELD SCHEDULE (FIXED + CLEAN) ===== */
+    .schedWrap{ display:flex; flex-direction:column; gap: 14px; }
 
     .schedFieldCard{
       border-radius: var(--radius);
@@ -507,15 +497,13 @@
     .tableScroll{
       overflow-x:auto;
       -webkit-overflow-scrolling: touch;
-      border-top: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.10);
+      background: rgba(0,0,0,.08);
     }
-
     .timeTable{
       width:100%;
       border-collapse: separate;
       border-spacing: 0;
-      min-width: 760px; /* keeps it readable; mobile can scroll */
+      min-width: 760px;
     }
     .timeTable th,
     .timeTable td{
@@ -530,7 +518,6 @@
       text-align: center;
       white-space:nowrap;
     }
-
     .timeTable th{
       position: sticky;
       top: 0;
@@ -541,7 +528,6 @@
       color: rgba(255,255,255,.90);
       font-weight: 1000;
     }
-
     .timeTable .dayCell{
       text-align: left;
       font-weight: 1000;
@@ -555,17 +541,11 @@
       z-index: 2;
       border-right: 1px solid rgba(255,255,255,.14);
     }
-
-    .slotCell{
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.86);
-      min-width: 86px;
-    }
-
+    .slotCell{ background: rgba(255,255,255,.05); min-width: 86px; }
     .block{
-      background: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.96);
       color: rgba(8, 28, 66, .94);
-      border: 1px solid rgba(255,255,255,.75);
+      border: 1px solid rgba(255,255,255,.78);
       border-radius: 14px;
       padding: 8px 10px;
       display:flex;
@@ -584,7 +564,7 @@
       color: rgba(8,28,66,.62);
     }
 
-    /* ===== SPONSORS (BIG ROUNDED SQUARE, IMAGE FILLS) ===== */
+    /* ===== SPONSORS (BIG SQUARE TILES, LOGO FILLS) ===== */
     .sponsorGrid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -653,55 +633,72 @@
       text-overflow:ellipsis;
     }
 
-    /* ===== CONTACT (SMALLER + CLEANER) ===== */
-    .contactCard{
-      border-radius: var(--radius);
+    /* ===== CONTACT (SQUARE CARDS, NO SPEED-DIAL BUTTONS) ===== */
+    .contactGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .contactMini{
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
       background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.14);
       box-shadow: var(--shadow2);
       overflow:hidden;
+      position:relative;
+      padding: 14px;
+      aspect-ratio: 1 / 1;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap: 10px;
     }
-    .contactPad{ padding: 12px 12px 10px; }
-    .contactRole{
-      margin:0 0 6px;
+    .contactMini::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 220px at 0% 0%, rgba(30,96,255,.24), transparent 60%),
+        radial-gradient(600px 220px at 100% 0%, rgba(245,200,75,.10), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .contactMini > *{ position:relative; }
+    .cRole{
+      margin:0;
       font-weight: 1000;
-      font-size: 13px;
-      color: rgba(255,255,255,.94);
       letter-spacing: .15px;
+      color: rgba(255,255,255,.94);
+      font-size: 14px;
+      line-height:1.1;
     }
-    .contactLine{
+    .cInfo{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      min-height: 0;
+    }
+    .cLine{
       margin:0;
       font-weight: 850;
-      font-size: 12.5px;
-      color: rgba(255,255,255,.82);
-      line-height: 1.35;
+      color: rgba(255,255,255,.84);
+      font-size: 13px;
+      line-height: 1.25;
       word-break: break-word;
     }
-    .contactActions{
-      display:flex;
-      gap: 10px;
-      padding: 10px 12px 12px;
-      border-top: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.08);
+    .cBadgeRow{
+      display:flex; flex-wrap:wrap; gap:8px;
     }
-    .miniBtn{
-      flex: 1 1 auto;
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.22);
-      background: rgba(255,255,255,.10);
-      color: rgba(255,255,255,.92);
-      font-weight: 1000;
-      font-size: 13px;
-      cursor:pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    }
-    .miniBtn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 28px rgba(0,0,0,.30);
-      background: rgba(255,255,255,.12);
+    .cBadge{
+      display:inline-flex;
+      align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      font-weight: 950;
+      font-size: 12px;
+      color: rgba(255,255,255,.80);
     }
 
     /* ===== MODAL VIEWER ===== */
@@ -771,7 +768,6 @@
       background:#fff;
     }
 
-    /* ===== FOOTER ===== */
     footer{
       padding: 18px 0 26px;
       color: rgba(255,255,255,.60);
@@ -788,11 +784,10 @@
       .hamburger{ display:flex; }
       .grid2{ grid-template-columns: 1fr; }
       .sponsorGrid{ grid-template-columns: 1fr 1fr; }
-      /* IMPORTANT: we do NOT force qaGrid to 1 column anymore */
+      .contactGrid{ grid-template-columns: 1fr 1fr; }
     }
-    /* Only on super tiny phones do we drop Quick Actions to 1 column */
-    @media (max-width: 360px){
-      .qaGrid{ grid-template-columns: 1fr; }
+    @media (max-width: 420px){
+      .contactGrid{ grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -953,7 +948,7 @@
         <h2>Contact</h2>
         <p class="muted"></p>
       </div>
-      <div id="contactList" class="grid2" style="margin-top:14px;"></div>
+      <div id="contactList" class="contactGrid"></div>
     </section>
 
     <section id="links">
@@ -994,18 +989,16 @@
       return s;
     }
 
-    // ---- FIX: Google GViz sometimes returns Date(YYYY,MM,DD,HH,MM,SS) strings ----
+    // ---- FIX: GViz sometimes returns "Date(YYYY,MM,DD,HH,MM,SS)" in .v
     function parseGvizDate(v){
       if (!v) return null;
       if (v instanceof Date && !isNaN(v.getTime())) return v;
 
       const s = clean(v);
-      // If it's an ISO-like date string, Date can handle it.
-      // But GViz often gives: "Date(1899,11,30,13,30,0)" or "Date(2026,1,22)"
       const m = s.match(/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)$/);
       if (m){
         const Y = parseInt(m[1],10);
-        const M = parseInt(m[2],10); // GViz month is 0-based already
+        const M = parseInt(m[2],10); // GViz months are 0-based
         const D = parseInt(m[3],10);
         const hh = parseInt(m[4] || "0",10);
         const mm = parseInt(m[5] || "0",10);
@@ -1014,7 +1007,6 @@
         return isNaN(d.getTime()) ? null : d;
       }
 
-      // Try parsing normal strings:
       const d2 = new Date(s);
       if (!isNaN(d2.getTime())) return d2;
 
@@ -1026,39 +1018,29 @@
       if (d){
         return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
       }
-      // fallback to plain
       return clean(v);
     }
 
     function fmtTimeAny(v){
-      // Accept:
-      // - "13:30"
-      // - "1:30 PM"
-      // - Date(...)
-      // - Date object
       const d = parseGvizDate(v);
       if (d){
         let hh = d.getHours();
         let mm = d.getMinutes();
-        const ampm = hh >= 12 ? "PM" : "AM";
+        const ap = hh >= 12 ? "PM" : "AM";
         hh = hh % 12; if (hh === 0) hh = 12;
-        const mm2 = String(mm).padStart(2,"0");
-        return `${hh}:${mm2} ${ampm}`;
+        return `${hh}:${String(mm).padStart(2,"0")} ${ap}`;
       }
 
       const s = clean(v);
       if (!s) return "";
 
-      // "HH:MM" 24h
       const m = s.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
       if (m){
-        let hh = parseInt(m[1],10), mm = m[2];
-        const ampm = hh >= 12 ? "PM" : "AM";
+        let hh = parseInt(m[1],10);
+        const ap = hh >= 12 ? "PM" : "AM";
         hh = hh % 12; if (hh === 0) hh = 12;
-        return `${hh}:${mm} ${ampm}`;
+        return `${hh}:${m[2]} ${ap}`;
       }
-
-      // Already human readable
       return s;
     }
 
@@ -1069,11 +1051,9 @@
       const s = clean(v);
       if (!s) return NaN;
 
-      // "HH:MM"
       const m = s.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
       if (m) return parseInt(m[1],10)*60 + parseInt(m[2],10);
 
-      // "h:mm AM/PM"
       const m2 = s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
       if (m2){
         let hh = parseInt(m2[1],10);
@@ -1097,6 +1077,7 @@
 
     /********************
      * GOOGLE SHEET FETCH
+     * KEY FIX: prefer cell.f (formatted) over cell.v
      ********************/
     async function fetchSheet(sheetName){
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tq=${encodeURIComponent("select *")}`;
@@ -1111,7 +1092,14 @@
         const obj = {};
         (r.c || []).forEach((cell, i) => {
           const key = headers[i] || `col_${i}`;
-          obj[key] = cell && (cell.v !== null && cell.v !== undefined) ? cell.v : "";
+          // Prefer formatted string (prevents Date(1899...) showing up)
+          if (cell && cell.f !== undefined && cell.f !== null && String(cell.f).trim() !== ""){
+            obj[key] = cell.f;
+          } else if (cell && cell.v !== undefined && cell.v !== null){
+            obj[key] = cell.v;
+          } else {
+            obj[key] = "";
+          }
         });
         return obj;
       });
@@ -1281,60 +1269,6 @@
       return card;
     }
 
-    function makeContactCard({ role, name, email, phone, notes }){
-      const card = document.createElement("div");
-      card.className = "contactCard";
-
-      const pad = document.createElement("div");
-      pad.className = "contactPad";
-
-      const h = document.createElement("p");
-      h.className = "contactRole";
-      h.textContent = role || "Contact";
-      pad.appendChild(h);
-
-      const addLine = (txt) => {
-        if (!clean(txt)) return;
-        const p = document.createElement("p");
-        p.className = "contactLine";
-        p.textContent = txt;
-        pad.appendChild(p);
-      };
-
-      addLine(name);
-      addLine(email);
-      addLine(phone);
-      addLine(notes);
-
-      card.appendChild(pad);
-
-      const actions = document.createElement("div");
-      actions.className = "contactActions";
-
-      if (clean(email)){
-        const b = document.createElement("button");
-        b.className = "miniBtn";
-        b.type = "button";
-        b.textContent = "Email";
-        b.addEventListener("click", () => window.open(`mailto:${email}`, "_blank", "noopener"));
-        actions.appendChild(b);
-      }
-      if (clean(phone)){
-        const b = document.createElement("button");
-        b.className = "miniBtn";
-        b.type = "button";
-        b.textContent = "Call";
-        b.addEventListener("click", () => window.open(`tel:${phone.replace(/\s+/g,"")}`, "_blank", "noopener"));
-        actions.appendChild(b);
-      }
-
-      if (actions.childNodes.length){
-        card.appendChild(actions);
-      }
-
-      return card;
-    }
-
     /********************
      * SLIDESHOW
      ********************/
@@ -1469,7 +1403,7 @@
       }
 
       const year = new Date().getFullYear();
-      $("footerText").textContent = `${name || "Stroud Little League Baseball"} • © ${year}`;
+      $("footerText").textContent = `${name || "League Hub"} • © ${year}`;
     }
 
     function renderQuickButtons(cfg){
@@ -1553,7 +1487,7 @@
       host.appendChild(makeBtn("Fields", "Directions", () => jump("fields"), "pin"));
       host.appendChild(makeBtn("Forms", "Downloads", () => jump("forms"), "file"));
       host.appendChild(makeBtn("Sponsors", "Supporters", () => jump("sponsors"), "users"));
-      host.appendChild(makeBtn("Links", "Helpful sites", () => jump("links"), "link"));
+      host.appendChild(makeBtn("Contact", "Who to reach", () => jump("contact"), "users"));
 
       const reg = safeUrl(cfg.registration_url);
       if (reg) host.appendChild(makeBtn("Register", "Sign ups", () => window.open(reg, "_blank", "noopener"), "calendar"));
@@ -1741,6 +1675,7 @@
       });
     }
 
+    // CONTACT: square tiles, show info only (NO email/call buttons)
     function renderContact(rows){
       const active = rows.filter(r => isTrue(r.active) && (clean(r.role) || clean(r.name) || clean(r.email) || clean(r.phone)));
       if (!active.length){
@@ -1752,13 +1687,46 @@
       host.innerHTML = "";
 
       active.forEach(r => {
-        host.appendChild(makeContactCard({
-          role: clean(r.role),
-          name: clean(r.name),
-          email: clean(r.email),
-          phone: clean(r.phone),
-          notes: clean(r.notes)
-        }));
+        const role = clean(r.role) || "Contact";
+        const name = clean(r.name);
+        const email = clean(r.email);
+        const phone = clean(r.phone);
+        const notes = clean(r.notes);
+
+        const card = document.createElement("div");
+        card.className = "contactMini";
+
+        const h = document.createElement("p");
+        h.className = "cRole";
+        h.textContent = role;
+        card.appendChild(h);
+
+        const info = document.createElement("div");
+        info.className = "cInfo";
+
+        const addLine = (txt) => {
+          if (!clean(txt)) return;
+          const p = document.createElement("p");
+          p.className = "cLine";
+          p.textContent = txt;
+          info.appendChild(p);
+        };
+
+        addLine(name);
+        addLine(email);
+        addLine(phone);
+        addLine(notes);
+
+        card.appendChild(info);
+
+        // little “chips” (optional)
+        const chips = document.createElement("div");
+        chips.className = "cBadgeRow";
+        if (email) { const b=document.createElement("div"); b.className="cBadge"; b.textContent="Email"; chips.appendChild(b); }
+        if (phone) { const b=document.createElement("div"); b.className="cBadge"; b.textContent="Phone"; chips.appendChild(b); }
+        if (chips.childNodes.length) card.appendChild(chips);
+
+        host.appendChild(card);
       });
     }
 
@@ -1791,7 +1759,7 @@
       });
     }
 
-    // ---- NEW: Cleaner "sheet-style" schedule ----
+    // Field Schedule: sheet-style table per field
     function renderSchedule(fieldRows, eventRows){
       const fieldActive = fieldRows.filter(r =>
         isTrue(r.active) &&
@@ -1816,14 +1784,12 @@
         const host = $("fieldSchedule");
         host.innerHTML = "";
 
-        // group by field
         const byField = {};
         fieldActive.forEach(r => {
           const f = clean(r.field_name);
           (byField[f] ||= []).push(r);
         });
 
-        // Determine time window from data (fallback 5pm-9pm)
         let allStarts = [];
         let allEnds = [];
         fieldActive.forEach(r => {
@@ -1836,7 +1802,6 @@
         let minT = allStarts.length ? Math.min(...allStarts) : 17*60;
         let maxT = allEnds.length ? Math.max(...allEnds) : 21*60;
 
-        // snap to 30-min grid
         const snapDown = (m) => Math.floor(m/30)*30;
         const snapUp = (m) => Math.ceil(m/30)*30;
         minT = snapDown(minT);
@@ -1877,7 +1842,6 @@
           const table = document.createElement("table");
           table.className = "timeTable";
 
-          // header row
           const thead = document.createElement("thead");
           const trh = document.createElement("tr");
 
@@ -1893,7 +1857,6 @@
           thead.appendChild(trh);
           table.appendChild(thead);
 
-          // build day rows
           const rowsForField = byField[fieldName];
 
           const byDay = {};
@@ -1912,7 +1875,6 @@
             dayTd.textContent = day;
             tr.appendChild(dayTd);
 
-            // map blocks by start slot
             const blocks = (byDay[day] || [])
               .map(r => {
                 const s = timeToMinutes(r.time_start);
@@ -1930,7 +1892,6 @@
             const blockByStart = {};
             blocks.forEach(b => { blockByStart[b.start] = b; });
 
-            // render cells with colspan
             for (let t=minT; t<maxT; t+=step){
               const b = blockByStart[t];
               if (b){
@@ -1945,8 +1906,6 @@
                 td.appendChild(box);
 
                 tr.appendChild(td);
-
-                // skip ahead
                 t += (span-1)*step;
               } else {
                 const td = document.createElement("td");
@@ -2076,6 +2035,36 @@
     }
 
     init();
+  </script>
+
+  <script>
+    // Section observer (kept separate so it works even if init early-exits)
+    function observeSections(){
+      const SECTIONS = [
+        { id:"home", label:"Home" },
+        { id:"schedule", label:"Schedule" },
+        { id:"fields", label:"Fields" },
+        { id:"rules", label:"Rules" },
+        { id:"forms", label:"Forms" },
+        { id:"sponsors", label:"Sponsors" },
+        { id:"contact", label:"Contact" },
+        { id:"links", label:"Links" },
+      ];
+      const links = document.querySelectorAll('.navLinks a');
+      const setActive = (target) => links.forEach(a => a.classList.toggle("active", a.dataset.target === target));
+
+      const els = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean);
+      const io = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a,b) => (b.intersectionRatio - a.intersectionRatio))[0];
+        if (visible && visible.target && visible.target.id){
+          setActive(visible.target.id);
+        }
+      }, { root: null, threshold: [0.15, 0.25, 0.35, 0.5, 0.65] });
+
+      els.forEach(el => io.observe(el));
+    }
   </script>
 </body>
 </html>
