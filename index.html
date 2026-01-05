@@ -245,7 +245,7 @@
       line-height: 1.25;
     }
 
-    /* ===== QUICK ACTIONS (REDESIGNED) ===== */
+    /* ===== QUICK ACTIONS (WHITE BUTTONS + 2-COL ON MOBILE) ===== */
     .quickCard{
       border-radius: var(--radius);
       background: rgba(255,255,255,.10);
@@ -263,12 +263,18 @@
       text-transform: uppercase;
     }
 
-    /* Grid of compact “chips” */
     .qaGrid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr; /* ALWAYS 2 columns by default */
       gap: 10px;
     }
+
+    @keyframes qaGlow{
+      0%   { box-shadow: 0 10px 20px rgba(0,0,0,.18), 0 0 0 0 rgba(30,96,255,.24); }
+      60%  { box-shadow: 0 14px 26px rgba(0,0,0,.22), 0 0 0 12px rgba(30,96,255,0); }
+      100% { box-shadow: 0 10px 20px rgba(0,0,0,.18), 0 0 0 0 rgba(30,96,255,0); }
+    }
+
     .qaBtn{
       display:flex;
       align-items:center;
@@ -276,22 +282,20 @@
       gap:10px;
       padding: 12px 12px;
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background:
-        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.22), transparent 62%),
-        rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.70);
+      background: rgba(255,255,255,.96);
       cursor:pointer;
       user-select:none;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      min-height: 52px;
+      transition: transform .15s ease, box-shadow .15s ease;
+      min-height: 58px;
+      animation: qaGlow 2.4s ease-in-out infinite;
     }
     .qaBtn:hover{
       transform: translateY(-1px);
       box-shadow: 0 18px 32px rgba(0,0,0,.28);
-      background:
-        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.28), transparent 64%),
-        rgba(255,255,255,.10);
+      animation: none;
     }
+
     .qaLeft{
       display:flex; flex-direction:column; gap:2px;
       min-width: 0;
@@ -299,7 +303,7 @@
     .qaLabel{
       font-weight: 1000;
       font-size: 13px;
-      color: rgba(255,255,255,.94);
+      color: rgba(8, 28, 66, .92);
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -307,19 +311,20 @@
     .qaHint{
       font-weight: 850;
       font-size: 11.5px;
-      color: rgba(255,255,255,.70);
+      color: rgba(8, 28, 66, .62);
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
     .qaIcon{
-      width:34px; height:34px;
+      width:36px; height:36px;
       border-radius: 12px;
       display:flex; align-items:center; justify-content:center;
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(8, 28, 66, .14);
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.18), transparent 60%),
-        rgba(255,255,255,.08);
+        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.20), transparent 60%),
+        rgba(255,255,255,.85);
+      color: rgba(8, 28, 66, .90);
       flex: 0 0 auto;
     }
     .qaIcon svg{ opacity:.95; }
@@ -631,11 +636,11 @@
       .grid2{ grid-template-columns: 1fr; }
       .fieldGrid{ grid-template-columns: 1fr; }
       .sponsorGrid{ grid-template-columns: 1fr 1fr; }
+      /* IMPORTANT: we do NOT force qaGrid to 1 column anymore */
     }
-    @media (max-width: 420px){
+    /* Only on super tiny phones do we drop Quick Actions to 1 column */
+    @media (max-width: 360px){
       .qaGrid{ grid-template-columns: 1fr; }
-      .sponsorGrid{ grid-template-columns: 1fr; }
-      .heroTitle{ font-size: 26px; }
     }
   </style>
 </head>
@@ -645,18 +650,14 @@
   <div class="nav">
     <div class="wrap navInner">
       <div class="brand">
-        <div class="logo" id="logoBox" title="League Logo">
-          <!-- optional logo img injected -->
-        </div>
+        <div class="logo" id="logoBox" title="League Logo"></div>
         <div class="brandTitle">
           <div class="name" id="leagueNameTop">Stroud Little League Baseball</div>
           <div class="tag" id="leagueTag">Stroud Tigers • Official League Hub</div>
         </div>
       </div>
 
-      <div class="navLinks" id="navLinks">
-        <!-- links injected -->
-      </div>
+      <div class="navLinks" id="navLinks"></div>
 
       <div class="hamburger" id="hamburger" aria-label="Open menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -718,7 +719,6 @@
 
   <!-- MAIN -->
   <main class="wrap">
-    <!-- HOME -->
     <section id="home">
       <div class="sectionHead">
         <h2>Home</h2>
@@ -741,7 +741,6 @@
       </div>
     </section>
 
-    <!-- SCHEDULE -->
     <section id="schedule">
       <div class="sectionHead">
         <h2>Schedule</h2>
@@ -765,7 +764,6 @@
       </div>
     </section>
 
-    <!-- FIELDS -->
     <section id="fields">
       <div class="sectionHead">
         <h2>Fields & Directions</h2>
@@ -774,7 +772,6 @@
       <div id="fieldsList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
-    <!-- RULES -->
     <section id="rules">
       <div class="sectionHead">
         <h2>Rules & League Info</h2>
@@ -783,7 +780,6 @@
       <div id="rulesList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
-    <!-- FORMS -->
     <section id="forms">
       <div class="sectionHead">
         <h2>Forms</h2>
@@ -792,7 +788,6 @@
       <div id="formsList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
-    <!-- SPONSORS -->
     <section id="sponsors">
       <div class="sectionHead">
         <h2>Sponsors</h2>
@@ -801,7 +796,6 @@
       <div id="sponsorsList" class="sponsorGrid" style="margin-top:14px;"></div>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact">
       <div class="sectionHead">
         <h2>Contact</h2>
@@ -810,7 +804,6 @@
       <div id="contactList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
-    <!-- LINKS -->
     <section id="links">
       <div class="sectionHead">
         <h2>Links</h2>
@@ -829,12 +822,6 @@
      * EDIT THIS ONLY
      ********************/
     const SHEET_ID = "1-jWY-lcFYv9UEwoD5x5oMhO-k_HOoSJREM2bHfAkPQY";
-
-    /********************
-     * OPTIONAL: alert auto-hide
-     * If CONFIG.alerts_auto_hide_minutes is blank => won't auto-hide.
-     * If it has a number (ex: 30) => hides after that many minutes.
-     ********************/
 
     /********************
      * UTIL
@@ -1002,7 +989,7 @@
     function closeDrawer(){ $("drawerBack").style.display = "none"; document.body.style.overflow=""; }
 
     /********************
-     * RENDER HELPERS (no placeholders)
+     * RENDER HELPERS
      ********************/
     function makeCard({ title, text, pills = [], actions = [] }){
       const card = document.createElement("div");
@@ -1158,7 +1145,7 @@
         logoBox.appendChild(img);
       }
 
-      // Alert bar (WHITE) — no "Alert" / no "Heads up:"
+      // Alert bar (WHITE) — only your sheet message
       const enabled = isTrue(cfg.alerts_enabled);
       const text = clean(cfg.alerts_text);
       const alertHost = $("alertBox");
@@ -1167,17 +1154,13 @@
       if (enabled && text){
         const a = document.createElement("div");
         a.className = "alert";
-
         const p = document.createElement("p");
-        p.textContent = text; // <-- only sheet text
+        p.textContent = text;
         a.appendChild(p);
-
         alertHost.appendChild(a);
         alertHost.style.display = "";
 
-        // Auto-hide options:
-        // 1) If CONFIG.alerts_hide_date exists (YYYY-MM-DD) and it's past => hide now
-        // 2) If CONFIG.alerts_auto_hide_minutes is a number => hide after that many minutes
+        // Optional auto-hide:
         const hideDate = clean(cfg.alerts_hide_date);
         if (hideDate){
           const d = new Date(hideDate + "T23:59:59");
@@ -1188,16 +1171,13 @@
 
         const mins = parseFloat(clean(cfg.alerts_auto_hide_minutes));
         if (!isNaN(mins) && mins > 0){
-          setTimeout(() => {
-            alertHost.style.display = "none";
-          }, mins * 60 * 1000);
+          setTimeout(() => { alertHost.style.display = "none"; }, mins * 60 * 1000);
         }
 
       } else {
         alertHost.style.display = "none";
       }
 
-      // Footer
       const year = new Date().getFullYear();
       $("footerText").textContent = `${name || "Stroud Little League Baseball"} • © ${year}`;
     }
@@ -1207,7 +1187,6 @@
       host.innerHTML = "";
 
       const icon = (kind) => {
-        // tiny inline icons (no external libs)
         if (kind === "megaphone") return `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M3 11v2a2 2 0 0 0 2 2h2l4 4v-6l10-4V7l-10 4V5L9 9H5a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
@@ -1287,13 +1266,10 @@
       host.appendChild(makeBtn("Links", "Helpful sites", () => jump("links"), "link"));
 
       const reg = safeUrl(cfg.registration_url);
-      if (reg){
-        host.appendChild(makeBtn("SIGN UPS LIVE NOW", "Click here to follow link", () => window.open(reg, "_blank", "noopener"), "calendar"));
-      }
+      if (reg) host.appendChild(makeBtn("Register", "Sign ups", () => window.open(reg, "_blank", "noopener"), "calendar"));
+
       const fb = safeUrl(cfg.facebook_url);
-      if (fb){
-        host.appendChild(makeBtn("Facebook", "Updates & posts", () => window.open(fb, "_blank", "noopener"), "link"));
-      }
+      if (fb) host.appendChild(makeBtn("Facebook", "Updates & posts", () => window.open(fb, "_blank", "noopener"), "link"));
     }
 
     function renderAnnouncements(rows){
@@ -1390,8 +1366,7 @@
         const mode = (type === "PDF" || type === "IMAGE") ? "modal" : "newtab";
 
         host.appendChild(makeCard({
-          title,
-          text: notes,
+          title, text: notes,
           actions: [{ label: "Open", url, mode, type }]
         }));
       });
@@ -1415,8 +1390,7 @@
         const mode = (type === "PDF" || type === "IMAGE") ? "modal" : "newtab";
 
         host.appendChild(makeCard({
-          title,
-          text: notes,
+          title, text: notes,
           actions: [{ label: "Open", url, mode, type }]
         }));
       });
@@ -1683,12 +1657,16 @@
       window.addEventListener("hashchange", () => scrollToHash());
 
       if (!clean(SHEET_ID) || SHEET_ID === "PASTE_YOUR_SHEET_ID"){
-        $("announcementsCard").style.display = "";
-        $("announcementsList").innerHTML = "";
-        $("announcementsList").appendChild(makeCard({
-          title: "Setup Needed",
-          text: "Paste your Google Sheet ID into the SHEET_ID constant in this file. Then publish your sheet to the web.\n\nOnce connected, everything populates automatically."
-        }));
+        const annCard = document.getElementById("announcementsCard");
+        const annList = document.getElementById("announcementsList");
+        if (annCard && annList){
+          annCard.style.display = "";
+          annList.innerHTML = "";
+          annList.appendChild(makeCard({
+            title: "Setup Needed",
+            text: "Paste your Google Sheet ID into the SHEET_ID constant in this file. Then publish your sheet to the web.\n\nOnce connected, everything populates automatically."
+          }));
+        }
         observeSections();
         setTimeout(scrollToHash, 50);
         return;
