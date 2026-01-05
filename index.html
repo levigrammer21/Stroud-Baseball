@@ -1,0 +1,1641 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stroud Little League Baseball</title>
+  <meta name="description" content="Stroud Little League Baseball — announcements, schedule, fields, rules, forms, sponsors, and contact." />
+
+  <style>
+    :root{
+      --bg: #f7f9ff;
+      --card: #ffffff;
+      --text: #0b1020;
+      --muted:#5b667a;
+      --line: rgba(11,16,32,.10);
+
+      --royal:#0B3D91;   /* fallback (overridden by CONFIG.primary_color) */
+      --accent:#ffffff;  /* fallback */
+      --gold:#f5c84b;
+
+      --shadow: 0 18px 40px rgba(11,16,32,.10);
+      --shadow2: 0 10px 26px rgba(11,16,32,.08);
+      --radius: 18px;
+      --radius2: 14px;
+
+      --max: 1100px;
+      --navH: 70px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% -10%, rgba(11,61,145,.12), transparent 60%),
+        radial-gradient(900px 450px at 100% 0%, rgba(11,61,145,.10), transparent 55%),
+        var(--bg);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:0 16px; }
+
+    /* ===== NAV ===== */
+    .nav{
+      position: sticky; top:0; z-index:50;
+      height: var(--navH);
+      display:flex; align-items:center;
+      backdrop-filter: blur(10px);
+      background: rgba(247,249,255,.78);
+      border-bottom: 1px solid rgba(11,16,32,.08);
+    }
+    .navInner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 200px;
+    }
+    .logo{
+      width:42px; height:42px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(11,61,145,.14), rgba(11,61,145,.03));
+      border: 1px solid rgba(11,61,145,.18);
+      box-shadow: 0 12px 26px rgba(11,61,145,.10);
+      overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+      flex: 0 0 auto;
+    }
+    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .brandTitle{
+      display:flex; flex-direction:column; line-height:1.05;
+    }
+    .brandTitle .name{
+      font-weight: 900;
+      letter-spacing: .2px;
+      font-size: 15px;
+    }
+    .brandTitle .tag{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .navLinks{
+      display:flex; align-items:center; gap:10px;
+    }
+    .navLinks a{
+      font-weight: 800;
+      font-size: 13px;
+      color: rgba(11,16,32,.80);
+      padding: 10px 10px;
+      border-radius: 12px;
+      transition: transform .15s ease, background .15s ease, color .15s ease;
+      white-space:nowrap;
+    }
+    .navLinks a:hover{
+      background: rgba(11,61,145,.10);
+      color: rgba(11,16,32,.92);
+      transform: translateY(-1px);
+    }
+    .navLinks a.active{
+      background: linear-gradient(135deg, rgba(11,61,145,.18), rgba(11,61,145,.08));
+      border: 1px solid rgba(11,61,145,.16);
+    }
+
+    .hamburger{
+      display:none;
+      width:44px; height:44px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,61,145,.18);
+      background: rgba(255,255,255,.70);
+      box-shadow: var(--shadow2);
+      align-items:center; justify-content:center;
+      cursor:pointer;
+    }
+    .hamburger svg{ opacity:.85; }
+
+    /* Mobile drawer */
+    .drawerBack{
+      position:fixed; inset:0; z-index:60;
+      background: rgba(11,16,32,.38);
+      display:none;
+      align-items:flex-start;
+      justify-content:flex-end;
+    }
+    .drawer{
+      width:min(92vw, 360px);
+      height:100%;
+      background: rgba(255,255,255,.90);
+      backdrop-filter: blur(12px);
+      border-left: 1px solid rgba(11,16,32,.10);
+      padding: 14px;
+      box-shadow: -18px 0 40px rgba(11,16,32,.18);
+    }
+    .drawerHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:6px 2px 10px;
+    }
+    .closeBtn{
+      width:44px; height:44px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,61,145,.18);
+      background: rgba(255,255,255,.70);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .drawerLinks{
+      display:flex; flex-direction:column; gap:8px;
+      padding-top: 6px;
+    }
+    .drawerLinks a{
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,16,32,.08);
+      background: rgba(255,255,255,.70);
+      font-weight: 900;
+      color: rgba(11,16,32,.85);
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      padding: 24px 0 10px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .heroCard{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.80);
+      border: 1px solid rgba(11,16,32,.08);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(900px 250px at 0% 0%, rgba(11,61,145,.22), transparent 60%),
+        radial-gradient(600px 250px at 100% 0%, rgba(11,61,145,.15), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .heroPad{ position:relative; padding: 18px 18px 16px; }
+    .heroTitle{
+      font-weight: 1000;
+      font-size: 26px;
+      line-height: 1.05;
+      margin: 2px 0 6px;
+      letter-spacing: .2px;
+    }
+    .heroSub{
+      margin:0;
+      color: rgba(11,16,32,.72);
+      font-weight: 700;
+      line-height:1.35;
+      font-size: 13.5px;
+      max-width: 55ch;
+    }
+    .chipRow{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 14px; }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(11,61,145,.18);
+      background: rgba(255,255,255,.72);
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(11,16,32,.85);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--royal);
+      box-shadow: 0 0 0 4px rgba(11,61,145,.12);
+    }
+
+    .quickCard{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(11,16,32,.08);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .quickPad{ padding: 14px; }
+    .quickTitle{
+      font-weight: 1000;
+      margin: 0 0 10px;
+      font-size: 13px;
+      letter-spacing: .18px;
+      color: rgba(11,16,32,.82);
+      text-transform: uppercase;
+    }
+    .btnGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .btn{
+      display:flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding: 12px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,61,145,.18);
+      background: linear-gradient(135deg, rgba(11,61,145,.13), rgba(255,255,255,.70));
+      font-weight: 1000;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 16px 28px rgba(11,61,145,.12); }
+    .btn:active{ transform: translateY(0px); }
+
+    /* ===== ALERT BAR ===== */
+    .alert{
+      margin-top: 14px;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(11,61,145,.18);
+      background: rgba(11,61,145,.10);
+      padding: 12px 14px;
+      display:flex; gap:10px; align-items:flex-start;
+      box-shadow: 0 10px 18px rgba(11,61,145,.10);
+    }
+    .alert strong{ font-weight: 1000; }
+    .alert p{ margin:0; color: rgba(11,16,32,.78); font-weight: 750; line-height:1.35; }
+
+    /* ===== SECTIONS ===== */
+    main{ padding: 12px 0 40px; }
+    section{ scroll-margin-top: calc(var(--navH) + 14px); }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:10px;
+      padding: 14px 0 8px;
+      margin-top: 12px;
+      border-bottom: 1px solid rgba(11,16,32,.08);
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: 17px;
+      font-weight: 1000;
+      letter-spacing: .2px;
+    }
+    .sectionHead .muted{
+      margin:0;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .card{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(11,16,32,.08);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .cardPad{ padding: 14px; }
+    .cardTitle{
+      margin:0 0 6px;
+      font-weight: 1000;
+      letter-spacing: .15px;
+      font-size: 14px;
+    }
+    .cardText{
+      margin:0;
+      color: rgba(11,16,32,.76);
+      font-weight: 750;
+      line-height: 1.45;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .metaRow{
+      display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px;
+    }
+    .pill{
+      display:inline-flex; align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(11,16,32,.08);
+      background: rgba(255,255,255,.70);
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(11,16,32,.78);
+    }
+    .cardActions{
+      display:flex; flex-wrap:wrap; gap:10px;
+      padding-top: 10px;
+    }
+    .linkBtn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,61,145,.18);
+      background: rgba(255,255,255,.70);
+      font-weight: 1000;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .linkBtn:hover{ transform: translateY(-1px); box-shadow: 0 16px 28px rgba(11,61,145,.10); }
+
+    /* ===== SLIDESHOW ===== */
+    .slider{
+      position:relative;
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: #0b1020;
+      border: 1px solid rgba(11,16,32,.08);
+      box-shadow: var(--shadow);
+      min-height: 220px;
+    }
+    .slide{
+      position:absolute; inset:0;
+      opacity:0;
+      transition: opacity .6s ease;
+      display:flex; align-items:stretch; justify-content:stretch;
+      cursor:pointer;
+    }
+    .slide.active{ opacity:1; }
+    .slide img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .slideCap{
+      position:absolute; left:14px; right:14px; bottom:14px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(255,255,255,.60);
+      backdrop-filter: blur(10px);
+      color: rgba(11,16,32,.88);
+      font-weight: 950;
+      font-size: 13px;
+      box-shadow: 0 14px 24px rgba(0,0,0,.18);
+    }
+    .dots{
+      position:absolute; top: 12px; right: 12px;
+      display:flex; gap:7px;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.55);
+    }
+    .dotBtn{
+      width:10px; height:10px;
+      border-radius:999px;
+      border: 1px solid rgba(11,16,32,.20);
+      background: rgba(255,255,255,.65);
+      cursor:pointer;
+    }
+    .dotBtn.active{
+      background: var(--royal);
+      border-color: rgba(11,61,145,.45);
+      box-shadow: 0 0 0 4px rgba(11,61,145,.14);
+    }
+
+    /* ===== SCHEDULE ===== */
+    .dayBlock{ margin-top: 14px; }
+    .dayTitle{
+      font-weight: 1000;
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: rgba(11,16,32,.86);
+    }
+    .fieldGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .fieldBox{
+      border-radius: var(--radius);
+      border: 1px solid rgba(11,16,32,.08);
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .fieldHdr{
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(11,16,32,.08);
+      background: linear-gradient(135deg, rgba(11,61,145,.12), rgba(255,255,255,.70));
+      font-weight: 1000;
+    }
+    .slot{
+      padding: 12px 14px;
+      display:flex; flex-direction:column; gap:6px;
+      border-top: 1px solid rgba(11,16,32,.06);
+    }
+    .slot:first-child{ border-top:none; }
+    .slotTop{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      font-weight: 950;
+      color: rgba(11,16,32,.86);
+      font-size: 13px;
+    }
+    .slotTime{ color: rgba(11,16,32,.62); font-weight: 900; font-size: 12px; }
+    .slotNote{ margin:0; color: rgba(11,16,32,.72); font-weight: 750; font-size: 12.5px; line-height:1.35; white-space: pre-wrap; }
+
+    /* ===== SPONSORS ===== */
+    .sponsorGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .sponsor{
+      border-radius: var(--radius);
+      border: 1px solid rgba(11,16,32,.08);
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      min-height: 96px;
+      display:flex; flex-direction:column;
+      justify-content:center;
+    }
+    .sponsor:hover{ transform: translateY(-1px); box-shadow: 0 18px 32px rgba(11,16,32,.12); }
+    .sponsorPad{ padding: 12px; display:flex; align-items:center; gap:12px; }
+    .sLogo{
+      width:46px; height:46px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,16,32,.08);
+      background: rgba(11,61,145,.08);
+      overflow:hidden;
+      flex: 0 0 auto;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .sLogo img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .sName{ font-weight: 1000; margin:0; font-size: 13px; }
+    .sTier{ margin:4px 0 0; color: rgba(11,16,32,.60); font-weight: 900; font-size: 12px; }
+
+    /* ===== MODAL VIEWER ===== */
+    .modalBack{
+      position:fixed; inset:0; z-index:80;
+      background: rgba(11,16,32,.55);
+      display:none;
+      align-items:center; justify-content:center;
+      padding: 14px;
+    }
+    .modal{
+      width:min(980px, 96vw);
+      height:min(86vh, 780px);
+      border-radius: 20px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow: 0 30px 70px rgba(0,0,0,.32);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .modalTop{
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(11,16,32,.10);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      background: linear-gradient(135deg, rgba(11,61,145,.12), rgba(255,255,255,.70));
+    }
+    .modalTitle{
+      font-weight: 1000;
+      font-size: 13px;
+      margin:0;
+      color: rgba(11,16,32,.86);
+    }
+    .modalClose{
+      width:44px; height:44px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,61,145,.18);
+      background: rgba(255,255,255,.70);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .modalBody{
+      flex:1;
+      padding: 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(247,249,255,.50);
+    }
+    .modalBody iframe{
+      width:100%;
+      height:100%;
+      border: 0;
+      border-radius: 16px;
+      background:#fff;
+      box-shadow: var(--shadow2);
+    }
+    .modalBody img{
+      max-width:100%;
+      max-height:100%;
+      border-radius: 16px;
+      border: 1px solid rgba(11,16,32,.10);
+      box-shadow: var(--shadow2);
+      background:#fff;
+    }
+
+    /* ===== FOOTER ===== */
+    footer{
+      padding: 18px 0 26px;
+      color: rgba(11,16,32,.55);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 920px){
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 860px){
+      .navLinks{ display:none; }
+      .hamburger{ display:flex; }
+      .grid2{ grid-template-columns: 1fr; }
+      .fieldGrid{ grid-template-columns: 1fr; }
+      .sponsorGrid{ grid-template-columns: 1fr 1fr; }
+      .btnGrid{ grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px){
+      .btnGrid{ grid-template-columns: 1fr; }
+      .sponsorGrid{ grid-template-columns: 1fr; }
+      .heroTitle{ font-size: 24px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="wrap navInner">
+      <div class="brand">
+        <div class="logo" id="logoBox" title="League Logo">
+          <!-- optional logo img injected -->
+        </div>
+        <div class="brandTitle">
+          <div class="name" id="leagueNameTop">Stroud Little League Baseball</div>
+          <div class="tag" id="leagueTag">Stroud Tigers • Official League Hub</div>
+        </div>
+      </div>
+
+      <div class="navLinks" id="navLinks">
+        <!-- links injected -->
+      </div>
+
+      <div class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="drawerBack" id="drawerBack">
+    <div class="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="drawerHeader">
+        <div style="font-weight:1000;">Menu</div>
+        <div class="closeBtn" id="drawerClose" aria-label="Close menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="drawerLinks" id="drawerLinks"></div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modalBack" id="modalBack">
+    <div class="modal">
+      <div class="modalTop">
+        <p class="modalTitle" id="modalTitle"></p>
+        <div class="modalClose" id="modalClose" aria-label="Close viewer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="modalBody" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap heroGrid">
+      <div class="heroCard">
+        <div class="heroPad">
+          <h1 class="heroTitle" id="leagueNameHero">Stroud Little League Baseball</h1>
+          <p class="heroSub" id="heroSub">
+            Announcements, schedule, field directions, rules, forms, sponsors, and contact — all in one place.
+          </p>
+
+          <div class="chipRow" id="chipRow">
+            <div class="chip"><span class="dot"></span> Mobile-First</div>
+            <div class="chip"><span class="dot"></span> Official Updates</div>
+            <div class="chip"><span class="dot"></span> Stroud Tigers</div>
+          </div>
+
+          <div id="alertBox" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="quickCard">
+        <div class="quickPad">
+          <div class="quickTitle">Quick Actions</div>
+          <div class="btnGrid" id="quickButtons"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="wrap">
+
+    <!-- HOME -->
+    <section id="home">
+      <div class="sectionHead">
+        <h2>Home</h2>
+        <p class="muted" id="homeSub"></p>
+      </div>
+
+      <div class="grid2" style="margin-top:14px;">
+        <div class="card" id="slideshowCard" style="display:none;">
+          <div class="cardPad" style="padding:12px;">
+            <div class="slider" id="slider"></div>
+          </div>
+        </div>
+
+        <div class="card" id="announcementsCard" style="display:none;">
+          <div class="cardPad">
+            <p class="cardTitle" style="margin-bottom:10px;">Announcements</p>
+            <div id="announcementsList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule" style="display:none;">
+      <div class="sectionHead">
+        <h2>Schedule</h2>
+        <p class="muted" id="scheduleSub"></p>
+      </div>
+
+      <div class="grid2" style="margin-top:14px;">
+        <div class="card" id="fieldScheduleCard" style="display:none;">
+          <div class="cardPad">
+            <p class="cardTitle" style="margin-bottom:10px;">Field Schedule</p>
+            <div id="fieldSchedule"></div>
+          </div>
+        </div>
+
+        <div class="card" id="eventsCard" style="display:none;">
+          <div class="cardPad">
+            <p class="cardTitle" style="margin-bottom:10px;">Events</p>
+            <div id="eventsList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIELDS -->
+    <section id="fields" style="display:none;">
+      <div class="sectionHead">
+        <h2>Fields & Directions</h2>
+        <p class="muted"></p>
+      </div>
+      <div id="fieldsList" class="grid2" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- RULES -->
+    <section id="rules" style="display:none;">
+      <div class="sectionHead">
+        <h2>Rules & League Info</h2>
+        <p class="muted"></p>
+      </div>
+      <div id="rulesList" class="grid2" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- FORMS -->
+    <section id="forms" style="display:none;">
+      <div class="sectionHead">
+        <h2>Forms</h2>
+        <p class="muted"></p>
+      </div>
+      <div id="formsList" class="grid2" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- SPONSORS -->
+    <section id="sponsors" style="display:none;">
+      <div class="sectionHead">
+        <h2>Sponsors</h2>
+        <p class="muted"></p>
+      </div>
+      <div id="sponsorsList" class="sponsorGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="display:none;">
+      <div class="sectionHead">
+        <h2>Contact</h2>
+        <p class="muted"></p>
+      </div>
+      <div id="contactList" class="grid2" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- LINKS -->
+    <section id="links" style="display:none;">
+      <div class="sectionHead">
+        <h2>Links</h2>
+        <p class="muted"></p>
+      </div>
+      <div id="linksList" class="grid2" style="margin-top:14px;"></div>
+    </section>
+
+    <footer>
+      <div id="footerText"></div>
+    </footer>
+  </main>
+
+  <script>
+    /********************
+     * EDIT THIS ONLY
+     ********************/
+    const SHEET_ID = "PASTE_YOUR_SHEET_ID"; // <-- paste your Google Sheet ID here
+
+    /********************
+     * UTIL
+     ********************/
+    const $ = (id) => document.getElementById(id);
+
+    function clean(v){
+      if (v === null || v === undefined) return "";
+      return String(v).trim();
+    }
+    function isTrue(v){
+      const s = clean(v).toLowerCase();
+      return s === "true" || s === "yes" || s === "1";
+    }
+    function safeUrl(u){
+      const s = clean(u);
+      if (!s) return "";
+      return s;
+    }
+    function fmtDate(iso){
+      const s = clean(iso);
+      if (!s) return "";
+      const d = new Date(s + "T00:00:00");
+      if (isNaN(d.getTime())) return s;
+      return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
+    }
+    function fmtTime(t){
+      const s = clean(t);
+      if (!s) return "";
+      // supports "HH:MM"
+      const m = s.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
+      if (!m) return s;
+      let hh = parseInt(m[1],10), mm = m[2];
+      const ampm = hh >= 12 ? "PM" : "AM";
+      hh = hh % 12; if (hh === 0) hh = 12;
+      return `${hh}:${mm} ${ampm}`;
+    }
+
+    /********************
+     * GOOGLE SHEET FETCH
+     * Uses GViz "tq" endpoint. Works with Published-to-web.
+     ********************/
+    async function fetchSheet(sheetName){
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tq=${encodeURIComponent("select *")}`;
+      const res = await fetch(url, { cache: "no-store" });
+      const text = await res.text();
+      const jsonText = text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1);
+      const data = JSON.parse(jsonText);
+      const table = data.table;
+
+      const headers = (table.cols || []).map(c => (c && c.label) ? c.label : "");
+      const rows = (table.rows || []).map(r => {
+        const obj = {};
+        (r.c || []).forEach((cell, i) => {
+          const key = headers[i] || `col_${i}`;
+          obj[key] = cell && (cell.v !== null && cell.v !== undefined) ? cell.v : "";
+        });
+        return obj;
+      });
+
+      return { headers, rows };
+    }
+
+    /********************
+     * MODAL VIEWER
+     ********************/
+    function openModal(title, type, url){
+      const u = safeUrl(url);
+      if (!u) return;
+
+      $("modalTitle").textContent = clean(title) || "Viewer";
+      const body = $("modalBody");
+      body.innerHTML = "";
+
+      const t = clean(type).toUpperCase();
+      if (t === "IMAGE"){
+        const img = document.createElement("img");
+        img.alt = clean(title) || "Image";
+        img.src = u;
+        body.appendChild(img);
+      } else {
+        const iframe = document.createElement("iframe");
+        iframe.src = u;
+        iframe.title = clean(title) || "Document";
+        body.appendChild(iframe);
+      }
+
+      $("modalBack").style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal(){
+      $("modalBack").style.display = "none";
+      $("modalBody").innerHTML = "";
+      document.body.style.overflow = "";
+    }
+
+    /********************
+     * NAV + ROUTING
+     ********************/
+    const SECTIONS = [
+      { id:"home", label:"Home" },
+      { id:"schedule", label:"Schedule" },
+      { id:"fields", label:"Fields" },
+      { id:"rules", label:"Rules" },
+      { id:"forms", label:"Forms" },
+      { id:"sponsors", label:"Sponsors" },
+      { id:"contact", label:"Contact" },
+      { id:"links", label:"Links" },
+    ];
+
+    function buildNav(){
+      const nav = $("navLinks");
+      const drawer = $("drawerLinks");
+      nav.innerHTML = "";
+      drawer.innerHTML = "";
+
+      SECTIONS.forEach(s => {
+        const a = document.createElement("a");
+        a.href = `#${s.id}`;
+        a.textContent = s.label;
+        a.dataset.target = s.id;
+        nav.appendChild(a);
+
+        const b = document.createElement("a");
+        b.href = `#${s.id}`;
+        b.textContent = s.label;
+        b.dataset.target = s.id;
+        b.addEventListener("click", () => closeDrawer());
+        drawer.appendChild(b);
+      });
+    }
+
+    function setActiveNav(target){
+      const links = document.querySelectorAll('.navLinks a');
+      links.forEach(a => a.classList.toggle("active", a.dataset.target === target));
+    }
+
+    function showSection(id){
+      SECTIONS.forEach(s => {
+        const el = document.getElementById(s.id);
+        if (el) el.style.display = (s.id === id) ? "" : "none";
+      });
+      setActiveNav(id);
+    }
+
+    function getHash(){
+      return (location.hash || "#home").replace("#","");
+    }
+
+    /********************
+     * DRAWER
+     ********************/
+    function openDrawer(){ $("drawerBack").style.display = "flex"; document.body.style.overflow="hidden"; }
+    function closeDrawer(){ $("drawerBack").style.display = "none"; document.body.style.overflow=""; }
+
+    /********************
+     * RENDER HELPERS (no placeholders)
+     ********************/
+    function makeCard({ title, text, pills = [], actions = [] }){
+      const card = document.createElement("div");
+      card.className = "card";
+      const pad = document.createElement("div");
+      pad.className = "cardPad";
+
+      if (clean(title)){
+        const h = document.createElement("p");
+        h.className = "cardTitle";
+        h.textContent = title;
+        pad.appendChild(h);
+      }
+
+      if (clean(text)){
+        const p = document.createElement("p");
+        p.className = "cardText";
+        p.textContent = text;
+        pad.appendChild(p);
+      }
+
+      if (Array.isArray(pills) && pills.length){
+        const meta = document.createElement("div");
+        meta.className = "metaRow";
+        pills.filter(x => clean(x)).forEach(x => {
+          const pill = document.createElement("div");
+          pill.className = "pill";
+          pill.textContent = x;
+          meta.appendChild(pill);
+        });
+        if (meta.childNodes.length) pad.appendChild(meta);
+      }
+
+      if (Array.isArray(actions) && actions.length){
+        const row = document.createElement("div");
+        row.className = "cardActions";
+        actions.forEach(act => {
+          if (!clean(act.label) || !safeUrl(act.url)) return;
+          const btn = document.createElement("button");
+          btn.className = "linkBtn";
+          btn.type = "button";
+          btn.textContent = act.label;
+          btn.addEventListener("click", () => {
+            if (act.mode === "modal") openModal(act.label, act.type || "PDF", act.url);
+            else window.open(act.url, "_blank", "noopener");
+          });
+          row.appendChild(btn);
+        });
+        if (row.childNodes.length) pad.appendChild(row);
+      }
+
+      card.appendChild(pad);
+      return card;
+    }
+
+    /********************
+     * SLIDESHOW
+     ********************/
+    let slideTimer = null;
+    function renderSlideshow(rows){
+      const active = rows.filter(r => isTrue(r.active) && safeUrl(r.image_url));
+      if (!active.length){
+        $("slideshowCard").style.display = "none";
+        return;
+      }
+
+      $("slideshowCard").style.display = "";
+      const slider = $("slider");
+      slider.innerHTML = "";
+
+      const dots = document.createElement("div");
+      dots.className = "dots";
+      slider.appendChild(dots);
+
+      let idx = 0;
+
+      const slides = active.map((r, i) => {
+        const s = document.createElement("div");
+        s.className = "slide" + (i === 0 ? " active" : "");
+
+        const img = document.createElement("img");
+        img.src = r.image_url;
+        img.alt = clean(r.caption) || "Slideshow image";
+        s.appendChild(img);
+
+        const cap = clean(r.caption);
+        if (cap){
+          const c = document.createElement("div");
+          c.className = "slideCap";
+          c.textContent = cap;
+          s.appendChild(c);
+        }
+
+        const link = safeUrl(r.link_url);
+        if (link){
+          s.addEventListener("click", () => window.open(link, "_blank", "noopener"));
+        }
+
+        slider.appendChild(s);
+
+        const d = document.createElement("div");
+        d.className = "dotBtn" + (i === 0 ? " active" : "");
+        d.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setSlide(i);
+          resetTimer();
+        });
+        dots.appendChild(d);
+
+        return s;
+      });
+
+      function setSlide(i){
+        idx = i;
+        slides.forEach((el, k) => el.classList.toggle("active", k === idx));
+        [...dots.children].forEach((el, k) => el.classList.toggle("active", k === idx));
+      }
+
+      function next(){
+        idx = (idx + 1) % slides.length;
+        setSlide(idx);
+      }
+
+      function resetTimer(){
+        if (slideTimer) clearInterval(slideTimer);
+        slideTimer = setInterval(next, 6000);
+      }
+
+      resetTimer();
+    }
+
+    /********************
+     * MAIN RENDER
+     ********************/
+    function applyTheme(cfg){
+      const primary = safeUrl(cfg.primary_color) || getComputedStyle(document.documentElement).getPropertyValue("--royal").trim();
+      const accent = safeUrl(cfg.accent_color) || "#ffffff";
+
+      document.documentElement.style.setProperty("--royal", primary);
+      document.documentElement.style.setProperty("--accent", accent);
+
+      const name = clean(cfg.league_name);
+      if (name){
+        document.title = name;
+        $("leagueNameTop").textContent = name;
+        $("leagueNameHero").textContent = name;
+      }
+
+      const logoUrl = safeUrl(cfg.logo_url);
+      const logoBox = $("logoBox");
+      logoBox.innerHTML = "";
+      if (logoUrl){
+        const img = document.createElement("img");
+        img.src = logoUrl;
+        img.alt = name || "Logo";
+        logoBox.appendChild(img);
+      }
+
+      // Alert bar (only if enabled & text exists)
+      const enabled = isTrue(cfg.alerts_enabled);
+      const text = clean(cfg.alerts_text);
+      const alertHost = $("alertBox");
+      alertHost.innerHTML = "";
+      if (enabled && text){
+        const a = document.createElement("div");
+        a.className = "alert";
+        const left = document.createElement("div");
+        left.style.fontWeight = "1000";
+        left.textContent = "Alert";
+        const p = document.createElement("p");
+        p.innerHTML = `<strong>Heads up:</strong> ${escapeHtml(text)}`;
+        a.appendChild(left);
+        a.appendChild(p);
+        alertHost.appendChild(a);
+        alertHost.style.display = "";
+      } else {
+        alertHost.style.display = "none";
+      }
+
+      // Footer
+      const year = new Date().getFullYear();
+      $("footerText").textContent = `${name || "Stroud Little League Baseball"} • © ${year}`;
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    function renderQuickButtons(cfg){
+      const host = $("quickButtons");
+      host.innerHTML = "";
+
+      // Always add section buttons; only add external buttons if URLs exist.
+      const makeNavBtn = (label, sectionId) => {
+        const b = document.createElement("div");
+        b.className = "btn";
+        b.textContent = label;
+        b.addEventListener("click", () => {
+          location.hash = "#" + sectionId;
+          showSection(sectionId);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        return b;
+      };
+
+      host.appendChild(makeNavBtn("Announcements", "home"));
+      host.appendChild(makeNavBtn("Schedule", "schedule"));
+      host.appendChild(makeNavBtn("Fields", "fields"));
+
+      const standings = safeUrl(cfg.standings_url);
+      if (standings){
+        const b = document.createElement("div");
+        b.className = "btn";
+        b.textContent = "Standings";
+        b.addEventListener("click", () => window.open(standings, "_blank", "noopener"));
+        host.appendChild(b);
+      }
+
+      host.appendChild(makeNavBtn("Forms", "forms"));
+      host.appendChild(makeNavBtn("Sponsors", "sponsors"));
+
+      const reg = safeUrl(cfg.registration_url);
+      if (reg){
+        const b = document.createElement("div");
+        b.className = "btn";
+        b.textContent = "Register";
+        b.addEventListener("click", () => window.open(reg, "_blank", "noopener"));
+        host.appendChild(b);
+      }
+
+      const fb = safeUrl(cfg.facebook_url);
+      if (fb){
+        const b = document.createElement("div");
+        b.className = "btn";
+        b.textContent = "Facebook";
+        b.addEventListener("click", () => window.open(fb, "_blank", "noopener"));
+        host.appendChild(b);
+      }
+    }
+
+    function renderAnnouncements(rows){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.title));
+      if (!active.length){
+        $("announcementsCard").style.display = "none";
+        return;
+      }
+
+      // sort: pinned first, then by start_date desc, then title
+      active.sort((a,b) => {
+        const pa = isTrue(a.pinned) ? 1 : 0;
+        const pb = isTrue(b.pinned) ? 1 : 0;
+        if (pa !== pb) return pb - pa;
+
+        const da = new Date((clean(a.start_date) || "1900-01-01") + "T00:00:00").getTime();
+        const db = new Date((clean(b.start_date) || "1900-01-01") + "T00:00:00").getTime();
+        if (da !== db) return db - da;
+
+        return clean(a.title).localeCompare(clean(b.title));
+      });
+
+      $("announcementsCard").style.display = "";
+      const host = $("announcementsList");
+      host.innerHTML = "";
+
+      active.forEach(r => {
+        const title = clean(r.title);
+        const msg = clean(r.message);
+        const btnText = clean(r.button_text);
+        const btnUrl = safeUrl(r.button_url);
+        const pills = [];
+
+        if (isTrue(r.pinned)) pills.push("Pinned");
+        const sd = fmtDate(r.start_date);
+        const ed = fmtDate(r.end_date);
+        if (sd && ed) pills.push(`${sd} → ${ed}`);
+        else if (sd) pills.push(sd);
+        else if (ed) pills.push(`Until ${ed}`);
+
+        const actions = [];
+        if (btnText && btnUrl) actions.push({ label: btnText, url: btnUrl, mode: "newtab" });
+
+        const card = makeCard({ title, text: msg, pills, actions });
+        host.appendChild(card);
+        card.style.marginTop = "12px";
+      });
+
+      // Home subtitle
+      const n = active.length;
+      $("homeSub").textContent = n ? `${n} update${n===1?"":"s"} posted` : "";
+    }
+
+    function renderFields(rows){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.field_name));
+      if (!active.length){
+        $("fields").style.display = "none";
+        return;
+      }
+      $("fields").style.display = "";
+      const host = $("fieldsList");
+      host.innerHTML = "";
+
+      active.forEach(r => {
+        const title = clean(r.field_name);
+        const address = clean(r.address);
+        const notes = clean(r.notes);
+        const maps = safeUrl(r.google_maps_url);
+
+        const textParts = [];
+        if (address) textParts.push(address);
+        if (notes) textParts.push(notes);
+
+        const actions = [];
+        if (maps) actions.push({ label: "Open in Maps", url: maps, mode: "newtab" });
+
+        host.appendChild(makeCard({
+          title,
+          text: textParts.join("\n\n"),
+          actions
+        }));
+      });
+    }
+
+    function renderRules(rows){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.title) && safeUrl(r.url));
+      if (!active.length){
+        $("rules").style.display = "none";
+        return;
+      }
+      $("rules").style.display = "";
+      const host = $("rulesList");
+      host.innerHTML = "";
+
+      active.forEach(r => {
+        const title = clean(r.title);
+        const type = clean(r.type).toUpperCase();
+        const url = safeUrl(r.url);
+        const notes = clean(r.notes);
+
+        // LINK => new tab, PDF/IMAGE => modal viewer
+        const mode = (type === "PDF" || type === "IMAGE") ? "modal" : "newtab";
+
+        host.appendChild(makeCard({
+          title,
+          text: notes,
+          actions: [{ label: "Open", url, mode, type }]
+        }));
+      });
+    }
+
+    function renderForms(rows){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.form_name) && safeUrl(r.url));
+      if (!active.length){
+        $("forms").style.display = "none";
+        return;
+      }
+      $("forms").style.display = "";
+      const host = $("formsList");
+      host.innerHTML = "";
+
+      active.forEach(r => {
+        const title = clean(r.form_name);
+        const type = clean(r.type).toUpperCase();
+        const url = safeUrl(r.url);
+        const notes = clean(r.notes);
+
+        const mode = (type === "PDF" || type === "IMAGE") ? "modal" : "newtab";
+        host.appendChild(makeCard({
+          title,
+          text: notes,
+          actions: [{ label: "Open", url, mode, type }]
+        }));
+      });
+    }
+
+    function renderSponsors(rows){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.sponsor_name));
+      if (!active.length){
+        $("sponsors").style.display = "none";
+        return;
+      }
+      $("sponsors").style.display = "";
+      const host = $("sponsorsList");
+      host.innerHTML = "";
+
+      // Optional tier sorting (tier not required)
+      active.sort((a,b) => clean(a.tier).localeCompare(clean(b.tier)));
+
+      active.forEach(r => {
+        const name = clean(r.sponsor_name);
+        const tier = clean(r.tier);
+        const logo = safeUrl(r.logo_url);
+        const site = safeUrl(r.website_url);
+
+        const box = document.createElement("div");
+        box.className = "sponsor";
+        box.addEventListener("click", () => {
+          if (site) window.open(site, "_blank", "noopener");
+        });
+
+        const pad = document.createElement("div");
+        pad.className = "sponsorPad";
+
+        const sLogo = document.createElement("div");
+        sLogo.className = "sLogo";
+        if (logo){
+          const img = document.createElement("img");
+          img.src = logo;
+          img.alt = name;
+          sLogo.appendChild(img);
+        }
+        pad.appendChild(sLogo);
+
+        const right = document.createElement("div");
+        const nm = document.createElement("p");
+        nm.className = "sName";
+        nm.textContent = name;
+        right.appendChild(nm);
+
+        if (tier){
+          const tr = document.createElement("p");
+          tr.className = "sTier";
+          tr.textContent = tier;
+          right.appendChild(tr);
+        }
+
+        pad.appendChild(right);
+        box.appendChild(pad);
+        host.appendChild(box);
+      });
+    }
+
+    function renderContact(rows){
+      const active = rows.filter(r => isTrue(r.active) && (clean(r.role) || clean(r.name) || clean(r.email) || clean(r.phone)));
+      if (!active.length){
+        $("contact").style.display = "none";
+        return;
+      }
+      $("contact").style.display = "";
+      const host = $("contactList");
+      host.innerHTML = "";
+
+      active.forEach(r => {
+        const role = clean(r.role);
+        const name = clean(r.name);
+        const email = clean(r.email);
+        const phone = clean(r.phone);
+        const notes = clean(r.notes);
+
+        const lines = [];
+        if (name) lines.push(name);
+        if (email) lines.push(email);
+        if (phone) lines.push(phone);
+        if (notes) lines.push(notes);
+
+        const actions = [];
+        if (email) actions.push({ label: "Email", url: `mailto:${email}`, mode: "newtab" });
+        if (phone) actions.push({ label: "Call", url: `tel:${phone.replace(/\s+/g,"")}`, mode: "newtab" });
+
+        host.appendChild(makeCard({
+          title: role || "Contact",
+          text: lines.join("\n"),
+          actions
+        }));
+      });
+    }
+
+    function renderLinks(rows, cfg){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.label) && safeUrl(r.url));
+      const standings = safeUrl(cfg.standings_url);
+
+      if (!active.length && !standings){
+        $("links").style.display = "none";
+        return;
+      }
+      $("links").style.display = "";
+      const host = $("linksList");
+      host.innerHTML = "";
+
+      // If standings URL exists, show it here too (no placeholders if blank)
+      if (standings){
+        host.appendChild(makeCard({
+          title: "Standings",
+          text: "",
+          actions: [{ label: "Open Standings", url: standings, mode: "newtab" }]
+        }));
+      }
+
+      active.forEach(r => {
+        host.appendChild(makeCard({
+          title: clean(r.label),
+          text: "",
+          actions: [{ label: "Open", url: safeUrl(r.url), mode: "newtab" }]
+        }));
+      });
+    }
+
+    function renderSchedule(fieldRows, eventRows){
+      const fieldActive = fieldRows.filter(r =>
+        isTrue(r.active) &&
+        clean(r.day_of_week) &&
+        clean(r.field_name) &&
+        clean(r.team_or_group)
+      );
+
+      const eventActive = eventRows.filter(r => isTrue(r.active) && clean(r.event_name) && clean(r.date));
+
+      // If neither exists, hide schedule section entirely
+      if (!fieldActive.length && !eventActive.length){
+        $("schedule").style.display = "none";
+        return;
+      }
+      $("schedule").style.display = "";
+
+      // FIELD SCHEDULE
+      if (!fieldActive.length){
+        $("fieldScheduleCard").style.display = "none";
+      } else {
+        $("fieldScheduleCard").style.display = "";
+        const host = $("fieldSchedule");
+        host.innerHTML = "";
+
+        const order = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+        const byDay = {};
+        fieldActive.forEach(r => {
+          const day = clean(r.day_of_week);
+          (byDay[day] ||= []).push(r);
+        });
+
+        order.filter(d => byDay[d]).forEach(day => {
+          const dayBlock = document.createElement("div");
+          dayBlock.className = "dayBlock";
+
+          const h = document.createElement("p");
+          h.className = "dayTitle";
+          h.textContent = day;
+          dayBlock.appendChild(h);
+
+          const grid = document.createElement("div");
+          grid.className = "fieldGrid";
+
+          // group by field name
+          const byField = {};
+          byDay[day].forEach(r => {
+            const field = clean(r.field_name);
+            (byField[field] ||= []).push(r);
+          });
+
+          Object.keys(byField).sort().forEach(fieldName => {
+            const box = document.createElement("div");
+            box.className = "fieldBox";
+
+            const hdr = document.createElement("div");
+            hdr.className = "fieldHdr";
+            hdr.textContent = fieldName;
+            box.appendChild(hdr);
+
+            // sort by time_start
+            byField[fieldName].sort((a,b) => clean(a.time_start).localeCompare(clean(b.time_start)));
+
+            byField[fieldName].forEach(r => {
+              const slot = document.createElement("div");
+              slot.className = "slot";
+
+              const top = document.createElement("div");
+              top.className = "slotTop";
+
+              const team = document.createElement("div");
+              team.textContent = clean(r.team_or_group);
+
+              const t1 = fmtTime(r.time_start);
+              const t2 = fmtTime(r.time_end);
+              const time = document.createElement("div");
+              time.className = "slotTime";
+              time.textContent = (t1 && t2) ? `${t1}–${t2}` : (t1 || t2 || "");
+
+              top.appendChild(team);
+              if (clean(time.textContent)) top.appendChild(time);
+
+              slot.appendChild(top);
+
+              const note = clean(r.notes);
+              if (note){
+                const p = document.createElement("p");
+                p.className = "slotNote";
+                p.textContent = note;
+                slot.appendChild(p);
+              }
+
+              box.appendChild(slot);
+            });
+
+            grid.appendChild(box);
+          });
+
+          dayBlock.appendChild(grid);
+          host.appendChild(dayBlock);
+        });
+      }
+
+      // EVENTS
+      if (!eventActive.length){
+        $("eventsCard").style.display = "none";
+      } else {
+        $("eventsCard").style.display = "";
+        const host = $("eventsList");
+        host.innerHTML = "";
+
+        eventActive.sort((a,b) => clean(a.date).localeCompare(clean(b.date)));
+
+        eventActive.forEach(r => {
+          const title = clean(r.event_name);
+          const date = fmtDate(r.date);
+          const time = clean(r.time);
+          const loc = clean(r.location);
+          const details = clean(r.details);
+
+          const pills = [];
+          if (date) pills.push(date);
+          if (time) pills.push(time);
+          if (loc) pills.push(loc);
+
+          const actions = [];
+          const bt = clean(r.button_text);
+          const bu = safeUrl(r.button_url);
+          if (bt && bu) actions.push({ label: bt, url: bu, mode: "newtab" });
+
+          host.appendChild(makeCard({
+            title,
+            text: details,
+            pills,
+            actions
+          }));
+        });
+
+        $("scheduleSub").textContent = `${eventActive.length} event${eventActive.length===1?"":"s"} listed`;
+      }
+    }
+
+    /********************
+     * INIT
+     ********************/
+    async function init(){
+      buildNav();
+
+      // UI bindings
+      $("hamburger").addEventListener("click", openDrawer);
+      $("drawerBack").addEventListener("click", (e) => { if (e.target === $("drawerBack")) closeDrawer(); });
+      $("drawerClose").addEventListener("click", closeDrawer);
+
+      $("modalClose").addEventListener("click", closeModal);
+      $("modalBack").addEventListener("click", (e) => { if (e.target === $("modalBack")) closeModal(); });
+
+      window.addEventListener("hashchange", () => {
+        const id = getHash();
+        showSection(SECTIONS.some(s => s.id === id) ? id : "home");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // If sheet not set, show a helpful message (no placeholders elsewhere)
+      if (!clean(SHEET_ID) || SHEET_ID === "PASTE_YOUR_SHEET_ID"){
+        $("announcementsCard").style.display = "";
+        $("announcementsList").innerHTML = "";
+        $("announcementsList").appendChild(makeCard({
+          title: "Setup Needed",
+          text: "Paste your Google Sheet ID into the SHEET_ID constant in this file. Then publish your sheet to the web.\n\nOnce connected, everything populates automatically.",
+          actions: []
+        }));
+        return;
+      }
+
+      // Load all tabs (fail-soft: a missing tab won't crash the whole site)
+      const [
+        cfg, ann, slides, field, events, fields, rules, forms, sponsors, contact, links
+      ] = await Promise.all([
+        fetchSheet("CONFIG").catch(() => ({rows:[] })),
+        fetchSheet("ANNOUNCEMENTS").catch(() => ({rows:[] })),
+        fetchSheet("SLIDESHOW").catch(() => ({rows:[] })),
+        fetchSheet("FIELD_SCHEDULE").catch(() => ({rows:[] })),
+        fetchSheet("EVENTS").catch(() => ({rows:[] })),
+        fetchSheet("FIELDS").catch(() => ({rows:[] })),
+        fetchSheet("RULES").catch(() => ({rows:[] })),
+        fetchSheet("FORMS").catch(() => ({rows:[] })),
+        fetchSheet("SPONSORS").catch(() => ({rows:[] })),
+        fetchSheet("CONTACT").catch(() => ({rows:[] })),
+        fetchSheet("LINKS").catch(() => ({rows:[] })),
+      ]);
+
+      const cfgRow = (cfg.rows && cfg.rows[0]) ? cfg.rows[0] : {};
+      applyTheme(cfgRow);
+      renderQuickButtons(cfgRow);
+
+      renderSlideshow(slides.rows || []);
+      renderAnnouncements(ann.rows || []);
+      renderSchedule(field.rows || [], events.rows || []);
+      renderFields(fields.rows || []);
+      renderRules(rules.rows || []);
+      renderForms(forms.rows || []);
+      renderSponsors(sponsors.rows || []);
+      renderContact(contact.rows || []);
+      renderLinks(links.rows || [], cfgRow);
+
+      // Default route
+      const id = getHash();
+      showSection(SECTIONS.some(s => s.id === id) ? id : "home");
+    }
+
+    init();
+  </script>
+</body>
+  </html>
