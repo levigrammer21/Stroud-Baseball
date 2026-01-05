@@ -9,21 +9,23 @@
   <style>
     :root{
       /* ===== ROYAL BLUE BASE (site-wide) ===== */
-      --royal:#0B3D91;          /* will still be overridden by CONFIG.primary_color if you set it */
-      --royal2:#061f4b;
+      --royal:#0B3D91;          /* overridden by CONFIG.primary_color if set */
+      --royalGlow:#1E60FF;      /* bright royal glow */
       --gold:#f5c84b;
 
-      /* Surface + text */
-      --bg: #071a3d;            /* deep royal base */
-      --bg2:#061532;
+      /* Background (lightened "a tick") */
+      --bg: #0A2452;
+      --bg2:#081C42;
+
+      /* Surfaces + text */
       --card: rgba(255,255,255,.10);
       --card2: rgba(255,255,255,.14);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.72);
+      --muted: rgba(255,255,255,.74);
       --line: rgba(255,255,255,.14);
 
-      --shadow: 0 18px 44px rgba(0,0,0,.35);
-      --shadow2: 0 12px 28px rgba(0,0,0,.26);
+      --shadow: 0 18px 44px rgba(0,0,0,.32);
+      --shadow2: 0 12px 28px rgba(0,0,0,.24);
 
       --radius: 18px;
       --radius2: 14px;
@@ -40,9 +42,9 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color:var(--text);
       background:
-        radial-gradient(1200px 700px at 15% -10%, rgba(245,200,75,.14), transparent 55%),
-        radial-gradient(1100px 600px at 110% 0%, rgba(11,61,145,.50), transparent 55%),
-        radial-gradient(900px 500px at 50% 115%, rgba(11,61,145,.28), transparent 50%),
+        radial-gradient(1200px 700px at 15% -10%, rgba(245,200,75,.12), transparent 55%),
+        radial-gradient(1100px 600px at 110% 0%, rgba(30,96,255,.38), transparent 55%),
+        radial-gradient(900px 500px at 50% 115%, rgba(11,61,145,.24), transparent 52%),
         linear-gradient(180deg, var(--bg), var(--bg2));
     }
 
@@ -55,18 +57,15 @@
       height: var(--navH);
       display:flex; align-items:center;
       backdrop-filter: blur(12px);
-      background: rgba(6, 21, 50, .72);
+      background: rgba(8, 28, 66, .68);
       border-bottom: 1px solid rgba(255,255,255,.12);
     }
     .navInner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      min-width: 200px;
-    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width: 200px; }
     .logo{
       width:44px; height:44px; border-radius:14px;
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.30), transparent 55%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.26), transparent 55%),
         linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
       border: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 14px 26px rgba(0,0,0,.30);
@@ -84,13 +83,11 @@
     }
     .brandTitle .tag{
       font-size: 12px;
-      color: rgba(255,255,255,.70);
-      font-weight: 800;
+      color: rgba(255,255,255,.72);
+      font-weight: 850;
     }
 
-    .navLinks{
-      display:flex; align-items:center; gap:8px;
-    }
+    .navLinks{ display:flex; align-items:center; gap:8px; }
     .navLinks a{
       font-weight: 950;
       font-size: 13px;
@@ -102,22 +99,22 @@
     }
     .navLinks a:hover{
       background: rgba(255,255,255,.10);
-      color: rgba(255,255,255,.95);
+      color: rgba(255,255,255,.96);
       transform: translateY(-1px);
       box-shadow: 0 10px 18px rgba(0,0,0,.25);
     }
     .navLinks a.active{
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.18), transparent 60%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.14), transparent 60%),
         rgba(255,255,255,.10);
       border: 1px solid rgba(255,255,255,.14);
     }
 
     /* ===== GLOWING MENU BUTTON ===== */
     @keyframes glowPulse{
-      0%   { box-shadow: 0 0 0 0 rgba(245,200,75,.30), 0 16px 30px rgba(0,0,0,.28); }
-      60%  { box-shadow: 0 0 0 10px rgba(245,200,75,0), 0 18px 34px rgba(0,0,0,.30); }
-      100% { box-shadow: 0 0 0 0 rgba(245,200,75,0), 0 16px 30px rgba(0,0,0,.28); }
+      0%   { box-shadow: 0 0 0 0 rgba(30,96,255,.45), 0 16px 30px rgba(0,0,0,.26); }
+      60%  { box-shadow: 0 0 0 12px rgba(30,96,255,0), 0 18px 34px rgba(0,0,0,.30); }
+      100% { box-shadow: 0 0 0 0 rgba(30,96,255,0), 0 16px 30px rgba(0,0,0,.26); }
     }
     .hamburger{
       display:none;
@@ -125,7 +122,7 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.18);
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.26), transparent 60%),
+        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.26), transparent 60%),
         rgba(255,255,255,.10);
       align-items:center; justify-content:center;
       cursor:pointer;
@@ -144,7 +141,7 @@
     .drawer{
       width:min(92vw, 360px);
       height:100%;
-      background: rgba(6, 21, 50, .88);
+      background: rgba(8, 28, 66, .88);
       backdrop-filter: blur(14px);
       border-left: 1px solid rgba(255,255,255,.12);
       padding: 14px;
@@ -188,7 +185,7 @@
     .heroCard{
       border-radius: var(--radius);
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.14), transparent 60%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.12), transparent 60%),
         rgba(255,255,255,.10);
       border: 1px solid rgba(255,255,255,.14);
       box-shadow: var(--shadow);
@@ -199,8 +196,8 @@
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(900px 280px at 0% 0%, rgba(11,61,145,.55), transparent 60%),
-        radial-gradient(600px 260px at 100% 0%, rgba(245,200,75,.16), transparent 55%);
+        radial-gradient(900px 280px at 0% 0%, rgba(30,96,255,.42), transparent 60%),
+        radial-gradient(600px 260px at 100% 0%, rgba(245,200,75,.14), transparent 55%);
       opacity:.95;
       pointer-events:none;
     }
@@ -216,12 +213,39 @@
     .heroSub{
       margin:0;
       color: rgba(255,255,255,.78);
-      font-weight: 800;
+      font-weight: 850;
       line-height:1.35;
       font-size: 13.5px;
       max-width: 55ch;
     }
 
+    /* ===== ALERT (WHITE w/ ROYAL GLOW) ===== */
+    @keyframes alertPulse{
+      0%   { box-shadow: 0 0 0 0 rgba(30,96,255,.35), 0 16px 30px rgba(0,0,0,.22); }
+      55%  { box-shadow: 0 0 0 14px rgba(30,96,255,0), 0 18px 34px rgba(0,0,0,.26); }
+      100% { box-shadow: 0 0 0 0 rgba(30,96,255,0), 0 16px 30px rgba(0,0,0,.22); }
+    }
+    .alert{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.85);
+      background: rgba(255,255,255,.96);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      animation: alertPulse 2.1s ease-in-out infinite;
+    }
+    .alert p{
+      margin:0;
+      color: rgba(8, 28, 66, .92);
+      font-weight: 1000;
+      letter-spacing: .2px;
+      line-height: 1.25;
+    }
+
+    /* ===== QUICK ACTIONS (REDESIGNED) ===== */
     .quickCard{
       border-radius: var(--radius);
       background: rgba(255,255,255,.10);
@@ -232,55 +256,73 @@
     .quickPad{ padding: 14px; }
     .quickTitle{
       font-weight: 1000;
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       font-size: 12px;
       letter-spacing: .18px;
       color: rgba(255,255,255,.78);
       text-transform: uppercase;
     }
-    .btnGrid{
+
+    /* Grid of compact “chips” */
+    .qaGrid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
-    .btn{
-      display:flex; align-items:center; justify-content:center;
+    .qaBtn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap:10px;
-      padding: 12px 10px;
-      border-radius: 14px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.22), transparent 62%),
+        rgba(255,255,255,.08);
+      cursor:pointer;
+      user-select:none;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      min-height: 52px;
+    }
+    .qaBtn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 18px 32px rgba(0,0,0,.28);
+      background:
+        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.28), transparent 64%),
+        rgba(255,255,255,.10);
+    }
+    .qaLeft{
+      display:flex; flex-direction:column; gap:2px;
+      min-width: 0;
+    }
+    .qaLabel{
+      font-weight: 1000;
+      font-size: 13px;
+      color: rgba(255,255,255,.94);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .qaHint{
+      font-weight: 850;
+      font-size: 11.5px;
+      color: rgba(255,255,255,.70);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .qaIcon{
+      width:34px; height:34px;
+      border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
       border: 1px solid rgba(255,255,255,.16);
       background:
         radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.18), transparent 60%),
-        rgba(255,255,255,.09);
-      font-weight: 1000;
-      font-size: 13px;
-      cursor:pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      user-select:none;
-      color: rgba(255,255,255,.92);
+        rgba(255,255,255,.08);
+      flex: 0 0 auto;
     }
-    .btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 30px rgba(0,0,0,.30);
-      background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.24), transparent 62%),
-        rgba(255,255,255,.11);
-    }
-    .btn:active{ transform: translateY(0px); }
-
-    /* ===== ALERT BAR ===== */
-    .alert{
-      margin-top: 14px;
-      border-radius: var(--radius2);
-      border: 1px solid rgba(245,200,75,.30);
-      background: rgba(245,200,75,.12);
-      padding: 12px 14px;
-      display:flex; gap:10px; align-items:flex-start;
-      box-shadow: 0 12px 22px rgba(0,0,0,.28);
-      color: rgba(255,255,255,.92);
-    }
-    .alert strong{ font-weight: 1000; }
-    .alert p{ margin:0; color: rgba(255,255,255,.86); font-weight: 800; line-height:1.35; }
+    .qaIcon svg{ opacity:.95; }
 
     /* ===== SECTIONS ===== */
     main{ padding: 10px 0 40px; }
@@ -349,7 +391,7 @@
       border-radius: 14px;
       border: 1px solid rgba(245,200,75,.32);
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.22), transparent 60%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.20), transparent 60%),
         rgba(255,255,255,.08);
       font-weight: 1000;
       font-size: 13px;
@@ -361,7 +403,7 @@
       transform: translateY(-1px);
       box-shadow: 0 18px 32px rgba(0,0,0,.32);
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.28), transparent 62%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.26), transparent 62%),
         rgba(255,255,255,.10);
     }
 
@@ -393,7 +435,7 @@
       position:absolute; left:14px; right:14px; bottom:14px;
       padding: 10px 12px;
       border-radius: 14px;
-      background: rgba(6, 21, 50, .72);
+      background: rgba(8, 28, 66, .72);
       border: 1px solid rgba(255,255,255,.14);
       backdrop-filter: blur(12px);
       color: rgba(255,255,255,.92);
@@ -406,7 +448,7 @@
       display:flex; gap:7px;
       padding: 8px;
       border-radius: 999px;
-      background: rgba(6, 21, 50, .55);
+      background: rgba(8, 28, 66, .55);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,.14);
     }
@@ -447,7 +489,7 @@
       padding: 12px 14px;
       border-bottom: 1px solid rgba(255,255,255,.14);
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.18), transparent 60%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.14), transparent 60%),
         rgba(255,255,255,.08);
       font-weight: 1000;
       color: rgba(255,255,255,.92);
@@ -516,7 +558,7 @@
       width:min(980px, 96vw);
       height:min(86vh, 780px);
       border-radius: 20px;
-      background: rgba(6, 21, 50, .88);
+      background: rgba(8, 28, 66, .88);
       backdrop-filter: blur(14px);
       border: 1px solid rgba(255,255,255,.14);
       box-shadow: 0 30px 70px rgba(0,0,0,.50);
@@ -529,7 +571,7 @@
       display:flex; align-items:center; justify-content:space-between;
       gap:10px;
       background:
-        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.16), transparent 60%),
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.12), transparent 60%),
         rgba(255,255,255,.08);
     }
     .modalTitle{
@@ -589,10 +631,9 @@
       .grid2{ grid-template-columns: 1fr; }
       .fieldGrid{ grid-template-columns: 1fr; }
       .sponsorGrid{ grid-template-columns: 1fr 1fr; }
-      .btnGrid{ grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 420px){
-      .btnGrid{ grid-template-columns: 1fr; }
+      .qaGrid{ grid-template-columns: 1fr; }
       .sponsorGrid{ grid-template-columns: 1fr; }
       .heroTitle{ font-size: 26px; }
     }
@@ -669,7 +710,7 @@
       <div class="quickCard">
         <div class="quickPad">
           <div class="quickTitle">Quick Actions</div>
-          <div class="btnGrid" id="quickButtons"></div>
+          <div class="qaGrid" id="quickButtons"></div>
         </div>
       </div>
     </div>
@@ -677,7 +718,6 @@
 
   <!-- MAIN -->
   <main class="wrap">
-
     <!-- HOME -->
     <section id="home">
       <div class="sectionHead">
@@ -789,6 +829,13 @@
      * EDIT THIS ONLY
      ********************/
     const SHEET_ID = "1-jWY-lcFYv9UEwoD5x5oMhO-k_HOoSJREM2bHfAkPQY";
+
+    /********************
+     * OPTIONAL: alert auto-hide
+     * If CONFIG.alerts_auto_hide_minutes is blank => won't auto-hide.
+     * If it has a number (ex: 30) => hides after that many minutes.
+     ********************/
+
     /********************
      * UTIL
      ********************/
@@ -827,7 +874,6 @@
 
     /********************
      * GOOGLE SHEET FETCH
-     * Uses GViz "tq" endpoint. Works with Published-to-web.
      ********************/
     async function fetchSheet(sheetName){
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tq=${encodeURIComponent("select *")}`;
@@ -884,7 +930,7 @@
     }
 
     /********************
-     * NAV + SCROLL (no more single-section hiding)
+     * NAV + SCROLL
      ********************/
     const SECTIONS = [
       { id:"home", label:"Home" },
@@ -925,12 +971,8 @@
     }
 
     function observeSections(){
-      const els = SECTIONS
-        .map(s => document.getElementById(s.id))
-        .filter(Boolean);
-
+      const els = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean);
       const io = new IntersectionObserver((entries) => {
-        // pick the most visible intersecting entry
         const visible = entries
           .filter(e => e.isIntersecting)
           .sort((a,b) => (b.intersectionRatio - a.intersectionRatio))[0];
@@ -1116,23 +1158,41 @@
         logoBox.appendChild(img);
       }
 
-      // Alert bar (only if enabled & text exists)
+      // Alert bar (WHITE) — no "Alert" / no "Heads up:"
       const enabled = isTrue(cfg.alerts_enabled);
       const text = clean(cfg.alerts_text);
       const alertHost = $("alertBox");
       alertHost.innerHTML = "";
+
       if (enabled && text){
         const a = document.createElement("div");
         a.className = "alert";
-        const left = document.createElement("div");
-        left.style.fontWeight = "1000";
-        left.textContent = "Alert";
+
         const p = document.createElement("p");
-        p.innerHTML = `<strong>Heads up:</strong> ${escapeHtml(text)}`;
-        a.appendChild(left);
+        p.textContent = text; // <-- only sheet text
         a.appendChild(p);
+
         alertHost.appendChild(a);
         alertHost.style.display = "";
+
+        // Auto-hide options:
+        // 1) If CONFIG.alerts_hide_date exists (YYYY-MM-DD) and it's past => hide now
+        // 2) If CONFIG.alerts_auto_hide_minutes is a number => hide after that many minutes
+        const hideDate = clean(cfg.alerts_hide_date);
+        if (hideDate){
+          const d = new Date(hideDate + "T23:59:59");
+          if (!isNaN(d.getTime()) && Date.now() > d.getTime()){
+            alertHost.style.display = "none";
+          }
+        }
+
+        const mins = parseFloat(clean(cfg.alerts_auto_hide_minutes));
+        if (!isNaN(mins) && mins > 0){
+          setTimeout(() => {
+            alertHost.style.display = "none";
+          }, mins * 60 * 1000);
+        }
+
       } else {
         alertHost.style.display = "none";
       }
@@ -1142,63 +1202,97 @@
       $("footerText").textContent = `${name || "Stroud Little League Baseball"} • © ${year}`;
     }
 
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"quot;") // keep simple in this file
-        .replaceAll("'","&#39;");
-    }
-
     function renderQuickButtons(cfg){
       const host = $("quickButtons");
       host.innerHTML = "";
 
-      const makeNavBtn = (label, sectionId) => {
-        const b = document.createElement("div");
-        b.className = "btn";
-        b.textContent = label;
-        b.addEventListener("click", () => {
-          location.hash = "#" + sectionId;
-          const el = document.getElementById(sectionId);
-          if (el) el.scrollIntoView({ behavior:"smooth", block:"start" });
-        });
+      const icon = (kind) => {
+        // tiny inline icons (no external libs)
+        if (kind === "megaphone") return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M3 11v2a2 2 0 0 0 2 2h2l4 4v-6l10-4V7l-10 4V5L9 9H5a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>`;
+        if (kind === "calendar") return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M7 3v3M17 3v3M4 8h16M6 6h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>`;
+        if (kind === "pin") return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 10.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="2"/>
+          </svg>`;
+        if (kind === "file") return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M14 2v6h6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>`;
+        if (kind === "users") return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M21 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>`;
+        if (kind === "link") return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>`;
+        return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>`;
+      };
+
+      const makeBtn = (label, hint, onClick, ico) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "qaBtn";
+        b.addEventListener("click", onClick);
+
+        const left = document.createElement("div");
+        left.className = "qaLeft";
+
+        const t = document.createElement("div");
+        t.className = "qaLabel";
+        t.textContent = label;
+
+        const h = document.createElement("div");
+        h.className = "qaHint";
+        h.textContent = hint || "";
+
+        left.appendChild(t);
+        if (clean(h.textContent)) left.appendChild(h);
+
+        const right = document.createElement("div");
+        right.className = "qaIcon";
+        right.innerHTML = icon(ico);
+
+        b.appendChild(left);
+        b.appendChild(right);
         return b;
       };
 
-      host.appendChild(makeNavBtn("Announcements", "home"));
-      host.appendChild(makeNavBtn("Schedule", "schedule"));
-      host.appendChild(makeNavBtn("Fields", "fields"));
+      const jump = (sectionId) => {
+        location.hash = "#" + sectionId;
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior:"smooth", block:"start" });
+      };
 
-      const standings = safeUrl(cfg.standings_url);
-      if (standings){
-        const b = document.createElement("div");
-        b.className = "btn";
-        b.textContent = "Standings";
-        b.addEventListener("click", () => window.open(standings, "_blank", "noopener"));
-        host.appendChild(b);
-      }
-
-      host.appendChild(makeNavBtn("Forms", "forms"));
-      host.appendChild(makeNavBtn("Sponsors", "sponsors"));
+      host.appendChild(makeBtn("Announcements", "Latest updates", () => jump("home"), "megaphone"));
+      host.appendChild(makeBtn("Schedule", "Games + events", () => jump("schedule"), "calendar"));
+      host.appendChild(makeBtn("Fields", "Directions", () => jump("fields"), "pin"));
+      host.appendChild(makeBtn("Forms", "Downloads", () => jump("forms"), "file"));
+      host.appendChild(makeBtn("Sponsors", "Supporters", () => jump("sponsors"), "users"));
+      host.appendChild(makeBtn("Links", "Helpful sites", () => jump("links"), "link"));
 
       const reg = safeUrl(cfg.registration_url);
       if (reg){
-        const b = document.createElement("div");
-        b.className = "btn";
-        b.textContent = "Register";
-        b.addEventListener("click", () => window.open(reg, "_blank", "noopener"));
-        host.appendChild(b);
+        host.appendChild(makeBtn("Register", "Sign ups", () => window.open(reg, "_blank", "noopener"), "calendar"));
       }
-
       const fb = safeUrl(cfg.facebook_url);
       if (fb){
-        const b = document.createElement("div");
-        b.className = "btn";
-        b.textContent = "Facebook";
-        b.addEventListener("click", () => window.open(fb, "_blank", "noopener"));
-        host.appendChild(b);
+        host.appendChild(makeBtn("Facebook", "Updates & posts", () => window.open(fb, "_blank", "noopener"), "link"));
       }
     }
 
@@ -1274,11 +1368,7 @@
         const actions = [];
         if (maps) actions.push({ label: "Open in Maps", url: maps, mode: "newtab" });
 
-        host.appendChild(makeCard({
-          title,
-          text: textParts.join("\n\n"),
-          actions
-        }));
+        host.appendChild(makeCard({ title, text: textParts.join("\n\n"), actions }));
       });
     }
 
@@ -1297,7 +1387,6 @@
         const type = clean(r.type).toUpperCase();
         const url = safeUrl(r.url);
         const notes = clean(r.notes);
-
         const mode = (type === "PDF" || type === "IMAGE") ? "modal" : "newtab";
 
         host.appendChild(makeCard({
@@ -1323,8 +1412,8 @@
         const type = clean(r.type).toUpperCase();
         const url = safeUrl(r.url);
         const notes = clean(r.notes);
-
         const mode = (type === "PDF" || type === "IMAGE") ? "modal" : "newtab";
+
         host.appendChild(makeCard({
           title,
           text: notes,
@@ -1353,9 +1442,7 @@
 
         const box = document.createElement("div");
         box.className = "sponsor";
-        box.addEventListener("click", () => {
-          if (site) window.open(site, "_blank", "noopener");
-        });
+        box.addEventListener("click", () => { if (site) window.open(site, "_blank", "noopener"); });
 
         const pad = document.createElement("div");
         pad.className = "sponsorPad";
@@ -1416,11 +1503,7 @@
         if (email) actions.push({ label: "Email", url: `mailto:${email}`, mode: "newtab" });
         if (phone) actions.push({ label: "Call", url: `tel:${phone.replace(/\s+/g,"")}`, mode: "newtab" });
 
-        host.appendChild(makeCard({
-          title: role || "Contact",
-          text: lines.join("\n"),
-          actions
-        }));
+        host.appendChild(makeCard({ title: role || "Contact", text: lines.join("\n"), actions }));
       });
     }
 
@@ -1460,7 +1543,6 @@
         clean(r.field_name) &&
         clean(r.team_or_group)
       );
-
       const eventActive = eventRows.filter(r => isTrue(r.active) && clean(r.event_name) && clean(r.date));
 
       if (!fieldActive.length && !eventActive.length){
@@ -1578,12 +1660,7 @@
           const bu = safeUrl(r.button_url);
           if (bt && bu) actions.push({ label: bt, url: bu, mode: "newtab" });
 
-          host.appendChild(makeCard({
-            title,
-            text: details,
-            pills,
-            actions
-          }));
+          host.appendChild(makeCard({ title, text: details, pills, actions }));
         });
 
         $("scheduleSub").textContent = `${eventActive.length} event${eventActive.length===1?"":"s"} listed`;
@@ -1596,7 +1673,6 @@
     async function init(){
       buildNav();
 
-      // UI bindings
       $("hamburger").addEventListener("click", openDrawer);
       $("drawerBack").addEventListener("click", (e) => { if (e.target === $("drawerBack")) closeDrawer(); });
       $("drawerClose").addEventListener("click", closeDrawer);
@@ -1606,14 +1682,12 @@
 
       window.addEventListener("hashchange", () => scrollToHash());
 
-      // If sheet not set, show a helpful message (no placeholders elsewhere)
       if (!clean(SHEET_ID) || SHEET_ID === "PASTE_YOUR_SHEET_ID"){
         $("announcementsCard").style.display = "";
         $("announcementsList").innerHTML = "";
         $("announcementsList").appendChild(makeCard({
           title: "Setup Needed",
-          text: "Paste your Google Sheet ID into the SHEET_ID constant in this file. Then publish your sheet to the web.\n\nOnce connected, everything populates automatically.",
-          actions: []
+          text: "Paste your Google Sheet ID into the SHEET_ID constant in this file. Then publish your sheet to the web.\n\nOnce connected, everything populates automatically."
         }));
         observeSections();
         setTimeout(scrollToHash, 50);
@@ -1650,7 +1724,6 @@
       renderContact(contact.rows || []);
       renderLinks(links.rows || [], cfgRow);
 
-      // Start nav highlight + scroll
       observeSections();
       setTimeout(scrollToHash, 50);
     }
@@ -1658,4 +1731,4 @@
     init();
   </script>
 </body>
-  </html>
+</html>
