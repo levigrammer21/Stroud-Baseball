@@ -555,6 +555,7 @@
       box-shadow: 0 10px 18px rgba(0,0,0,.22);
       min-height: 44px;
       line-height:1.15;
+      text-align:center; /* ✅ CENTER */
     }
     .block small{
       display:block;
@@ -562,6 +563,8 @@
       font-size: 11px;
       font-weight: 900;
       color: rgba(8,28,66,.62);
+      text-align:center; /* ✅ CENTER */
+      width:100%;        /* ✅ CENTER */
     }
 
     /* ===== SPONSORS (BIG SQUARE TILES, LOGO FILLS) ===== */
@@ -927,12 +930,13 @@
       <div id="rulesList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
-    <section id="forms">
+    <!-- ✅ REPLACED FORMS WITH MEETING MINUTES -->
+    <section id="minutes">
       <div class="sectionHead">
-        <h2>Forms</h2>
+        <h2>Meeting Minutes</h2>
         <p class="muted"></p>
       </div>
-      <div id="formsList" class="grid2" style="margin-top:14px;"></div>
+      <div id="minutesList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
     <section id="sponsors">
@@ -1148,7 +1152,7 @@
       { id:"schedule", label:"Schedule" },
       { id:"fields", label:"Fields" },
       { id:"rules", label:"Rules" },
-      { id:"forms", label:"Forms" },
+      { id:"minutes", label:"Meeting Minutes" }, /* ✅ */
       { id:"sponsors", label:"Sponsors" },
       { id:"contact", label:"Contact" },
       { id:"links", label:"Links" },
@@ -1339,7 +1343,7 @@
 
       function resetTimer(){
         if (slideTimer) clearInterval(slideTimer);
-        slideTimer = setInterval(next, 6000);
+        slideTimer = setInterval(next, 4000); /* ✅ 4 seconds */
       }
 
       resetTimer();
@@ -1485,7 +1489,7 @@
       host.appendChild(makeBtn("Announcements", "Latest updates", () => jump("home"), "megaphone"));
       host.appendChild(makeBtn("Schedule", "Games + events", () => jump("schedule"), "calendar"));
       host.appendChild(makeBtn("Fields", "Directions", () => jump("fields"), "pin"));
-      host.appendChild(makeBtn("Forms", "Downloads", () => jump("forms"), "file"));
+      host.appendChild(makeBtn("Meeting Minutes", "Notes & decisions", () => jump("minutes"), "file")); /* ✅ */
       host.appendChild(makeBtn("Sponsors", "Supporters", () => jump("sponsors"), "users"));
       host.appendChild(makeBtn("Contact", "Who to reach", () => jump("contact"), "users"));
 
@@ -1596,18 +1600,19 @@
       });
     }
 
-    function renderForms(rows){
-      const active = rows.filter(r => isTrue(r.active) && clean(r.form_name) && safeUrl(r.url));
+    /* ✅ MEETING MINUTES (replaces forms) */
+    function renderMinutes(rows){
+      const active = rows.filter(r => isTrue(r.active) && (clean(r.title) || clean(r.minutes_name)) && safeUrl(r.url));
       if (!active.length){
-        $("forms").style.display = "none";
+        $("minutes").style.display = "none";
         return;
       }
-      $("forms").style.display = "";
-      const host = $("formsList");
+      $("minutes").style.display = "";
+      const host = $("minutesList");
       host.innerHTML = "";
 
       active.forEach(r => {
-        const title = clean(r.form_name);
+        const title = clean(r.title) || clean(r.minutes_name) || "Meeting Minutes";
         const type = clean(r.type).toUpperCase();
         const url = safeUrl(r.url);
         const notes = clean(r.notes);
@@ -1902,7 +1907,7 @@
 
                 const box = document.createElement("div");
                 box.className = "block";
-                box.innerHTML = `<div>${b.team || ""}${b.note ? `<small>${b.note}</small>` : ""}</div>`;
+                box.innerHTML = `<div style="text-align:center; width:100%;">${b.team || ""}${b.note ? `<small>${b.note}</small>` : ""}</div>`; /* ✅ centered */
                 td.appendChild(box);
 
                 tr.appendChild(td);
@@ -2001,7 +2006,7 @@
       }
 
       const [
-        cfg, ann, slides, field, events, fields, rules, forms, sponsors, contact, links
+        cfg, ann, slides, field, events, fields, rules, minutes, sponsors, contact, links
       ] = await Promise.all([
         fetchSheet("CONFIG").catch(() => ({rows:[] })),
         fetchSheet("ANNOUNCEMENTS").catch(() => ({rows:[] })),
@@ -2010,7 +2015,7 @@
         fetchSheet("EVENTS").catch(() => ({rows:[] })),
         fetchSheet("FIELDS").catch(() => ({rows:[] })),
         fetchSheet("RULES").catch(() => ({rows:[] })),
-        fetchSheet("FORMS").catch(() => ({rows:[] })),
+        fetchSheet("MEETING_MINUTES").catch(() => ({rows:[] })), /* ✅ */
         fetchSheet("SPONSORS").catch(() => ({rows:[] })),
         fetchSheet("CONTACT").catch(() => ({rows:[] })),
         fetchSheet("LINKS").catch(() => ({rows:[] })),
@@ -2025,7 +2030,7 @@
       renderSchedule(field.rows || [], events.rows || []);
       renderFields(fields.rows || []);
       renderRules(rules.rows || []);
-      renderForms(forms.rows || []);
+      renderMinutes(minutes.rows || []); /* ✅ */
       renderSponsors(sponsors.rows || []);
       renderContact(contact.rows || []);
       renderLinks(links.rows || [], cfgRow);
@@ -2045,7 +2050,7 @@
         { id:"schedule", label:"Schedule" },
         { id:"fields", label:"Fields" },
         { id:"rules", label:"Rules" },
-        { id:"forms", label:"Forms" },
+        { id:"minutes", label:"Meeting Minutes" }, /* ✅ */
         { id:"sponsors", label:"Sponsors" },
         { id:"contact", label:"Contact" },
         { id:"links", label:"Links" },
