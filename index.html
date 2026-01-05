@@ -296,10 +296,7 @@
       animation: none;
     }
 
-    .qaLeft{
-      display:flex; flex-direction:column; gap:2px;
-      min-width: 0;
-    }
+    .qaLeft{ display:flex; flex-direction:column; gap:2px; min-width: 0; }
     .qaLabel{
       font-weight: 1000;
       font-size: 13px;
@@ -470,86 +467,242 @@
       box-shadow: 0 0 0 4px rgba(245,200,75,.18);
     }
 
-    /* ===== SCHEDULE ===== */
-    .dayBlock{ margin-top: 14px; }
-    .dayTitle{
-      font-weight: 1000;
-      margin: 0 0 8px;
-      font-size: 14px;
-      color: rgba(255,255,255,.92);
+    /* ===== SCHEDULE (CLEAN "SHEET-STYLE" GRID) ===== */
+    .schedWrap{
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
     }
-    .fieldGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .fieldBox{
+
+    .schedFieldCard{
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.10);
       box-shadow: var(--shadow2);
       overflow:hidden;
     }
-    .fieldHdr{
+    .schedFieldHdr{
       padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
       border-bottom: 1px solid rgba(255,255,255,.14);
       background:
         radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.14), transparent 60%),
         rgba(255,255,255,.08);
+    }
+    .schedFieldName{
       font-weight: 1000;
-      color: rgba(255,255,255,.92);
+      color: rgba(255,255,255,.95);
+      letter-spacing: .2px;
     }
-    .slot{
-      padding: 12px 14px;
-      display:flex; flex-direction:column; gap:6px;
-      border-top: 1px solid rgba(255,255,255,.10);
+    .schedRange{
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(255,255,255,.74);
+      white-space:nowrap;
     }
-    .slot:first-child{ border-top:none; }
-    .slotTop{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-      font-weight: 950;
-      color: rgba(255,255,255,.92);
-      font-size: 13px;
-    }
-    .slotTime{ color: rgba(255,255,255,.70); font-weight: 900; font-size: 12px; }
-    .slotNote{ margin:0; color: rgba(255,255,255,.78); font-weight: 800; font-size: 12.5px; line-height:1.35; white-space: pre-wrap; }
 
-    /* ===== SPONSORS ===== */
+    .tableScroll{
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+    }
+
+    .timeTable{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 760px; /* keeps it readable; mobile can scroll */
+    }
+    .timeTable th,
+    .timeTable td{
+      border-right: 1px solid rgba(255,255,255,.10);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      padding: 10px 10px;
+      font-weight: 900;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.05);
+      vertical-align: middle;
+      text-align: center;
+      white-space:nowrap;
+    }
+
+    .timeTable th{
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background:
+        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.22), transparent 60%),
+        rgba(8, 28, 66, .92);
+      color: rgba(255,255,255,.90);
+      font-weight: 1000;
+    }
+
+    .timeTable .dayCell{
+      text-align: left;
+      font-weight: 1000;
+      background:
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.10), transparent 60%),
+        rgba(8, 28, 66, .82);
+      color: rgba(255,255,255,.92);
+      min-width: 120px;
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      border-right: 1px solid rgba(255,255,255,.14);
+    }
+
+    .slotCell{
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+      min-width: 86px;
+    }
+
+    .block{
+      background: rgba(255,255,255,.92);
+      color: rgba(8, 28, 66, .94);
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 14px;
+      padding: 8px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.22);
+      min-height: 44px;
+      line-height:1.15;
+    }
+    .block small{
+      display:block;
+      margin-top: 3px;
+      font-size: 11px;
+      font-weight: 900;
+      color: rgba(8,28,66,.62);
+    }
+
+    /* ===== SPONSORS (BIG ROUNDED SQUARE, IMAGE FILLS) ===== */
     .sponsorGrid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
     .sponsor{
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
       background: rgba(255,255,255,.10);
       box-shadow: var(--shadow2);
       overflow:hidden;
       cursor:pointer;
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      min-height: 96px;
-      display:flex; flex-direction:column;
-      justify-content:center;
+      aspect-ratio: 1 / 1;
+      position:relative;
     }
     .sponsor:hover{
       transform: translateY(-1px);
       box-shadow: 0 22px 36px rgba(0,0,0,.34);
       background: rgba(255,255,255,.12);
     }
-    .sponsorPad{ padding: 12px; display:flex; align-items:center; gap:12px; }
-    .sLogo{
-      width:46px; height:46px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.08);
-      overflow:hidden;
-      flex: 0 0 auto;
-      display:flex; align-items:center; justify-content:center;
+    .sponsorImg{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.05);
     }
-    .sLogo img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .sName{ font-weight: 1000; margin:0; font-size: 13px; color: rgba(255,255,255,.92); }
-    .sTier{ margin:4px 0 0; color: rgba(255,255,255,.70); font-weight: 900; font-size: 12px; }
+    .sponsorNoImg{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding: 14px;
+      text-align:center;
+      font-weight: 1000;
+      color: rgba(255,255,255,.92);
+      background:
+        radial-gradient(120% 120% at 20% 0%, rgba(30,96,255,.22), transparent 60%),
+        rgba(255,255,255,.08);
+    }
+    .sponsorOverlay{
+      position:absolute; left:10px; right:10px; bottom:10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(8, 28, 66, .70);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 16px 28px rgba(0,0,0,.30);
+    }
+    .sponsorOverlay .nm{
+      margin:0;
+      font-weight: 1000;
+      font-size: 13px;
+      color: rgba(255,255,255,.95);
+      line-height:1.15;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .sponsorOverlay .tr{
+      margin:5px 0 0;
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(255,255,255,.78);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    /* ===== CONTACT (SMALLER + CLEANER) ===== */
+    .contactCard{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .contactPad{ padding: 12px 12px 10px; }
+    .contactRole{
+      margin:0 0 6px;
+      font-weight: 1000;
+      font-size: 13px;
+      color: rgba(255,255,255,.94);
+      letter-spacing: .15px;
+    }
+    .contactLine{
+      margin:0;
+      font-weight: 850;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.82);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .contactActions{
+      display:flex;
+      gap: 10px;
+      padding: 10px 12px 12px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.08);
+    }
+    .miniBtn{
+      flex: 1 1 auto;
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.92);
+      font-weight: 1000;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .miniBtn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(0,0,0,.30);
+      background: rgba(255,255,255,.12);
+    }
 
     /* ===== MODAL VIEWER ===== */
     .modalBack{
@@ -634,7 +787,6 @@
       .navLinks{ display:none; }
       .hamburger{ display:flex; }
       .grid2{ grid-template-columns: 1fr; }
-      .fieldGrid{ grid-template-columns: 1fr; }
       .sponsorGrid{ grid-template-columns: 1fr 1fr; }
       /* IMPORTANT: we do NOT force qaGrid to 1 column anymore */
     }
@@ -841,22 +993,106 @@
       if (!s) return "";
       return s;
     }
-    function fmtDate(iso){
-      const s = clean(iso);
-      if (!s) return "";
-      const d = new Date(s + "T00:00:00");
-      if (isNaN(d.getTime())) return s;
-      return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
+
+    // ---- FIX: Google GViz sometimes returns Date(YYYY,MM,DD,HH,MM,SS) strings ----
+    function parseGvizDate(v){
+      if (!v) return null;
+      if (v instanceof Date && !isNaN(v.getTime())) return v;
+
+      const s = clean(v);
+      // If it's an ISO-like date string, Date can handle it.
+      // But GViz often gives: "Date(1899,11,30,13,30,0)" or "Date(2026,1,22)"
+      const m = s.match(/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)$/);
+      if (m){
+        const Y = parseInt(m[1],10);
+        const M = parseInt(m[2],10); // GViz month is 0-based already
+        const D = parseInt(m[3],10);
+        const hh = parseInt(m[4] || "0",10);
+        const mm = parseInt(m[5] || "0",10);
+        const ss = parseInt(m[6] || "0",10);
+        const d = new Date(Y, M, D, hh, mm, ss);
+        return isNaN(d.getTime()) ? null : d;
+      }
+
+      // Try parsing normal strings:
+      const d2 = new Date(s);
+      if (!isNaN(d2.getTime())) return d2;
+
+      return null;
     }
-    function fmtTime(t){
-      const s = clean(t);
+
+    function fmtDateAny(v){
+      const d = parseGvizDate(v);
+      if (d){
+        return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
+      }
+      // fallback to plain
+      return clean(v);
+    }
+
+    function fmtTimeAny(v){
+      // Accept:
+      // - "13:30"
+      // - "1:30 PM"
+      // - Date(...)
+      // - Date object
+      const d = parseGvizDate(v);
+      if (d){
+        let hh = d.getHours();
+        let mm = d.getMinutes();
+        const ampm = hh >= 12 ? "PM" : "AM";
+        hh = hh % 12; if (hh === 0) hh = 12;
+        const mm2 = String(mm).padStart(2,"0");
+        return `${hh}:${mm2} ${ampm}`;
+      }
+
+      const s = clean(v);
       if (!s) return "";
+
+      // "HH:MM" 24h
       const m = s.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
-      if (!m) return s;
-      let hh = parseInt(m[1],10), mm = m[2];
-      const ampm = hh >= 12 ? "PM" : "AM";
+      if (m){
+        let hh = parseInt(m[1],10), mm = m[2];
+        const ampm = hh >= 12 ? "PM" : "AM";
+        hh = hh % 12; if (hh === 0) hh = 12;
+        return `${hh}:${mm} ${ampm}`;
+      }
+
+      // Already human readable
+      return s;
+    }
+
+    function timeToMinutes(v){
+      const d = parseGvizDate(v);
+      if (d) return d.getHours()*60 + d.getMinutes();
+
+      const s = clean(v);
+      if (!s) return NaN;
+
+      // "HH:MM"
+      const m = s.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
+      if (m) return parseInt(m[1],10)*60 + parseInt(m[2],10);
+
+      // "h:mm AM/PM"
+      const m2 = s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+      if (m2){
+        let hh = parseInt(m2[1],10);
+        const mm = parseInt(m2[2],10);
+        const ap = m2[3].toUpperCase();
+        if (ap === "PM" && hh !== 12) hh += 12;
+        if (ap === "AM" && hh === 12) hh = 0;
+        return hh*60 + mm;
+      }
+
+      return NaN;
+    }
+
+    function minutesToLabel(mins){
+      let hh = Math.floor(mins/60);
+      const mm = mins % 60;
+      const ap = hh >= 12 ? "PM" : "AM";
       hh = hh % 12; if (hh === 0) hh = 12;
-      return `${hh}:${mm} ${ampm}`;
+      return `${hh}:${String(mm).padStart(2,"0")} ${ap}`;
     }
 
     /********************
@@ -1042,6 +1278,60 @@
       }
 
       card.appendChild(pad);
+      return card;
+    }
+
+    function makeContactCard({ role, name, email, phone, notes }){
+      const card = document.createElement("div");
+      card.className = "contactCard";
+
+      const pad = document.createElement("div");
+      pad.className = "contactPad";
+
+      const h = document.createElement("p");
+      h.className = "contactRole";
+      h.textContent = role || "Contact";
+      pad.appendChild(h);
+
+      const addLine = (txt) => {
+        if (!clean(txt)) return;
+        const p = document.createElement("p");
+        p.className = "contactLine";
+        p.textContent = txt;
+        pad.appendChild(p);
+      };
+
+      addLine(name);
+      addLine(email);
+      addLine(phone);
+      addLine(notes);
+
+      card.appendChild(pad);
+
+      const actions = document.createElement("div");
+      actions.className = "contactActions";
+
+      if (clean(email)){
+        const b = document.createElement("button");
+        b.className = "miniBtn";
+        b.type = "button";
+        b.textContent = "Email";
+        b.addEventListener("click", () => window.open(`mailto:${email}`, "_blank", "noopener"));
+        actions.appendChild(b);
+      }
+      if (clean(phone)){
+        const b = document.createElement("button");
+        b.className = "miniBtn";
+        b.type = "button";
+        b.textContent = "Call";
+        b.addEventListener("click", () => window.open(`tel:${phone.replace(/\s+/g,"")}`, "_blank", "noopener"));
+        actions.appendChild(b);
+      }
+
+      if (actions.childNodes.length){
+        card.appendChild(actions);
+      }
+
       return card;
     }
 
@@ -1284,8 +1574,8 @@
         const pb = isTrue(b.pinned) ? 1 : 0;
         if (pa !== pb) return pb - pa;
 
-        const da = new Date((clean(a.start_date) || "1900-01-01") + "T00:00:00").getTime();
-        const db = new Date((clean(b.start_date) || "1900-01-01") + "T00:00:00").getTime();
+        const da = parseGvizDate(clean(a.start_date) || "1900-01-01")?.getTime() || 0;
+        const db = parseGvizDate(clean(b.start_date) || "1900-01-01")?.getTime() || 0;
         if (da !== db) return db - da;
 
         return clean(a.title).localeCompare(clean(b.title));
@@ -1303,8 +1593,8 @@
         const pills = [];
 
         if (isTrue(r.pinned)) pills.push("Pinned");
-        const sd = fmtDate(r.start_date);
-        const ed = fmtDate(r.end_date);
+        const sd = fmtDateAny(r.start_date);
+        const ed = fmtDateAny(r.end_date);
         if (sd && ed) pills.push(`${sd} → ${ed}`);
         else if (sd) pills.push(sd);
         else if (ed) pills.push(`Until ${ed}`);
@@ -1418,34 +1708,35 @@
         box.className = "sponsor";
         box.addEventListener("click", () => { if (site) window.open(site, "_blank", "noopener"); });
 
-        const pad = document.createElement("div");
-        pad.className = "sponsorPad";
-
-        const sLogo = document.createElement("div");
-        sLogo.className = "sLogo";
         if (logo){
           const img = document.createElement("img");
+          img.className = "sponsorImg";
           img.src = logo;
           img.alt = name;
-          sLogo.appendChild(img);
+          box.appendChild(img);
+        } else {
+          const fallback = document.createElement("div");
+          fallback.className = "sponsorNoImg";
+          fallback.textContent = name || "Sponsor";
+          box.appendChild(fallback);
         }
-        pad.appendChild(sLogo);
 
-        const right = document.createElement("div");
+        const overlay = document.createElement("div");
+        overlay.className = "sponsorOverlay";
+
         const nm = document.createElement("p");
-        nm.className = "sName";
+        nm.className = "nm";
         nm.textContent = name;
-        right.appendChild(nm);
+        overlay.appendChild(nm);
 
         if (tier){
           const tr = document.createElement("p");
-          tr.className = "sTier";
+          tr.className = "tr";
           tr.textContent = tier;
-          right.appendChild(tr);
+          overlay.appendChild(tr);
         }
 
-        pad.appendChild(right);
-        box.appendChild(pad);
+        box.appendChild(overlay);
         host.appendChild(box);
       });
     }
@@ -1461,23 +1752,13 @@
       host.innerHTML = "";
 
       active.forEach(r => {
-        const role = clean(r.role);
-        const name = clean(r.name);
-        const email = clean(r.email);
-        const phone = clean(r.phone);
-        const notes = clean(r.notes);
-
-        const lines = [];
-        if (name) lines.push(name);
-        if (email) lines.push(email);
-        if (phone) lines.push(phone);
-        if (notes) lines.push(notes);
-
-        const actions = [];
-        if (email) actions.push({ label: "Email", url: `mailto:${email}`, mode: "newtab" });
-        if (phone) actions.push({ label: "Call", url: `tel:${phone.replace(/\s+/g,"")}`, mode: "newtab" });
-
-        host.appendChild(makeCard({ title: role || "Contact", text: lines.join("\n"), actions }));
+        host.appendChild(makeContactCard({
+          role: clean(r.role),
+          name: clean(r.name),
+          email: clean(r.email),
+          phone: clean(r.phone),
+          notes: clean(r.notes)
+        }));
       });
     }
 
@@ -1510,6 +1791,7 @@
       });
     }
 
+    // ---- NEW: Cleaner "sheet-style" schedule ----
     function renderSchedule(fieldRows, eventRows){
       const fieldActive = fieldRows.filter(r =>
         isTrue(r.active) &&
@@ -1517,6 +1799,7 @@
         clean(r.field_name) &&
         clean(r.team_or_group)
       );
+
       const eventActive = eventRows.filter(r => isTrue(r.active) && clean(r.event_name) && clean(r.date));
 
       if (!fieldActive.length && !eventActive.length){
@@ -1525,6 +1808,7 @@
       }
       $("schedule").style.display = "";
 
+      // FIELD SCHEDULE
       if (!fieldActive.length){
         $("fieldScheduleCard").style.display = "none";
       } else {
@@ -1532,82 +1816,163 @@
         const host = $("fieldSchedule");
         host.innerHTML = "";
 
-        const order = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-        const byDay = {};
+        // group by field
+        const byField = {};
         fieldActive.forEach(r => {
-          const day = clean(r.day_of_week);
-          (byDay[day] ||= []).push(r);
+          const f = clean(r.field_name);
+          (byField[f] ||= []).push(r);
         });
 
-        order.filter(d => byDay[d]).forEach(day => {
-          const dayBlock = document.createElement("div");
-          dayBlock.className = "dayBlock";
+        // Determine time window from data (fallback 5pm-9pm)
+        let allStarts = [];
+        let allEnds = [];
+        fieldActive.forEach(r => {
+          const s = timeToMinutes(r.time_start);
+          const e = timeToMinutes(r.time_end);
+          if (!isNaN(s)) allStarts.push(s);
+          if (!isNaN(e)) allEnds.push(e);
+        });
 
-          const h = document.createElement("p");
-          h.className = "dayTitle";
-          h.textContent = day;
-          dayBlock.appendChild(h);
+        let minT = allStarts.length ? Math.min(...allStarts) : 17*60;
+        let maxT = allEnds.length ? Math.max(...allEnds) : 21*60;
 
-          const grid = document.createElement("div");
-          grid.className = "fieldGrid";
+        // snap to 30-min grid
+        const snapDown = (m) => Math.floor(m/30)*30;
+        const snapUp = (m) => Math.ceil(m/30)*30;
+        minT = snapDown(minT);
+        maxT = snapUp(maxT);
+        if (maxT <= minT) { minT = 17*60; maxT = 21*60; }
 
-          const byField = {};
-          byDay[day].forEach(r => {
-            const field = clean(r.field_name);
-            (byField[field] ||= []).push(r);
+        const step = 30;
+        const timeSlots = [];
+        for (let t=minT; t<maxT; t+=step) timeSlots.push(t);
+
+        const order = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+        const wrap = document.createElement("div");
+        wrap.className = "schedWrap";
+
+        Object.keys(byField).sort().forEach(fieldName => {
+          const card = document.createElement("div");
+          card.className = "schedFieldCard";
+
+          const hdr = document.createElement("div");
+          hdr.className = "schedFieldHdr";
+
+          const nm = document.createElement("div");
+          nm.className = "schedFieldName";
+          nm.textContent = fieldName;
+
+          const rg = document.createElement("div");
+          rg.className = "schedRange";
+          rg.textContent = `${minutesToLabel(minT)} – ${minutesToLabel(maxT)}`;
+
+          hdr.appendChild(nm);
+          hdr.appendChild(rg);
+          card.appendChild(hdr);
+
+          const scroller = document.createElement("div");
+          scroller.className = "tableScroll";
+
+          const table = document.createElement("table");
+          table.className = "timeTable";
+
+          // header row
+          const thead = document.createElement("thead");
+          const trh = document.createElement("tr");
+
+          const th0 = document.createElement("th");
+          th0.textContent = "Day";
+          trh.appendChild(th0);
+
+          timeSlots.forEach(t => {
+            const th = document.createElement("th");
+            th.textContent = minutesToLabel(t);
+            trh.appendChild(th);
+          });
+          thead.appendChild(trh);
+          table.appendChild(thead);
+
+          // build day rows
+          const rowsForField = byField[fieldName];
+
+          const byDay = {};
+          rowsForField.forEach(r => {
+            const d = clean(r.day_of_week);
+            (byDay[d] ||= []).push(r);
           });
 
-          Object.keys(byField).sort().forEach(fieldName => {
-            const box = document.createElement("div");
-            box.className = "fieldBox";
+          const tbody = document.createElement("tbody");
 
-            const hdr = document.createElement("div");
-            hdr.className = "fieldHdr";
-            hdr.textContent = fieldName;
-            box.appendChild(hdr);
+          order.filter(d => byDay[d]).forEach(day => {
+            const tr = document.createElement("tr");
 
-            byField[fieldName].sort((a,b) => clean(a.time_start).localeCompare(clean(b.time_start)));
+            const dayTd = document.createElement("td");
+            dayTd.className = "dayCell";
+            dayTd.textContent = day;
+            tr.appendChild(dayTd);
 
-            byField[fieldName].forEach(r => {
-              const slot = document.createElement("div");
-              slot.className = "slot";
+            // map blocks by start slot
+            const blocks = (byDay[day] || [])
+              .map(r => {
+                const s = timeToMinutes(r.time_start);
+                const e = timeToMinutes(r.time_end);
+                return {
+                  start: isNaN(s) ? null : snapDown(s),
+                  end: isNaN(e) ? null : snapUp(e),
+                  team: clean(r.team_or_group),
+                  note: clean(r.notes)
+                };
+              })
+              .filter(b => b.start !== null && b.end !== null && b.end > b.start)
+              .sort((a,b) => a.start - b.start);
 
-              const top = document.createElement("div");
-              top.className = "slotTop";
+            const blockByStart = {};
+            blocks.forEach(b => { blockByStart[b.start] = b; });
 
-              const team = document.createElement("div");
-              team.textContent = clean(r.team_or_group);
+            // render cells with colspan
+            for (let t=minT; t<maxT; t+=step){
+              const b = blockByStart[t];
+              if (b){
+                const td = document.createElement("td");
+                td.className = "slotCell";
+                const span = Math.max(1, Math.round((b.end - b.start)/step));
+                td.colSpan = span;
 
-              const t1 = fmtTime(r.time_start);
-              const t2 = fmtTime(r.time_end);
-              const time = document.createElement("div");
-              time.className = "slotTime";
-              time.textContent = (t1 && t2) ? `${t1}–${t2}` : (t1 || t2 || "");
+                const box = document.createElement("div");
+                box.className = "block";
+                box.innerHTML = `<div>${b.team || ""}${b.note ? `<small>${b.note}</small>` : ""}</div>`;
+                td.appendChild(box);
 
-              top.appendChild(team);
-              if (clean(time.textContent)) top.appendChild(time);
+                tr.appendChild(td);
 
-              slot.appendChild(top);
-
-              const note = clean(r.notes);
-              if (note){
-                const p = document.createElement("p");
-                p.className = "slotNote";
-                p.textContent = note;
-                slot.appendChild(p);
+                // skip ahead
+                t += (span-1)*step;
+              } else {
+                const td = document.createElement("td");
+                td.className = "slotCell";
+                td.innerHTML = "&nbsp;";
+                tr.appendChild(td);
               }
+            }
 
-              box.appendChild(slot);
-            });
-
-            grid.appendChild(box);
+            tbody.appendChild(tr);
           });
 
-          dayBlock.appendChild(grid);
-          host.appendChild(dayBlock);
+          table.appendChild(tbody);
+          scroller.appendChild(table);
+          card.appendChild(scroller);
+
+          wrap.appendChild(card);
         });
+
+        host.appendChild(wrap);
+
+        const uniqFields = Object.keys(byField).length;
+        $("scheduleSub").textContent = `${uniqFields} field${uniqFields===1?"":"s"} listed`;
       }
 
+      // EVENTS
       if (!eventActive.length){
         $("eventsCard").style.display = "none";
       } else {
@@ -1615,12 +1980,16 @@
         const host = $("eventsList");
         host.innerHTML = "";
 
-        eventActive.sort((a,b) => clean(a.date).localeCompare(clean(b.date)));
+        eventActive.sort((a,b) => {
+          const da = parseGvizDate(a.date)?.getTime() || 0;
+          const db = parseGvizDate(b.date)?.getTime() || 0;
+          return da - db;
+        });
 
         eventActive.forEach(r => {
           const title = clean(r.event_name);
-          const date = fmtDate(r.date);
-          const time = clean(r.time);
+          const date = fmtDateAny(r.date);
+          const time = fmtTimeAny(r.time);
           const loc = clean(r.location);
           const details = clean(r.details);
 
