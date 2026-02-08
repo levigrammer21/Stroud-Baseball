@@ -403,35 +403,45 @@
         rgba(255,255,255,.10);
     }
 
-    /* ===== SLIDESHOW (Upgraded) ===== */
+    /* ===== SLIDESHOW (fixed click bug + thumbs below) ===== */
     .slider{
-      position:relative;
       border-radius: var(--radius);
       overflow:hidden;
       background: rgba(0,0,0,.45);
       border: 1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow);
+    }
+
+    .sliderStage{
+      position:relative;
+      width:100%;
       min-height: 240px;
+      background: rgba(0,0,0,.25);
+      overflow:hidden;
+      border-bottom: 1px solid rgba(255,255,255,.12);
     }
-    .sliderInner{
-      position:absolute; inset:0;
-    }
+
     .slide{
       position:absolute; inset:0;
       opacity:0;
       transition: opacity .6s ease;
-      display:flex; align-items:stretch; justify-content:stretch;
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
       cursor:pointer;
     }
     .slide.active{ opacity:1; }
+
     .slide img{
       width:100%; height:100%;
       object-fit:cover;
       display:block;
       filter: saturate(1.08) contrast(1.08);
     }
+
     .slideCap{
-      position:absolute; left:14px; right:14px; bottom:86px; /* moved up to make room for thumbnails */
+      position:absolute;
+      left:14px; right:14px; bottom:14px;
       padding: 10px 12px;
       border-radius: 14px;
       background: rgba(8, 28, 66, .72);
@@ -443,6 +453,7 @@
       box-shadow: 0 16px 28px rgba(0,0,0,.30);
       text-align:center;
     }
+
     .dots{
       position:absolute; top: 12px; right: 12px;
       display:flex; gap:7px;
@@ -484,20 +495,21 @@
     .sliderPrev{ left:12px; }
     .sliderNext{ right:12px; }
 
+    .thumbStripWrap{
+      padding: 10px 12px 12px;
+      background: rgba(0,0,0,.10);
+    }
     .thumbStrip{
-      position:absolute;
-      left:12px; right:12px; bottom:12px;
       display:flex;
       gap:10px;
       overflow-x:auto;
-      padding:10px;
+      padding: 10px;
       border-radius: 16px;
       background: rgba(8, 28, 66, .55);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,.14);
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      z-index: 5;
     }
     .thumbStrip::-webkit-scrollbar{ height: 8px; }
     .thumbStrip::-webkit-scrollbar-thumb{
@@ -512,9 +524,9 @@
       border: 1px solid rgba(255,255,255,.16);
       overflow:hidden;
       cursor:pointer;
-      position:relative;
       scroll-snap-align: start;
       background: rgba(255,255,255,.06);
+      position:relative;
     }
     .thumbBtn img{
       width:100%; height:100%;
@@ -529,66 +541,141 @@
     @media (max-width: 520px){
       .thumbBtn{ width: 92px; height: 56px; }
       .sliderNavBtn{ display:none; }
-      .slideCap{ bottom: 82px; }
     }
 
-    /* ===== MASTER CALENDAR (Games) ===== */
-    .mcWrap{ display:flex; flex-direction:column; gap: 12px; }
-    .mcDay{
+    /* ===== MASTER CALENDAR: True Month View ===== */
+    .mcShell{
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.10);
       box-shadow: var(--shadow2);
       overflow:hidden;
     }
-    .mcDayHdr{
+    .mcTopBar{
       padding: 12px 14px;
-      display:flex; align-items:center; justify-content:space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap:10px;
       border-bottom: 1px solid rgba(255,255,255,.14);
       background:
         radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.14), transparent 60%),
         rgba(255,255,255,.08);
     }
-    .mcDate{
+    .mcMonthTitle{
       font-weight: 1000;
-      color: rgba(255,255,255,.95);
       letter-spacing: .2px;
+      color: rgba(255,255,255,.95);
+      text-align:center;
+      flex: 1 1 auto;
     }
-    .mcCount{
-      font-weight: 900;
-      font-size: 12px;
-      color: rgba(255,255,255,.74);
-      white-space:nowrap;
+    .mcNav{
+      display:flex;
+      gap:8px;
+      flex: 0 0 auto;
     }
-    .mcList{
+    .mcNavBtn{
+      width:44px; height:44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(8, 28, 66, .62);
+      backdrop-filter: blur(10px);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 14px 26px rgba(0,0,0,.30);
+    }
+    .mcNavBtn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+    .mcNavBtn:hover:not(:disabled){
+      background: rgba(8, 28, 66, .75);
+    }
+    .mcGridWrap{
       padding: 12px;
+      background: rgba(0,0,0,.08);
+      touch-action: pan-y;
+    }
+    .mcWeekdays{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:8px;
+      margin-bottom: 8px;
+    }
+    .mcWDay{
+      text-align:center;
+      font-weight: 950;
+      font-size: 12px;
+      color: rgba(255,255,255,.78);
+      padding: 8px 6px;
+      border-radius: 12px;
+      background: rgba(8, 28, 66, .45);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .mcGrid{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:8px;
+    }
+    .mcCell{
+      min-height: 96px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(8, 28, 66, .42);
+      overflow:hidden;
       display:flex;
       flex-direction:column;
-      gap:10px;
-      background: rgba(0,0,0,.08);
     }
-    .mcGame{
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(8, 28, 66, .55);
-      backdrop-filter: blur(10px);
-      padding: 10px 12px;
+    .mcCell.dim{ opacity:.55; }
+
+    .mcCellTop{
+      padding: 8px 8px 6px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      gap:6px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
     }
-    .mcGame:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 18px 32px rgba(0,0,0,.32);
-      background: rgba(8, 28, 66, .65);
-    }
-    .mcLeft{ min-width:0; display:flex; flex-direction:column; gap:4px; }
-    .mcTitle{
+    .mcDayNum{
       font-weight: 1000;
+      font-size: 12px;
+      color: rgba(255,255,255,.92);
+    }
+    .mcToday{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 1000;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(245,200,75,.18);
+      border: 1px solid rgba(245,200,75,.45);
+      color: rgba(255,255,255,.92);
+    }
+    .mcEvents{
+      padding: 8px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .mcEvent{
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      padding: 7px 8px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .mcEvent:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 20px rgba(0,0,0,.22);
+      background: rgba(255,255,255,.10);
+    }
+    .mcEventTitle{
+      font-weight: 1000;
+      font-size: 12px;
       color: rgba(255,255,255,.95);
       line-height: 1.15;
       white-space:nowrap;
@@ -596,35 +683,22 @@
       text-overflow:ellipsis;
       text-align:left;
     }
-    .mcMeta{
+    .mcEventMeta{
+      margin-top: 3px;
       font-weight: 850;
-      font-size: 12px;
+      font-size: 11px;
       color: rgba(255,255,255,.78);
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
       text-align:left;
     }
-    .mcRight{
-      flex:0 0 auto;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      justify-content:flex-end;
-    }
-    .mcPill{
-      display:inline-flex; align-items:center;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      font-weight: 950;
-      font-size: 12px;
-      color: rgba(255,255,255,.86);
-      white-space:nowrap;
+    @media (max-width: 520px){
+      .mcCell{ min-height: 84px; }
+      .mcGridWrap{ padding: 10px; }
     }
 
-    /* ===== SCHEDULE BLOCKS (unchanged) ===== */
+    /* ===== SCHEDULE BLOCKS (practice schedule) ===== */
     .schedWrap{ display:flex; flex-direction:column; gap: 14px; }
     .schedFieldCard{
       border-radius: var(--radius);
@@ -1036,23 +1110,6 @@
       </div>
     </section>
 
-    <!-- NEW: MASTER CALENDAR (GAMES) -->
-    <section id="calendar">
-      <div class="sectionHead">
-        <h2>Master Calendar</h2>
-        <p class="muted" id="calendarSub"></p>
-      </div>
-
-      <div class="grid2" style="margin-top:14px;">
-        <div class="card" id="masterCalendarCard" style="display:none; grid-column: 1 / -1;">
-          <div class="cardPad">
-            <p class="cardTitle" style="margin-bottom:10px;">Upcoming Games</p>
-            <div id="masterCalendar"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="schedule">
       <div class="sectionHead">
         <h2>Schedule</h2>
@@ -1071,6 +1128,23 @@
           <div class="cardPad">
             <p class="cardTitle" style="margin-bottom:10px;">Events</p>
             <div id="eventsList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ Master Calendar moved BELOW practice schedule -->
+    <section id="calendar">
+      <div class="sectionHead">
+        <h2>Master Calendar</h2>
+        <p class="muted" id="calendarSub"></p>
+      </div>
+
+      <div class="grid2" style="margin-top:14px;">
+        <div class="card" id="masterCalendarCard" style="display:none; grid-column: 1 / -1;">
+          <div class="cardPad">
+            <p class="cardTitle" style="margin-bottom:10px;">Games Calendar</p>
+            <div id="masterCalendar"></div>
           </div>
         </div>
       </div>
@@ -1234,8 +1308,8 @@
     /* ===== NAV ===== */
     const SECTIONS = [
       { id:"home", label:"Home" },
-      { id:"calendar", label:"Master Calendar" },  // ✅ NEW
       { id:"schedule", label:"Schedule" },
+      { id:"calendar", label:"Master Calendar" },  // ✅ moved after schedule
       { id:"fields", label:"Fields" },
       { id:"rules", label:"Rules" },
       { id:"minutes", label:"Meeting Minutes" },
@@ -1353,9 +1427,8 @@
       return card;
     }
 
-    /* ===== SLIDESHOW (Upgraded: autoplay + manual + expand) ===== */
+    /* ===== SLIDESHOW (autoplay + manual + thumbs below + FIXED click bug) ===== */
     let slideTimer = null;
-
     function renderSlideshow(rows){
       const active = rows.filter(r => isTrue(r.active) && safeUrl(r.image_url));
       if (!active.length){
@@ -1367,13 +1440,13 @@
       const slider = $("slider");
       slider.innerHTML = "";
 
-      const inner = document.createElement("div");
-      inner.className = "sliderInner";
-      slider.appendChild(inner);
+      const stage = document.createElement("div");
+      stage.className = "sliderStage";
+      slider.appendChild(stage);
 
       const dots = document.createElement("div");
       dots.className = "dots";
-      slider.appendChild(dots);
+      stage.appendChild(dots);
 
       const prevBtn = document.createElement("button");
       prevBtn.type = "button";
@@ -1383,7 +1456,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
           <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>`;
-      slider.appendChild(prevBtn);
+      stage.appendChild(prevBtn);
 
       const nextBtn = document.createElement("button");
       nextBtn.type = "button";
@@ -1393,86 +1466,29 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
           <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>`;
-      slider.appendChild(nextBtn);
+      stage.appendChild(nextBtn);
 
+      const thumbWrap = document.createElement("div");
+      thumbWrap.className = "thumbStripWrap";
       const strip = document.createElement("div");
       strip.className = "thumbStrip";
-      slider.appendChild(strip);
+      thumbWrap.appendChild(strip);
+      slider.appendChild(thumbWrap);
 
       let idx = 0;
-
-      const slides = active.map((r, i) => {
-        const cap = clean(r.caption);
-
-        const s = document.createElement("div");
-        s.className = "slide" + (i === 0 ? " active" : "");
-
-        const img = document.createElement("img");
-        img.src = r.image_url;
-        img.alt = cap || "Slideshow image";
-        s.appendChild(img);
-
-        if (cap){
-          const c = document.createElement("div");
-          c.className = "slideCap";
-          c.textContent = cap;
-          s.appendChild(c);
-        }
-
-        // Click slide => expand (modal)
-        s.addEventListener("click", () => {
-          openModal(cap || "Photo", "IMAGE", r.image_url);
-          resetTimer();
-        });
-
-        inner.appendChild(s);
-
-        // Dot
-        const d = document.createElement("div");
-        d.className = "dotBtn" + (i === 0 ? " active" : "");
-        d.addEventListener("click", (e) => {
-          e.stopPropagation();
-          setSlide(i, true);
-          resetTimer();
-        });
-        dots.appendChild(d);
-
-        // Thumb
-        const t = document.createElement("div");
-        t.className = "thumbBtn" + (i === 0 ? " active" : "");
-        t.setAttribute("role", "button");
-        t.setAttribute("tabindex", "0");
-
-        const ti = document.createElement("img");
-        ti.src = r.image_url;
-        ti.alt = cap || `Slide ${i+1}`;
-        t.appendChild(ti);
-
-        const pick = (e) => {
-          e.stopPropagation();
-          setSlide(i, true);
-          resetTimer();
-        };
-        t.addEventListener("click", pick);
-        t.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") pick(e);
-        });
-
-        strip.appendChild(t);
-
-        return s;
-      });
+      const slides = [];
+      const dotEls = [];
+      const thumbEls = [];
 
       function setSlide(i, scrollThumb){
         idx = i;
         slides.forEach((el, k) => el.classList.toggle("active", k === idx));
-        [...dots.children].forEach((el, k) => el.classList.toggle("active", k === idx));
-        [...strip.children].forEach((el, k) => el.classList.toggle("active", k === idx));
-
+        dotEls.forEach((el, k) => el.classList.toggle("active", k === idx));
+        thumbEls.forEach((el, k) => el.classList.toggle("active", k === idx));
         if (scrollThumb){
-          const thumb = strip.children[idx];
-          if (thumb && thumb.scrollIntoView){
-            thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+          const t = thumbEls[idx];
+          if (t && t.scrollIntoView){
+            t.scrollIntoView({ behavior:"smooth", block:"nearest", inline:"nearest" });
           }
         }
       }
@@ -1484,13 +1500,85 @@
         setSlide((idx - 1 + slides.length) % slides.length, true);
       }
 
-      prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prev(); resetTimer(); });
-      nextBtn.addEventListener("click", (e) => { e.stopPropagation(); next(); resetTimer(); });
-
       function resetTimer(){
         if (slideTimer) clearInterval(slideTimer);
         slideTimer = setInterval(next, 4000);
       }
+
+      // IMPORTANT: use forEach with local bindings so clicks always open correct image
+      active.forEach((row, i) => {
+        const imgUrl = safeUrl(row.image_url);
+        const capTxt = clean(row.caption);
+        const linkUrl = safeUrl(row.link_url);
+
+        const s = document.createElement("div");
+        s.className = "slide" + (i === 0 ? " active" : "");
+
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        img.alt = capTxt || "Slideshow image";
+        s.appendChild(img);
+
+        if (capTxt){
+          const cap = document.createElement("div");
+          cap.className = "slideCap";
+          cap.textContent = capTxt;
+          s.appendChild(cap);
+        }
+
+        // Click slide => expand THIS image (not link)
+        s.addEventListener("click", () => {
+          openModal(capTxt || "Photo", "IMAGE", imgUrl);
+          resetTimer();
+        });
+
+        stage.appendChild(s);
+        slides.push(s);
+
+        const d = document.createElement("div");
+        d.className = "dotBtn" + (i === 0 ? " active" : "");
+        d.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setSlide(i, true);
+          resetTimer();
+        });
+        dots.appendChild(d);
+        dotEls.push(d);
+
+        const t = document.createElement("div");
+        t.className = "thumbBtn" + (i === 0 ? " active" : "");
+        t.setAttribute("role","button");
+        t.setAttribute("tabindex","0");
+
+        const ti = document.createElement("img");
+        ti.src = imgUrl;
+        ti.alt = capTxt || `Slide ${i+1}`;
+        t.appendChild(ti);
+
+        const pick = (e) => {
+          e.stopPropagation();
+          setSlide(i, true);
+          resetTimer();
+        };
+
+        // Tap thumb => switch slide
+        t.addEventListener("click", pick);
+        t.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") pick(e);
+        });
+
+        // OPTIONAL: Long-press idea not needed; but you said "click to expand".
+        // If you want thumb-click to expand instead, swap the handler to openModal.
+
+        strip.appendChild(t);
+        thumbEls.push(t);
+      });
+
+      prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prev(); resetTimer(); });
+      nextBtn.addEventListener("click", (e) => { e.stopPropagation(); next(); resetTimer(); });
+
+      // If you still want link_url behavior: add a small "Open Link" button later.
+      // For now: click always expands (per your request).
 
       resetTimer();
     }
@@ -1627,8 +1715,8 @@
       };
 
       host.appendChild(makeBtn("Announcements", "Latest updates", () => jump("home"), "megaphone"));
-      host.appendChild(makeBtn("Master Calendar", "Games schedule", () => jump("calendar"), "calendar")); // ✅ NEW
       host.appendChild(makeBtn("Schedule", "Practices + events", () => jump("schedule"), "calendar"));
+      host.appendChild(makeBtn("Master Calendar", "Games", () => jump("calendar"), "calendar"));
       host.appendChild(makeBtn("Fields", "Directions", () => jump("fields"), "pin"));
       host.appendChild(makeBtn("Meeting Minutes", "Board notes", () => jump("minutes"), "file"));
       host.appendChild(makeBtn("Sponsors", "Supporters", () => jump("sponsors"), "users"));
@@ -1669,160 +1757,277 @@
       $("homeSub").textContent = n ? `${n} update${n===1?"":"s"} posted` : "";
     }
 
-    /* ===== MASTER CALENDAR (Games) ===== */
-    function dateKey(d){
-      // normalize to local midnight
-      const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      return x.getTime();
-    }
-
-    function fmtDate(d){
-      return d.toLocaleDateString(undefined, { weekday:"long", year:"numeric", month:"long", day:"numeric" });
-    }
-
+    /* ===== MASTER CALENDAR: True Month View (Mar–May) ===== */
     function renderMasterCalendar(rows){
-      const active = rows.filter(r => isTrue(r.active) && clean(r.date) && (clean(r.home_team) || clean(r.away_team)));
+      const active = rows.filter(r =>
+        isTrue(r.active) &&
+        clean(r.date) &&
+        (clean(r.home_team) || clean(r.away_team))
+      );
+
       if (!active.length){
         $("masterCalendarCard").style.display = "none";
         $("calendarSub").textContent = "";
         return;
       }
 
-      // Parse + sort by date/time (best effort)
-      const items = active.map(r => {
+      const games = active.map(r => {
         const d = parseGvizDate(r.date) || new Date(clean(r.date));
-        const time = clean(r.time);
-        const field = clean(r.field);
-        const home = clean(r.home_team);
-        const away = clean(r.away_team);
-        const div = clean(r.division);
-        const notes = clean(r.notes);
-        const link = safeUrl(r.link_url);
+        if (!d || isNaN(d.getTime())) return null;
 
-        // time sorting (handles "6:00 PM" / "18:00" loosely)
-        let timeSort = Number.NaN;
-        if (time){
-          const t24 = time.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
-          const t12 = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-          if (t24) timeSort = parseInt(t24[1],10)*60 + parseInt(t24[2],10);
-          else if (t12){
-            let hh = parseInt(t12[1],10);
-            const mm = parseInt(t12[2],10);
-            const ap = t12[3].toUpperCase();
-            if (ap === "PM" && hh !== 12) hh += 12;
-            if (ap === "AM" && hh === 12) hh = 0;
-            timeSort = hh*60 + mm;
-          }
-        }
+        return {
+          dateObj: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+          time: clean(r.time),
+          field: clean(r.field),
+          home: clean(r.home_team),
+          away: clean(r.away_team),
+          div: clean(r.division),
+          notes: clean(r.notes),
+          link: safeUrl(r.link_url)
+        };
+      }).filter(Boolean);
 
-        return { d, time, timeSort, field, home, away, div, notes, link };
-      }).filter(x => x.d && !isNaN(x.d.getTime()));
-
-      // Sort
-      items.sort((a,b) => {
-        const dk = dateKey(a.d) - dateKey(b.d);
-        if (dk !== 0) return dk;
-        const at = isNaN(a.timeSort) ? 99999 : a.timeSort;
-        const bt = isNaN(b.timeSort) ? 99999 : b.timeSort;
-        if (at !== bt) return at - bt;
-        return (a.home + a.away).localeCompare(b.home + b.away);
-      });
-
-      // Group by day
+      const dayKey = (dt) => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
       const byDay = new Map();
-      items.forEach(it => {
-        const k = dateKey(it.d);
-        if (!byDay.has(k)) byDay.set(k, { date: new Date(it.d.getFullYear(), it.d.getMonth(), it.d.getDate()), games: [] });
-        byDay.get(k).games.push(it);
+      games.forEach(g => {
+        const k = dayKey(g.dateObj);
+        if (!byDay.has(k)) byDay.set(k, []);
+        byDay.get(k).push(g);
       });
+
+      // Year based on data
+      const dataYear = games[0]?.dateObj?.getFullYear() || new Date().getFullYear();
+      const minMonth = new Date(dataYear, 2, 1); // March
+      const maxMonth = new Date(dataYear, 4, 1); // May
+
+      // Start month = first game month (clamped)
+      const firstGameMonth = games.slice().sort((a,b) => a.dateObj - b.dateObj)[0].dateObj;
+      let currentMonth = new Date(firstGameMonth.getFullYear(), firstGameMonth.getMonth(), 1);
+      if (currentMonth < minMonth) currentMonth = new Date(minMonth);
+      if (currentMonth > maxMonth) currentMonth = new Date(maxMonth);
 
       $("masterCalendarCard").style.display = "";
       const host = $("masterCalendar");
       host.innerHTML = "";
 
-      const wrap = document.createElement("div");
-      wrap.className = "mcWrap";
+      const shell = document.createElement("div");
+      shell.className = "mcShell";
 
-      const days = [...byDay.values()];
-      days.forEach(day => {
-        const dayBox = document.createElement("div");
-        dayBox.className = "mcDay";
+      const top = document.createElement("div");
+      top.className = "mcTopBar";
 
-        const hdr = document.createElement("div");
-        hdr.className = "mcDayHdr";
+      const navL = document.createElement("div");
+      navL.className = "mcNav";
 
-        const dateEl = document.createElement("div");
-        dateEl.className = "mcDate";
-        dateEl.textContent = fmtDate(day.date);
+      const prevBtn = document.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.className = "mcNavBtn";
+      prevBtn.setAttribute("aria-label","Previous month");
+      prevBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
 
-        const countEl = document.createElement("div");
-        countEl.className = "mcCount";
-        countEl.textContent = `${day.games.length} game${day.games.length===1?"":"s"}`;
+      const title = document.createElement("div");
+      title.className = "mcMonthTitle";
 
-        hdr.appendChild(dateEl);
-        hdr.appendChild(countEl);
-        dayBox.appendChild(hdr);
+      const navR = document.createElement("div");
+      navR.className = "mcNav";
 
-        const list = document.createElement("div");
-        list.className = "mcList";
+      const nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.className = "mcNavBtn";
+      nextBtn.setAttribute("aria-label","Next month");
+      nextBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
 
-        day.games.forEach(g => {
-          const game = document.createElement("div");
-          game.className = "mcGame";
+      navL.appendChild(prevBtn);
+      navR.appendChild(nextBtn);
 
-          const left = document.createElement("div");
-          left.className = "mcLeft";
+      top.appendChild(navL);
+      top.appendChild(title);
+      top.appendChild(navR);
 
-          const title = document.createElement("div");
-          title.className = "mcTitle";
-          title.textContent = `${g.away || "TBD"} @ ${g.home || "TBD"}`;
+      const gridWrap = document.createElement("div");
+      gridWrap.className = "mcGridWrap";
 
-          const meta = document.createElement("div");
-          meta.className = "mcMeta";
-          const metaParts = [];
-          if (g.time) metaParts.push(g.time);
-          if (g.field) metaParts.push(g.field);
-          if (g.notes) metaParts.push(g.notes);
-          meta.textContent = metaParts.join(" • ");
-
-          left.appendChild(title);
-          if (clean(meta.textContent)) left.appendChild(meta);
-
-          const right = document.createElement("div");
-          right.className = "mcRight";
-
-          if (g.div){
-            const p = document.createElement("div");
-            p.className = "mcPill";
-            p.textContent = g.div;
-            right.appendChild(p);
-          }
-          if (g.time){
-            const p = document.createElement("div");
-            p.className = "mcPill";
-            p.textContent = g.time;
-            right.appendChild(p);
-          }
-
-          game.appendChild(left);
-          game.appendChild(right);
-
-          // If link_url exists => click opens it. Otherwise do nothing special.
-          if (g.link){
-            game.addEventListener("click", () => window.open(g.link, "_blank", "noopener"));
-          } else {
-            game.style.cursor = "default";
-          }
-
-          list.appendChild(game);
-        });
-
-        dayBox.appendChild(list);
-        wrap.appendChild(dayBox);
+      const weekdays = document.createElement("div");
+      weekdays.className = "mcWeekdays";
+      ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(w => {
+        const wd = document.createElement("div");
+        wd.className = "mcWDay";
+        wd.textContent = w;
+        weekdays.appendChild(wd);
       });
 
-      host.appendChild(wrap);
-      $("calendarSub").textContent = `${items.length} game${items.length===1?"":"s"} listed`;
+      const grid = document.createElement("div");
+      grid.className = "mcGrid";
+
+      gridWrap.appendChild(weekdays);
+      gridWrap.appendChild(grid);
+
+      shell.appendChild(top);
+      shell.appendChild(gridWrap);
+      host.appendChild(shell);
+
+      function monthLabel(dt){
+        return dt.toLocaleDateString(undefined, { month:"long", year:"numeric" });
+      }
+
+      function clampButtons(){
+        const pm = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
+        const nm = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1, 1);
+        prevBtn.disabled = pm < minMonth;
+        nextBtn.disabled = nm > maxMonth;
+      }
+
+      function renderMonth(){
+        title.textContent = monthLabel(currentMonth);
+        grid.innerHTML = "";
+        clampButtons();
+
+        const first = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+        const start = new Date(first);
+        start.setDate(first.getDate() - first.getDay()); // back to Sunday
+
+        const now = new Date();
+        const todayKey = dayKey(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
+
+        for (let i=0; i<42; i++){
+          const cellDate = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+          const inMonth = cellDate.getMonth() === currentMonth.getMonth();
+
+          const cell = document.createElement("div");
+          cell.className = "mcCell" + (inMonth ? "" : " dim");
+
+          const topRow = document.createElement("div");
+          topRow.className = "mcCellTop";
+
+          const num = document.createElement("div");
+          num.className = "mcDayNum";
+          num.textContent = cellDate.getDate();
+
+          topRow.appendChild(num);
+
+          const k = dayKey(cellDate);
+          if (k === todayKey){
+            const pill = document.createElement("div");
+            pill.className = "mcToday";
+            pill.textContent = "Today";
+            topRow.appendChild(pill);
+          }
+
+          const eventsWrap = document.createElement("div");
+          eventsWrap.className = "mcEvents";
+
+          const dayGames = byDay.get(k) || [];
+          dayGames.forEach(g => {
+            const ev = document.createElement("div");
+            ev.className = "mcEvent";
+
+            const t = document.createElement("div");
+            t.className = "mcEventTitle";
+            t.textContent = `${g.away || "TBD"} @ ${g.home || "TBD"}`;
+
+            const m = document.createElement("div");
+            m.className = "mcEventMeta";
+            const meta = [];
+            if (g.time) meta.push(g.time);
+            if (g.field) meta.push(g.field);
+            if (g.div) meta.push(g.div);
+            m.textContent = meta.join(" • ");
+
+            ev.appendChild(t);
+            if (clean(m.textContent)) ev.appendChild(m);
+
+            ev.addEventListener("click", (e) => {
+              e.stopPropagation();
+              if (g.link){
+                window.open(g.link, "_blank", "noopener");
+                return;
+              }
+
+              // details in modal (no external url)
+              $("modalTitle").textContent = "Game Details";
+              const body = $("modalBody");
+              const prettyDate = cellDate.toLocaleDateString(undefined, { weekday:"long", month:"long", day:"numeric", year:"numeric" });
+              body.innerHTML = `
+                <div style="width:100%;max-width:720px;">
+                  <div style="background:rgba(255,255,255,.96);color:rgba(8,28,66,.94);border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,.78);box-shadow:0 14px 26px rgba(0,0,0,.30);text-align:left;">
+                    <div style="font-weight:1000;font-size:14px;margin-bottom:8px;">${(g.away||"TBD")} @ ${(g.home||"TBD")}</div>
+                    <div style="font-weight:900;font-size:12.5px;opacity:.85;margin-bottom:8px;">
+                      ${prettyDate}
+                      ${g.time ? " • " + g.time : ""}
+                      ${g.field ? " • " + g.field : ""}
+                      ${g.div ? " • " + g.div : ""}
+                    </div>
+                    ${g.notes ? `<div style="font-weight:850;font-size:13px;white-space:pre-wrap;">${g.notes}</div>` : ""}
+                  </div>
+                </div>
+              `;
+              $("modalBack").style.display = "flex";
+              document.body.style.overflow = "hidden";
+            });
+
+            eventsWrap.appendChild(ev);
+          });
+
+          cell.appendChild(topRow);
+          cell.appendChild(eventsWrap);
+          grid.appendChild(cell);
+        }
+
+        const countThisMonth = games.filter(g =>
+          g.dateObj.getFullYear() === currentMonth.getFullYear() &&
+          g.dateObj.getMonth() === currentMonth.getMonth()
+        ).length;
+
+        $("calendarSub").textContent = `${countThisMonth} game${countThisMonth===1?"":"s"} in ${monthLabel(currentMonth)}`;
+      }
+
+      function goPrev(){
+        const m = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
+        if (m < minMonth) return;
+        currentMonth = m;
+        renderMonth();
+      }
+      function goNext(){
+        const m = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1, 1);
+        if (m > maxMonth) return;
+        currentMonth = m;
+        renderMonth();
+      }
+
+      prevBtn.addEventListener("click", goPrev);
+      nextBtn.addEventListener("click", goNext);
+
+      // Swipe left/right
+      let startX = null, startY = null;
+      gridWrap.addEventListener("touchstart", (e) => {
+        if (!e.touches || e.touches.length !== 1) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive:true });
+
+      gridWrap.addEventListener("touchend", (e) => {
+        if (startX === null || startY === null) return;
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) return;
+
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+
+        startX = null; startY = null;
+
+        if (Math.abs(dx) < 50) return;
+        if (Math.abs(dy) > Math.abs(dx)) return;
+
+        if (dx < 0) goNext(); else goPrev();
+      }, { passive:true });
+
+      renderMonth();
     }
 
     function renderFields(rows){
@@ -2034,7 +2239,7 @@
       });
     }
 
-    /* ===== Schedule renderer kept from your version (UNCHANGED) ===== */
+    /* ===== PRACTICE SCHEDULE RENDERER (UNCHANGED) ===== */
     function timeToMinutes(v){
       const d = parseGvizDate(v);
       if (d) return d.getHours()*60 + d.getMinutes();
@@ -2260,16 +2465,17 @@
 
       const [
         cfg, ann, slides,
-        masterCalendar,                         // ✅ NEW
-        field, events, fields, rules,
+        field, events,
+        masterCalendar,
+        fields, rules,
         minutes, sponsors, contact, links
       ] = await Promise.all([
         fetchSheet("CONFIG").catch(() => ({rows:[] })),
         fetchSheet("ANNOUNCEMENTS").catch(() => ({rows:[] })),
         fetchSheet("SLIDESHOW").catch(() => ({rows:[] })),
-        fetchSheet("MASTER_CALENDAR").catch(() => ({rows:[] })), // ✅ NEW
-        fetchSheet("FIELD_SCHEDULE").catch(() => ({rows:[] })),
+        fetchSheet("FIELD_SCHEDULE").catch(() => ({rows:[] })),  // practice schedule
         fetchSheet("EVENTS").catch(() => ({rows:[] })),
+        fetchSheet("MASTER_CALENDAR").catch(() => ({rows:[] })), // games calendar
         fetchSheet("FIELDS").catch(() => ({rows:[] })),
         fetchSheet("RULES").catch(() => ({rows:[] })),
         fetchSheet("MEETING_MINUTES").catch(() => ({rows:[] })),
@@ -2285,11 +2491,11 @@
       renderSlideshow(slides.rows || []);
       renderAnnouncements(ann.rows || []);
 
-      // ✅ NEW: games master calendar
-      renderMasterCalendar(masterCalendar.rows || []);
-
-      // ✅ unchanged practice schedule
+      // practice schedule stays exactly as-is
       renderSchedule(field.rows || [], events.rows || []);
+
+      // master calendar now below schedule + month-view
+      renderMasterCalendar(masterCalendar.rows || []);
 
       renderFields(fields.rows || []);
       renderRules(rules.rows || []);
@@ -2305,4 +2511,4 @@
     init();
   </script>
 </body>
-  </html>
+</html>
