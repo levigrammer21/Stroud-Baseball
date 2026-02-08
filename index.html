@@ -357,7 +357,7 @@
       letter-spacing: .15px;
       font-size: 14px;
       color: rgba(255,255,255,.94);
-      text-align:center; /* center titles */
+      text-align:center;
     }
     .cardText{
       margin:0;
@@ -366,7 +366,7 @@
       line-height: 1.45;
       font-size: 13px;
       white-space: pre-wrap;
-      text-align:center; /* center notes/text */
+      text-align:center;
     }
     .metaRow{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; justify-content:center; }
     .pill{
@@ -403,7 +403,7 @@
         rgba(255,255,255,.10);
     }
 
-    /* ===== SLIDESHOW ===== */
+    /* ===== SLIDESHOW (Upgraded) ===== */
     .slider{
       position:relative;
       border-radius: var(--radius);
@@ -412,6 +412,9 @@
       border: 1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow);
       min-height: 240px;
+    }
+    .sliderInner{
+      position:absolute; inset:0;
     }
     .slide{
       position:absolute; inset:0;
@@ -428,7 +431,7 @@
       filter: saturate(1.08) contrast(1.08);
     }
     .slideCap{
-      position:absolute; left:14px; right:14px; bottom:14px;
+      position:absolute; left:14px; right:14px; bottom:86px; /* moved up to make room for thumbnails */
       padding: 10px 12px;
       border-radius: 14px;
       background: rgba(8, 28, 66, .72);
@@ -448,6 +451,7 @@
       background: rgba(8, 28, 66, .55);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,.14);
+      z-index: 6;
     }
     .dotBtn{
       width:10px; height:10px;
@@ -462,7 +466,165 @@
       box-shadow: 0 0 0 4px rgba(245,200,75,.18);
     }
 
-    /* ===== SCHEDULE BLOCKS (already centered) ===== */
+    .sliderNavBtn{
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      width:44px; height:44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(8, 28, 66, .62);
+      backdrop-filter: blur(10px);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 14px 26px rgba(0,0,0,.30);
+      z-index: 6;
+    }
+    .sliderNavBtn:hover{ background: rgba(8, 28, 66, .75); }
+    .sliderPrev{ left:12px; }
+    .sliderNext{ right:12px; }
+
+    .thumbStrip{
+      position:absolute;
+      left:12px; right:12px; bottom:12px;
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding:10px;
+      border-radius: 16px;
+      background: rgba(8, 28, 66, .55);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.14);
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      z-index: 5;
+    }
+    .thumbStrip::-webkit-scrollbar{ height: 8px; }
+    .thumbStrip::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.18);
+      border-radius: 999px;
+    }
+    .thumbBtn{
+      flex: 0 0 auto;
+      width: 110px;
+      height: 62px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      overflow:hidden;
+      cursor:pointer;
+      position:relative;
+      scroll-snap-align: start;
+      background: rgba(255,255,255,.06);
+    }
+    .thumbBtn img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .thumbBtn.active{
+      border-color: rgba(245,200,75,.70);
+      box-shadow: 0 0 0 4px rgba(245,200,75,.18);
+    }
+    @media (max-width: 520px){
+      .thumbBtn{ width: 92px; height: 56px; }
+      .sliderNavBtn{ display:none; }
+      .slideCap{ bottom: 82px; }
+    }
+
+    /* ===== MASTER CALENDAR (Games) ===== */
+    .mcWrap{ display:flex; flex-direction:column; gap: 12px; }
+    .mcDay{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.10);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .mcDayHdr{
+      padding: 12px 14px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(120% 120% at 20% 0%, rgba(245,200,75,.14), transparent 60%),
+        rgba(255,255,255,.08);
+    }
+    .mcDate{
+      font-weight: 1000;
+      color: rgba(255,255,255,.95);
+      letter-spacing: .2px;
+    }
+    .mcCount{
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(255,255,255,.74);
+      white-space:nowrap;
+    }
+    .mcList{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      background: rgba(0,0,0,.08);
+    }
+    .mcGame{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(8, 28, 66, .55);
+      backdrop-filter: blur(10px);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .mcGame:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 18px 32px rgba(0,0,0,.32);
+      background: rgba(8, 28, 66, .65);
+    }
+    .mcLeft{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+    .mcTitle{
+      font-weight: 1000;
+      color: rgba(255,255,255,.95);
+      line-height: 1.15;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-align:left;
+    }
+    .mcMeta{
+      font-weight: 850;
+      font-size: 12px;
+      color: rgba(255,255,255,.78);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-align:left;
+    }
+    .mcRight{
+      flex:0 0 auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+    }
+    .mcPill{
+      display:inline-flex; align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      font-weight: 950;
+      font-size: 12px;
+      color: rgba(255,255,255,.86);
+      white-space:nowrap;
+    }
+
+    /* ===== SCHEDULE BLOCKS (unchanged) ===== */
     .schedWrap{ display:flex; flex-direction:column; gap: 14px; }
     .schedFieldCard{
       border-radius: var(--radius);
@@ -874,6 +1036,23 @@
       </div>
     </section>
 
+    <!-- NEW: MASTER CALENDAR (GAMES) -->
+    <section id="calendar">
+      <div class="sectionHead">
+        <h2>Master Calendar</h2>
+        <p class="muted" id="calendarSub"></p>
+      </div>
+
+      <div class="grid2" style="margin-top:14px;">
+        <div class="card" id="masterCalendarCard" style="display:none; grid-column: 1 / -1;">
+          <div class="cardPad">
+            <p class="cardTitle" style="margin-bottom:10px;">Upcoming Games</p>
+            <div id="masterCalendar"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="schedule">
       <div class="sectionHead">
         <h2>Schedule</h2>
@@ -913,7 +1092,6 @@
       <div id="rulesList" class="grid2" style="margin-top:14px;"></div>
     </section>
 
-    <!-- REPLACED: Forms -> Meeting Minutes -->
     <section id="minutes">
       <div class="sectionHead">
         <h2>Meeting Minutes</h2>
@@ -1056,6 +1234,7 @@
     /* ===== NAV ===== */
     const SECTIONS = [
       { id:"home", label:"Home" },
+      { id:"calendar", label:"Master Calendar" },  // ✅ NEW
       { id:"schedule", label:"Schedule" },
       { id:"fields", label:"Fields" },
       { id:"rules", label:"Rules" },
@@ -1174,8 +1353,9 @@
       return card;
     }
 
-    /* ===== SLIDESHOW (4 sec) ===== */
+    /* ===== SLIDESHOW (Upgraded: autoplay + manual + expand) ===== */
     let slideTimer = null;
+
     function renderSlideshow(rows){
       const active = rows.filter(r => isTrue(r.active) && safeUrl(r.image_url));
       if (!active.length){
@@ -1187,22 +1367,51 @@
       const slider = $("slider");
       slider.innerHTML = "";
 
+      const inner = document.createElement("div");
+      inner.className = "sliderInner";
+      slider.appendChild(inner);
+
       const dots = document.createElement("div");
       dots.className = "dots";
       slider.appendChild(dots);
 
+      const prevBtn = document.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.className = "sliderNavBtn sliderPrev";
+      prevBtn.setAttribute("aria-label", "Previous slide");
+      prevBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+      slider.appendChild(prevBtn);
+
+      const nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.className = "sliderNavBtn sliderNext";
+      nextBtn.setAttribute("aria-label", "Next slide");
+      nextBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+      slider.appendChild(nextBtn);
+
+      const strip = document.createElement("div");
+      strip.className = "thumbStrip";
+      slider.appendChild(strip);
+
       let idx = 0;
 
       const slides = active.map((r, i) => {
+        const cap = clean(r.caption);
+
         const s = document.createElement("div");
         s.className = "slide" + (i === 0 ? " active" : "");
 
         const img = document.createElement("img");
         img.src = r.image_url;
-        img.alt = clean(r.caption) || "Slideshow image";
+        img.alt = cap || "Slideshow image";
         s.appendChild(img);
 
-        const cap = clean(r.caption);
         if (cap){
           const c = document.createElement("div");
           c.className = "slideCap";
@@ -1210,39 +1419,77 @@
           s.appendChild(c);
         }
 
-        const link = safeUrl(r.link_url);
-        if (link){
-          s.addEventListener("click", () => window.open(link, "_blank", "noopener"));
-        }
+        // Click slide => expand (modal)
+        s.addEventListener("click", () => {
+          openModal(cap || "Photo", "IMAGE", r.image_url);
+          resetTimer();
+        });
 
-        slider.appendChild(s);
+        inner.appendChild(s);
 
+        // Dot
         const d = document.createElement("div");
         d.className = "dotBtn" + (i === 0 ? " active" : "");
         d.addEventListener("click", (e) => {
           e.stopPropagation();
-          setSlide(i);
+          setSlide(i, true);
           resetTimer();
         });
         dots.appendChild(d);
 
+        // Thumb
+        const t = document.createElement("div");
+        t.className = "thumbBtn" + (i === 0 ? " active" : "");
+        t.setAttribute("role", "button");
+        t.setAttribute("tabindex", "0");
+
+        const ti = document.createElement("img");
+        ti.src = r.image_url;
+        ti.alt = cap || `Slide ${i+1}`;
+        t.appendChild(ti);
+
+        const pick = (e) => {
+          e.stopPropagation();
+          setSlide(i, true);
+          resetTimer();
+        };
+        t.addEventListener("click", pick);
+        t.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") pick(e);
+        });
+
+        strip.appendChild(t);
+
         return s;
       });
 
-      function setSlide(i){
+      function setSlide(i, scrollThumb){
         idx = i;
         slides.forEach((el, k) => el.classList.toggle("active", k === idx));
         [...dots.children].forEach((el, k) => el.classList.toggle("active", k === idx));
+        [...strip.children].forEach((el, k) => el.classList.toggle("active", k === idx));
+
+        if (scrollThumb){
+          const thumb = strip.children[idx];
+          if (thumb && thumb.scrollIntoView){
+            thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+          }
+        }
       }
 
       function next(){
-        idx = (idx + 1) % slides.length;
-        setSlide(idx);
+        setSlide((idx + 1) % slides.length, true);
       }
+      function prev(){
+        setSlide((idx - 1 + slides.length) % slides.length, true);
+      }
+
+      prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prev(); resetTimer(); });
+      nextBtn.addEventListener("click", (e) => { e.stopPropagation(); next(); resetTimer(); });
 
       function resetTimer(){
         if (slideTimer) clearInterval(slideTimer);
-        slideTimer = setInterval(next, 4000); // ✅ 4 sec
+        slideTimer = setInterval(next, 4000);
       }
 
       resetTimer();
@@ -1380,7 +1627,8 @@
       };
 
       host.appendChild(makeBtn("Announcements", "Latest updates", () => jump("home"), "megaphone"));
-      host.appendChild(makeBtn("Schedule", "Games + events", () => jump("schedule"), "calendar"));
+      host.appendChild(makeBtn("Master Calendar", "Games schedule", () => jump("calendar"), "calendar")); // ✅ NEW
+      host.appendChild(makeBtn("Schedule", "Practices + events", () => jump("schedule"), "calendar"));
       host.appendChild(makeBtn("Fields", "Directions", () => jump("fields"), "pin"));
       host.appendChild(makeBtn("Meeting Minutes", "Board notes", () => jump("minutes"), "file"));
       host.appendChild(makeBtn("Sponsors", "Supporters", () => jump("sponsors"), "users"));
@@ -1419,6 +1667,162 @@
 
       const n = active.length;
       $("homeSub").textContent = n ? `${n} update${n===1?"":"s"} posted` : "";
+    }
+
+    /* ===== MASTER CALENDAR (Games) ===== */
+    function dateKey(d){
+      // normalize to local midnight
+      const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      return x.getTime();
+    }
+
+    function fmtDate(d){
+      return d.toLocaleDateString(undefined, { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+    }
+
+    function renderMasterCalendar(rows){
+      const active = rows.filter(r => isTrue(r.active) && clean(r.date) && (clean(r.home_team) || clean(r.away_team)));
+      if (!active.length){
+        $("masterCalendarCard").style.display = "none";
+        $("calendarSub").textContent = "";
+        return;
+      }
+
+      // Parse + sort by date/time (best effort)
+      const items = active.map(r => {
+        const d = parseGvizDate(r.date) || new Date(clean(r.date));
+        const time = clean(r.time);
+        const field = clean(r.field);
+        const home = clean(r.home_team);
+        const away = clean(r.away_team);
+        const div = clean(r.division);
+        const notes = clean(r.notes);
+        const link = safeUrl(r.link_url);
+
+        // time sorting (handles "6:00 PM" / "18:00" loosely)
+        let timeSort = Number.NaN;
+        if (time){
+          const t24 = time.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
+          const t12 = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+          if (t24) timeSort = parseInt(t24[1],10)*60 + parseInt(t24[2],10);
+          else if (t12){
+            let hh = parseInt(t12[1],10);
+            const mm = parseInt(t12[2],10);
+            const ap = t12[3].toUpperCase();
+            if (ap === "PM" && hh !== 12) hh += 12;
+            if (ap === "AM" && hh === 12) hh = 0;
+            timeSort = hh*60 + mm;
+          }
+        }
+
+        return { d, time, timeSort, field, home, away, div, notes, link };
+      }).filter(x => x.d && !isNaN(x.d.getTime()));
+
+      // Sort
+      items.sort((a,b) => {
+        const dk = dateKey(a.d) - dateKey(b.d);
+        if (dk !== 0) return dk;
+        const at = isNaN(a.timeSort) ? 99999 : a.timeSort;
+        const bt = isNaN(b.timeSort) ? 99999 : b.timeSort;
+        if (at !== bt) return at - bt;
+        return (a.home + a.away).localeCompare(b.home + b.away);
+      });
+
+      // Group by day
+      const byDay = new Map();
+      items.forEach(it => {
+        const k = dateKey(it.d);
+        if (!byDay.has(k)) byDay.set(k, { date: new Date(it.d.getFullYear(), it.d.getMonth(), it.d.getDate()), games: [] });
+        byDay.get(k).games.push(it);
+      });
+
+      $("masterCalendarCard").style.display = "";
+      const host = $("masterCalendar");
+      host.innerHTML = "";
+
+      const wrap = document.createElement("div");
+      wrap.className = "mcWrap";
+
+      const days = [...byDay.values()];
+      days.forEach(day => {
+        const dayBox = document.createElement("div");
+        dayBox.className = "mcDay";
+
+        const hdr = document.createElement("div");
+        hdr.className = "mcDayHdr";
+
+        const dateEl = document.createElement("div");
+        dateEl.className = "mcDate";
+        dateEl.textContent = fmtDate(day.date);
+
+        const countEl = document.createElement("div");
+        countEl.className = "mcCount";
+        countEl.textContent = `${day.games.length} game${day.games.length===1?"":"s"}`;
+
+        hdr.appendChild(dateEl);
+        hdr.appendChild(countEl);
+        dayBox.appendChild(hdr);
+
+        const list = document.createElement("div");
+        list.className = "mcList";
+
+        day.games.forEach(g => {
+          const game = document.createElement("div");
+          game.className = "mcGame";
+
+          const left = document.createElement("div");
+          left.className = "mcLeft";
+
+          const title = document.createElement("div");
+          title.className = "mcTitle";
+          title.textContent = `${g.away || "TBD"} @ ${g.home || "TBD"}`;
+
+          const meta = document.createElement("div");
+          meta.className = "mcMeta";
+          const metaParts = [];
+          if (g.time) metaParts.push(g.time);
+          if (g.field) metaParts.push(g.field);
+          if (g.notes) metaParts.push(g.notes);
+          meta.textContent = metaParts.join(" • ");
+
+          left.appendChild(title);
+          if (clean(meta.textContent)) left.appendChild(meta);
+
+          const right = document.createElement("div");
+          right.className = "mcRight";
+
+          if (g.div){
+            const p = document.createElement("div");
+            p.className = "mcPill";
+            p.textContent = g.div;
+            right.appendChild(p);
+          }
+          if (g.time){
+            const p = document.createElement("div");
+            p.className = "mcPill";
+            p.textContent = g.time;
+            right.appendChild(p);
+          }
+
+          game.appendChild(left);
+          game.appendChild(right);
+
+          // If link_url exists => click opens it. Otherwise do nothing special.
+          if (g.link){
+            game.addEventListener("click", () => window.open(g.link, "_blank", "noopener"));
+          } else {
+            game.style.cursor = "default";
+          }
+
+          list.appendChild(game);
+        });
+
+        dayBox.appendChild(list);
+        wrap.appendChild(dayBox);
+      });
+
+      host.appendChild(wrap);
+      $("calendarSub").textContent = `${items.length} game${items.length===1?"":"s"} listed`;
     }
 
     function renderFields(rows){
@@ -1472,7 +1876,6 @@
       });
     }
 
-    /* ===== MEETING MINUTES (shows notes even if url is blank) ===== */
     function renderMinutes(rows){
       const active = rows.filter(r => isTrue(r.active) && clean(r.title));
       if (!active.length){
@@ -1497,7 +1900,7 @@
 
         host.appendChild(makeCard({
           title,
-          text: notes,     /* ✅ this is your “post notes and show on site” content */
+          text: notes,
           actions
         }));
       });
@@ -1631,7 +2034,7 @@
       });
     }
 
-    /* Schedule renderer kept from your version (unchanged) */
+    /* ===== Schedule renderer kept from your version (UNCHANGED) ===== */
     function timeToMinutes(v){
       const d = parseGvizDate(v);
       if (d) return d.getHours()*60 + d.getMinutes();
@@ -1856,17 +2259,20 @@
       window.addEventListener("hashchange", () => scrollToHash());
 
       const [
-        cfg, ann, slides, field, events, fields, rules,
+        cfg, ann, slides,
+        masterCalendar,                         // ✅ NEW
+        field, events, fields, rules,
         minutes, sponsors, contact, links
       ] = await Promise.all([
         fetchSheet("CONFIG").catch(() => ({rows:[] })),
         fetchSheet("ANNOUNCEMENTS").catch(() => ({rows:[] })),
         fetchSheet("SLIDESHOW").catch(() => ({rows:[] })),
+        fetchSheet("MASTER_CALENDAR").catch(() => ({rows:[] })), // ✅ NEW
         fetchSheet("FIELD_SCHEDULE").catch(() => ({rows:[] })),
         fetchSheet("EVENTS").catch(() => ({rows:[] })),
         fetchSheet("FIELDS").catch(() => ({rows:[] })),
         fetchSheet("RULES").catch(() => ({rows:[] })),
-        fetchSheet("MEETING_MINUTES").catch(() => ({rows:[] })),  // ✅ new
+        fetchSheet("MEETING_MINUTES").catch(() => ({rows:[] })),
         fetchSheet("SPONSORS").catch(() => ({rows:[] })),
         fetchSheet("CONTACT").catch(() => ({rows:[] })),
         fetchSheet("LINKS").catch(() => ({rows:[] })),
@@ -1878,10 +2284,16 @@
 
       renderSlideshow(slides.rows || []);
       renderAnnouncements(ann.rows || []);
+
+      // ✅ NEW: games master calendar
+      renderMasterCalendar(masterCalendar.rows || []);
+
+      // ✅ unchanged practice schedule
       renderSchedule(field.rows || [], events.rows || []);
+
       renderFields(fields.rows || []);
       renderRules(rules.rows || []);
-      renderMinutes(minutes.rows || []);              // ✅ show notes
+      renderMinutes(minutes.rows || []);
       renderSponsors(sponsors.rows || []);
       renderContact(contact.rows || []);
       renderLinks(links.rows || [], cfgRow);
@@ -1893,4 +2305,4 @@
     init();
   </script>
 </body>
-</html>
+  </html>
