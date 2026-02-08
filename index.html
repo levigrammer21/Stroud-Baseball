@@ -403,7 +403,7 @@
         rgba(255,255,255,.10);
     }
 
-    /* ===== SLIDESHOW (fixed click bug + thumbs below) ===== */
+    /* ===== SLIDESHOW (NO JUMP GUARANTEE) ===== */
     .slider{
       border-radius: var(--radius);
       overflow:hidden;
@@ -411,7 +411,6 @@
       border: 1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow);
     }
-
     .sliderStage{
       position:relative;
       width:100%;
@@ -420,7 +419,6 @@
       overflow:hidden;
       border-bottom: 1px solid rgba(255,255,255,.12);
     }
-
     .slide{
       position:absolute; inset:0;
       opacity:0;
@@ -429,8 +427,11 @@
       align-items:stretch;
       justify-content:stretch;
       cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
-    .slide.active{ opacity:1; }
+    .slide.active{ opacity:1; pointer-events:auto; }
+    .slide:not(.active){ pointer-events:none; }
 
     .slide img{
       width:100%; height:100%;
@@ -510,6 +511,7 @@
       border: 1px solid rgba(255,255,255,.14);
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
     }
     .thumbStrip::-webkit-scrollbar{ height: 8px; }
     .thumbStrip::-webkit-scrollbar-thumb{
@@ -527,6 +529,8 @@
       scroll-snap-align: start;
       background: rgba(255,255,255,.06);
       position:relative;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
     .thumbBtn img{
       width:100%; height:100%;
@@ -543,7 +547,7 @@
       .sliderNavBtn{ display:none; }
     }
 
-    /* ===== MASTER CALENDAR: True Month View ===== */
+    /* ===== MASTER CALENDAR: True Month View Calendar ===== */
     .mcShell{
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,.14);
@@ -698,7 +702,7 @@
       .mcGridWrap{ padding: 10px; }
     }
 
-    /* ===== SCHEDULE BLOCKS (practice schedule) ===== */
+    /* ===== PRACTICE SCHEDULE (UNCHANGED) ===== */
     .schedWrap{ display:flex; flex-direction:column; gap: 14px; }
     .schedFieldCard{
       border-radius: var(--radius);
@@ -1133,7 +1137,7 @@
       </div>
     </section>
 
-    <!-- ✅ Master Calendar moved BELOW practice schedule -->
+    <!-- Master Calendar below practice schedule -->
     <section id="calendar">
       <div class="sectionHead">
         <h2>Master Calendar</h2>
@@ -1309,7 +1313,7 @@
     const SECTIONS = [
       { id:"home", label:"Home" },
       { id:"schedule", label:"Schedule" },
-      { id:"calendar", label:"Master Calendar" },  // ✅ moved after schedule
+      { id:"calendar", label:"Master Calendar" },
       { id:"fields", label:"Fields" },
       { id:"rules", label:"Rules" },
       { id:"minutes", label:"Meeting Minutes" },
@@ -1427,8 +1431,15 @@
       return card;
     }
 
-    /* ===== SLIDESHOW (autoplay + manual + thumbs below + FIXED click bug) ===== */
+    /* ==========================================================
+       SLIDESHOW REWRITE (FIXES BOTH ISSUES)
+       - NO scrollIntoView() anywhere (prevents page jumping)
+       - Click opens EXACT clicked image by reading <img>.src
+       - Autoplay pauses when user interacts, resumes after 8s
+       ========================================================== */
     let slideTimer = null;
+    let slideResumeTimer = null;
+
     function renderSlideshow(rows){
       const active = rows.filter(r => isTrue(r.active) && safeUrl(r.image_url));
       if (!active.length){
@@ -1475,43 +1486,39 @@
       thumbWrap.appendChild(strip);
       slider.appendChild(thumbWrap);
 
-      let idx = 0;
       const slides = [];
       const dotEls = [];
       const thumbEls = [];
 
-      function setSlide(i, scrollThumb){
+      let idx = 0;
+
+      function setSlide(i){
         idx = i;
         slides.forEach((el, k) => el.classList.toggle("active", k === idx));
         dotEls.forEach((el, k) => el.classList.toggle("active", k === idx));
         thumbEls.forEach((el, k) => el.classList.toggle("active", k === idx));
-        if (scrollThumb){
-          const t = thumbEls[idx];
-          if (t && t.scrollIntoView){
-            t.scrollIntoView({ behavior:"smooth", block:"nearest", inline:"nearest" });
-          }
-        }
+
+        // NO scrollIntoView() — ever — to prevent any page jumping.
+        // (Thumb strip stays where the user left it.)
       }
 
-      function next(){
-      function next(){
-  // autoplay should NOT scroll/align the page
-  setSlide((idx + 1) % slides.length, false);
-}
-function prev(){
-  setSlide((idx - 1 + slides.length) % slides.length, false);
-}
-
-      function resetTimer(){
+      function stopAutoplayTemporarily(){
         if (slideTimer) clearInterval(slideTimer);
-        slideTimer = setInterval(next, 4000);
+        slideTimer = null;
+        if (slideResumeTimer) clearTimeout(slideResumeTimer);
+        slideResumeTimer = setTimeout(startAutoplay, 8000);
       }
 
-      // IMPORTANT: use forEach with local bindings so clicks always open correct image
+      function startAutoplay(){
+        if (slideTimer) clearInterval(slideTimer);
+        slideTimer = setInterval(() => {
+          setSlide((idx + 1) % slides.length);
+        }, 4000);
+      }
+
       active.forEach((row, i) => {
         const imgUrl = safeUrl(row.image_url);
         const capTxt = clean(row.caption);
-        const linkUrl = safeUrl(row.link_url);
 
         const s = document.createElement("div");
         s.className = "slide" + (i === 0 ? " active" : "");
@@ -1519,6 +1526,7 @@ function prev(){
         const img = document.createElement("img");
         img.src = imgUrl;
         img.alt = capTxt || "Slideshow image";
+        img.loading = "lazy";
         s.appendChild(img);
 
         if (capTxt){
@@ -1528,10 +1536,13 @@ function prev(){
           s.appendChild(cap);
         }
 
-        // Click slide => expand THIS image (not link)
-        s.addEventListener("click", () => {
-          openModal(capTxt || "Photo", "IMAGE", imgUrl);
-          resetTimer();
+        // CLICK SLIDE: open EXACT clicked image (never last image)
+        s.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          stopAutoplayTemporarily();
+          const realSrc = img.currentSrc || img.src;
+          openModal(capTxt || "Photo", "IMAGE", realSrc);
         });
 
         stage.appendChild(s);
@@ -1540,9 +1551,10 @@ function prev(){
         const d = document.createElement("div");
         d.className = "dotBtn" + (i === 0 ? " active" : "");
         d.addEventListener("click", (e) => {
+          e.preventDefault();
           e.stopPropagation();
-          setSlide(i, true);
-          resetTimer();
+          stopAutoplayTemporarily();
+          setSlide(i);
         });
         dots.appendChild(d);
         dotEls.push(d);
@@ -1555,34 +1567,45 @@ function prev(){
         const ti = document.createElement("img");
         ti.src = imgUrl;
         ti.alt = capTxt || `Slide ${i+1}`;
+        ti.loading = "lazy";
         t.appendChild(ti);
 
         const pick = (e) => {
+          e.preventDefault();
           e.stopPropagation();
-          setSlide(i, true);
-          resetTimer();
+          stopAutoplayTemporarily();
+          setSlide(i);
         };
 
-        // Tap thumb => switch slide
         t.addEventListener("click", pick);
         t.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") pick(e);
         });
 
-        // OPTIONAL: Long-press idea not needed; but you said "click to expand".
-        // If you want thumb-click to expand instead, swap the handler to openModal.
-
         strip.appendChild(t);
         thumbEls.push(t);
       });
 
-      prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prev(); resetTimer(); });
-      nextBtn.addEventListener("click", (e) => { e.stopPropagation(); next(); resetTimer(); });
+      prevBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        stopAutoplayTemporarily();
+        setSlide((idx - 1 + slides.length) % slides.length);
+      });
 
-      // If you still want link_url behavior: add a small "Open Link" button later.
-      // For now: click always expands (per your request).
+      nextBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        stopAutoplayTemporarily();
+        setSlide((idx + 1) % slides.length);
+      });
 
-      resetTimer();
+      // Pause autoplay while user is touching/scrolling thumb strip
+      strip.addEventListener("touchstart", () => stopAutoplayTemporarily(), { passive:true });
+      strip.addEventListener("wheel", () => stopAutoplayTemporarily(), { passive:true });
+
+      // Start autoplay
+      startAutoplay();
     }
 
     function applyTheme(cfg){
@@ -1759,7 +1782,7 @@ function prev(){
       $("homeSub").textContent = n ? `${n} update${n===1?"":"s"} posted` : "";
     }
 
-    /* ===== MASTER CALENDAR: True Month View (Mar–May) ===== */
+    /* ===== MASTER CALENDAR: month view (Mar–May) ===== */
     function renderMasterCalendar(rows){
       const active = rows.filter(r =>
         isTrue(r.active) &&
@@ -1797,12 +1820,10 @@ function prev(){
         byDay.get(k).push(g);
       });
 
-      // Year based on data
       const dataYear = games[0]?.dateObj?.getFullYear() || new Date().getFullYear();
       const minMonth = new Date(dataYear, 2, 1); // March
       const maxMonth = new Date(dataYear, 4, 1); // May
 
-      // Start month = first game month (clamped)
       const firstGameMonth = games.slice().sort((a,b) => a.dateObj - b.dateObj)[0].dateObj;
       let currentMonth = new Date(firstGameMonth.getFullYear(), firstGameMonth.getMonth(), 1);
       if (currentMonth < minMonth) currentMonth = new Date(minMonth);
@@ -1892,7 +1913,7 @@ function prev(){
 
         const first = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
         const start = new Date(first);
-        start.setDate(first.getDate() - first.getDay()); // back to Sunday
+        start.setDate(first.getDate() - first.getDay());
 
         const now = new Date();
         const todayKey = dayKey(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
@@ -1910,7 +1931,6 @@ function prev(){
           const num = document.createElement("div");
           num.className = "mcDayNum";
           num.textContent = cellDate.getDate();
-
           topRow.appendChild(num);
 
           const k = dayKey(cellDate);
@@ -1951,7 +1971,6 @@ function prev(){
                 return;
               }
 
-              // details in modal (no external url)
               $("modalTitle").textContent = "Game Details";
               const body = $("modalBody");
               const prettyDate = cellDate.toLocaleDateString(undefined, { weekday:"long", month:"long", day:"numeric", year:"numeric" });
@@ -2005,7 +2024,6 @@ function prev(){
       prevBtn.addEventListener("click", goPrev);
       nextBtn.addEventListener("click", goNext);
 
-      // Swipe left/right
       let startX = null, startY = null;
       gridWrap.addEventListener("touchstart", (e) => {
         if (!e.touches || e.touches.length !== 1) return;
@@ -2105,11 +2123,7 @@ function prev(){
           actions.push({ label: "Open", url, mode, type: type || "PDF" });
         }
 
-        host.appendChild(makeCard({
-          title,
-          text: notes,
-          actions
-        }));
+        host.appendChild(makeCard({ title, text: notes, actions }));
       });
     }
 
@@ -2241,7 +2255,7 @@ function prev(){
       });
     }
 
-    /* ===== PRACTICE SCHEDULE RENDERER (UNCHANGED) ===== */
+    /* ===== PRACTICE SCHEDULE (UNCHANGED) ===== */
     function timeToMinutes(v){
       const d = parseGvizDate(v);
       if (d) return d.getHours()*60 + d.getMinutes();
@@ -2475,9 +2489,9 @@ function prev(){
         fetchSheet("CONFIG").catch(() => ({rows:[] })),
         fetchSheet("ANNOUNCEMENTS").catch(() => ({rows:[] })),
         fetchSheet("SLIDESHOW").catch(() => ({rows:[] })),
-        fetchSheet("FIELD_SCHEDULE").catch(() => ({rows:[] })),  // practice schedule
+        fetchSheet("FIELD_SCHEDULE").catch(() => ({rows:[] })),
         fetchSheet("EVENTS").catch(() => ({rows:[] })),
-        fetchSheet("MASTER_CALENDAR").catch(() => ({rows:[] })), // games calendar
+        fetchSheet("MASTER_CALENDAR").catch(() => ({rows:[] })),
         fetchSheet("FIELDS").catch(() => ({rows:[] })),
         fetchSheet("RULES").catch(() => ({rows:[] })),
         fetchSheet("MEETING_MINUTES").catch(() => ({rows:[] })),
@@ -2493,10 +2507,10 @@ function prev(){
       renderSlideshow(slides.rows || []);
       renderAnnouncements(ann.rows || []);
 
-      // practice schedule stays exactly as-is
+      // practice schedule unchanged
       renderSchedule(field.rows || [], events.rows || []);
 
-      // master calendar now below schedule + month-view
+      // master calendar below schedule
       renderMasterCalendar(masterCalendar.rows || []);
 
       renderFields(fields.rows || []);
