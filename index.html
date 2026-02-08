@@ -1494,11 +1494,13 @@
       }
 
       function next(){
-        setSlide((idx + 1) % slides.length, true);
-      }
-      function prev(){
-        setSlide((idx - 1 + slides.length) % slides.length, true);
-      }
+      function next(){
+  // autoplay should NOT scroll/align the page
+  setSlide((idx + 1) % slides.length, false);
+}
+function prev(){
+  setSlide((idx - 1 + slides.length) % slides.length, false);
+}
 
       function resetTimer(){
         if (slideTimer) clearInterval(slideTimer);
