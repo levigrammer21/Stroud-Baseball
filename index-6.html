@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stroud Little League Baseball</title>
+  <meta name="description" content="Stroud Little League Baseball official league hub." />
+
+  <style>
+    :root{
+      --navy:#071b3f;
+      --blue:#0a3278;
+      --blue2:#1257d8;
+      --gold:#f5c84b;
+      --white:#ffffff;
+      --text:rgba(255,255,255,.94);
+      --muted:rgba(255,255,255,.74);
+      --card:rgba(255,255,255,.10);
+      --card2:rgba(255,255,255,.15);
+      --line:rgba(255,255,255,.15);
+      --shadow:0 22px 54px rgba(0,0,0,.35);
+      --shadow2:0 14px 34px rgba(0,0,0,.26);
+      --radius:22px;
+      --max:1120px;
+      --navH:74px;
+    }
+
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% -10%, rgba(245,200,75,.16), transparent 58%),
+        radial-gradient(900px 560px at 110% 2%, rgba(18,87,216,.42), transparent 60%),
+        linear-gradient(180deg, #0b2a60 0%, var(--navy) 62%, #061530 100%);
+      background-attachment:fixed;
+    }
+    a{color:inherit;text-decoration:none;}
+    button{font:inherit;color:inherit;}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 16px;}
+
+    /* =========================
+       EASY EDIT AREA
+       Most site content is near the bottom in the SITE_DATA object.
+       To add photos, upload images into /images/ and add one line to SITE_DATA.photos.
+       Example:
+       { src:"images/new-photo.jpg", caption:"2026 8U Champions" }
+       ========================= */
+
+    .nav{
+      position:sticky;top:0;z-index:50;height:var(--navH);
+      display:flex;align-items:center;
+      background:rgba(6,21,48,.76);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .navInner{display:flex;align-items:center;justify-content:space-between;gap:14px;}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+    .logo{
+      width:46px;height:46px;border-radius:16px;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+      background:linear-gradient(135deg, rgba(245,200,75,.34), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow:0 14px 28px rgba(0,0,0,.28);
+      font-weight:1000;color:#fff;
+    }
+    .logo img{width:100%;height:100%;object-fit:cover;display:block;}
+    .brandText{display:flex;flex-direction:column;line-height:1.08;min-width:0;}
+    .brandName{font-weight:1000;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .brandTag{font-weight:850;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .navLinks{display:flex;align-items:center;gap:6px;}
+    .navLinks a{
+      font-weight:950;font-size:13px;padding:10px 10px;border-radius:14px;
+      color:rgba(255,255,255,.86);white-space:nowrap;
+      transition:.15s ease;
+    }
+    .navLinks a:hover,.navLinks a.active{background:rgba(255,255,255,.11);color:#fff;}
+    .hamburger{
+      display:none;width:46px;height:46px;border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.10);border-radius:16px;align-items:center;justify-content:center;cursor:pointer;
+    }
+    .drawerBack{display:none;position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.56);justify-content:flex-end;}
+    .drawer{width:min(92vw,360px);height:100%;background:rgba(6,21,48,.93);backdrop-filter:blur(14px);border-left:1px solid var(--line);padding:14px;box-shadow:-18px 0 50px rgba(0,0,0,.44);}
+    .drawerTop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 12px;font-weight:1000;}
+    .drawerClose{width:44px;height:44px;border:1px solid rgba(255,255,255,.18);border-radius:15px;background:rgba(255,255,255,.10);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+    .drawerLinks{display:flex;flex-direction:column;gap:8px;}
+    .drawerLinks a{padding:13px 12px;border-radius:15px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.13);font-weight:950;}
+
+    .hero{padding:28px 0 12px;}
+    .heroGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:stretch;}
+    .heroCard,.supportCard{
+      border-radius:var(--radius);border:1px solid rgba(255,255,255,.16);overflow:hidden;
+      background:radial-gradient(1000px 360px at 0% 0%, rgba(18,87,216,.42), transparent 62%), rgba(255,255,255,.10);
+      box-shadow:var(--shadow);
+      position:relative;
+    }
+    .heroCard::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg, rgba(6,21,48,.15), transparent 55%);
+    }
+    .heroPad{position:relative;z-index:1;padding:22px;}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(245,200,75,.34);background:rgba(245,200,75,.13);color:rgba(255,255,255,.94);padding:8px 11px;border-radius:999px;font-weight:1000;font-size:12px;margin-bottom:12px;}
+    .hero h1{margin:0;font-size:clamp(34px,5.4vw,66px);line-height:.96;letter-spacing:-1.4px;font-weight:1000;text-wrap:balance;}
+    .heroSub{margin:12px 0 0;color:rgba(255,255,255,.82);font-size:16px;line-height:1.45;font-weight:850;max-width:60ch;}
+    .heroAlert{margin-top:16px;border-radius:18px;background:rgba(255,255,255,.96);color:rgba(6,21,48,.94);padding:13px 14px;text-align:center;font-weight:1000;box-shadow:0 14px 30px rgba(0,0,0,.23);}
+    .supportCard{background:rgba(255,255,255,.10);}
+    .supportPad{padding:16px;display:flex;flex-direction:column;height:100%;}
+    .supportTitle{text-align:center;text-transform:uppercase;letter-spacing:.18px;color:var(--muted);font-weight:1000;font-size:12px;margin:0 0 12px;}
+    .actionGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .actionBtn{
+      min-height:64px;border:1px solid rgba(255,255,255,.78);background:rgba(255,255,255,.96);
+      color:rgba(6,21,48,.94);border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px;cursor:pointer;font-weight:1000;box-shadow:0 12px 22px rgba(0,0,0,.20);transition:.15s ease;text-align:left;
+    }
+    .actionBtn:hover{transform:translateY(-1px);box-shadow:0 18px 30px rgba(0,0,0,.28);}
+    .actionHint{display:block;font-size:11.5px;font-weight:850;color:rgba(6,21,48,.62);margin-top:2px;}
+    .actionIcon{width:36px;height:36px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(10,50,120,.10);border:1px solid rgba(6,21,48,.12);flex:0 0 auto;}
+
+    main{padding:8px 0 44px;}
+    section{scroll-margin-top:calc(var(--navH) + 16px);}
+    .sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:20px 0 11px;margin-top:16px;border-bottom:1px solid var(--line);}
+    .sectionHead h2{margin:0;font-size:20px;font-weight:1000;letter-spacing:.1px;}
+    .sectionHead p{margin:0;color:var(--muted);font-weight:850;font-size:13px;text-align:right;}
+
+    .card{border-radius:var(--radius);border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.10);box-shadow:var(--shadow2);overflow:hidden;}
+    .pad{padding:16px;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+    .title{margin:0 0 7px;font-size:15px;font-weight:1000;text-align:center;}
+    .text{margin:0;color:rgba(255,255,255,.80);font-weight:820;line-height:1.45;font-size:13.5px;text-align:center;white-space:pre-wrap;}
+    .pillRow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:10px;}
+    .pill{display:inline-flex;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);font-weight:950;font-size:12px;color:rgba(255,255,255,.84);}
+    .btnRow{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:12px;}
+    .linkBtn{border:1px solid rgba(245,200,75,.36);background:linear-gradient(135deg, rgba(245,200,75,.22), rgba(255,255,255,.08));padding:10px 13px;border-radius:15px;font-weight:1000;font-size:13px;cursor:pointer;transition:.15s ease;}
+    .linkBtn:hover{transform:translateY(-1px);box-shadow:0 16px 26px rgba(0,0,0,.26);}
+
+    .slider{border-radius:var(--radius);overflow:hidden;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow);}
+    .stage{position:relative;min-height:clamp(280px,54vw,560px);overflow:hidden;background:#061530;}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity .55s ease;cursor:pointer;}
+    .slide.active{opacity:1;z-index:2;}
+    .slide img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.08) contrast(1.05);}
+    .slideCaption{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(6,21,48,.74);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(12px);border-radius:17px;padding:12px 14px;text-align:center;font-weight:1000;box-shadow:0 16px 30px rgba(0,0,0,.35);}
+    .slideNav{position:absolute;inset:0;z-index:5;pointer-events:none;}
+    .slideNav button{pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border:1px solid rgba(255,255,255,.20);background:rgba(6,21,48,.68);backdrop-filter:blur(10px);border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .prev{left:12px}.next{right:12px}
+    .dots{position:absolute;top:12px;right:12px;z-index:6;display:flex;gap:7px;padding:8px;background:rgba(6,21,48,.60);border:1px solid rgba(255,255,255,.14);border-radius:999px;backdrop-filter:blur(10px);}
+    .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.28);cursor:pointer;}
+    .dot.active{background:var(--gold);border-color:rgba(245,200,75,.72);box-shadow:0 0 0 4px rgba(245,200,75,.18);}
+    .thumbs{display:flex;gap:10px;overflow-x:auto;padding:12px;background:rgba(0,0,0,.12);-webkit-overflow-scrolling:touch;}
+    .thumb{width:116px;height:66px;flex:0 0 auto;border-radius:15px;overflow:hidden;border:1px solid rgba(255,255,255,.16);cursor:pointer;background:rgba(255,255,255,.08);}
+    .thumb.active{border-color:rgba(245,200,75,.75);box-shadow:0 0 0 4px rgba(245,200,75,.18);}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+
+    .accomplishments{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;}
+    .accomplishment{border-radius:20px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.10);padding:14px;text-align:center;box-shadow:var(--shadow2);}
+    .year{font-size:24px;font-weight:1000;color:var(--gold);line-height:1;}
+    .award{margin-top:7px;font-weight:950;color:rgba(255,255,255,.90);font-size:13px;line-height:1.25;}
+
+    .sponsorGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+    .sponsor{position:relative;aspect-ratio:1/1;border-radius:24px;overflow:hidden;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15);box-shadow:var(--shadow2);cursor:pointer;}
+    .sponsor img{width:100%;height:100%;object-fit:cover;display:block;}
+    .sponsorFallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;font-weight:1000;background:radial-gradient(480px 200px at 0% 0%, rgba(18,87,216,.26), transparent 65%), rgba(255,255,255,.08);}
+    .sponsorOverlay{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(6,21,48,.74);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(10px);border-radius:17px;padding:10px;text-align:center;}
+    .sponsorName{margin:0;font-weight:1000;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sponsorTier{margin:5px 0 0;color:rgba(255,255,255,.78);font-weight:900;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+    .galleryItem{aspect-ratio:1/1;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.25);cursor:pointer;position:relative;box-shadow:0 12px 24px rgba(0,0,0,.22);}
+    .galleryItem img{width:100%;height:100%;object-fit:cover;display:block;transition:.18s ease;}
+    .galleryItem:hover img{transform:scale(1.03);}
+
+    .modalBack{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.70);align-items:center;justify-content:center;padding:14px;}
+    .modal{width:min(980px,96vw);max-height:90vh;border-radius:22px;overflow:hidden;background:rgba(6,21,48,.94);border:1px solid rgba(255,255,255,.16);box-shadow:0 30px 70px rgba(0,0,0,.58);}
+    .modalTop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);}
+    .modalTitle{margin:0;font-weight:1000;font-size:13px;}
+    .modalClose{width:44px;height:44px;border-radius:15px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.10);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .modalBody{padding:10px;background:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;}
+    .modalBody img{max-width:100%;max-height:78vh;border-radius:18px;background:#fff;border:1px solid rgba(255,255,255,.15);box-shadow:var(--shadow2);}
+    .modalBody iframe{width:100%;height:78vh;border:0;border-radius:18px;background:#fff;}
+
+    footer{padding:24px 0 30px;text-align:center;color:rgba(255,255,255,.62);font-weight:850;font-size:12px;}
+
+    @media (max-width:980px){.heroGrid{grid-template-columns:1fr}.accomplishments{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:860px){.navLinks{display:none}.hamburger{display:flex}.grid2,.grid3{grid-template-columns:1fr}.sponsorGrid{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:520px){.hero{padding-top:18px}.heroPad{padding:18px}.actionGrid{grid-template-columns:1fr 1fr}.stage{min-height:300px}.slideNav button{display:none}.thumb{width:92px;height:58px}.sponsorGrid,.gallery{grid-template-columns:1fr 1fr}.sectionHead{align-items:flex-start;flex-direction:column}.sectionHead p{text-align:left}.brandName{font-size:14px}.brandTag{font-size:11px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap navInner">
+      <a class="brand" href="#home" aria-label="Stroud Baseball home">
+        <div class="logo" id="logoBox">SB</div>
+        <div class="brandText">
+          <div class="brandName">Stroud Little League Baseball</div>
+          <div class="brandTag">Stroud Tigers • Official League Hub</div>
+        </div>
+      </a>
+      <div class="navLinks" id="navLinks"></div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="drawerBack" id="drawerBack">
+    <div class="drawer">
+      <div class="drawerTop">Menu<button class="drawerClose" id="drawerClose" aria-label="Close menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="drawerLinks" id="drawerLinks"></div>
+    </div>
+  </div>
+
+  <div class="modalBack" id="modalBack">
+    <div class="modal">
+      <div class="modalTop"><p class="modalTitle" id="modalTitle">Photo</p><button class="modalClose" id="modalClose" aria-label="Close viewer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="modalBody" id="modalBody"></div>
+    </div>
+  </div>
+
+  <header class="hero" id="home">
+    <div class="wrap heroGrid">
+      <div class="heroCard">
+        <div class="heroPad">
+          <div class="eyebrow">⚾ Stroud Baseball Tradition</div>
+          <h1>Stroud Little League Baseball</h1>
+          <p class="heroSub">A Tradition of Excellence. Celebrating our players, coaches, families, sponsors, and the community that keeps Stroud baseball strong.</p>
+          <div class="heroAlert" id="heroAlert"></div>
+        </div>
+      </div>
+      <div class="supportCard">
+        <div class="supportPad">
+          <p class="supportTitle">Quick Links</p>
+          <div class="actionGrid" id="quickActions"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="accomplishments">
+      <div class="sectionHead"><h2>Championship Moments</h2><p>Past team accomplishments and Stroud baseball pride</p></div>
+      <div style="margin-top:14px;" class="slider" id="slider"></div>
+      <div class="accomplishments" id="accomplishmentGrid"></div>
+    </section>
+
+    <section id="announcements">
+      <div class="sectionHead"><h2>Announcements</h2><p>Latest league updates</p></div>
+      <div class="grid2" id="announcementsGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <section id="sponsors">
+      <div class="sectionHead"><h2>Thank You Sponsors</h2><p>Support the businesses that support our players</p></div>
+      <div style="margin-top:14px;" class="sponsorGrid" id="sponsorGrid"></div>
+    </section>
+
+    <section id="rules">
+      <div class="sectionHead"><h2>Rules & League Info</h2><p>Documents and helpful information</p></div>
+      <div class="grid2" id="rulesGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <section id="minutes">
+      <div class="sectionHead"><h2>Meeting Minutes</h2><p>Board notes and league records</p></div>
+      <div class="grid2" id="minutesGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <section id="contact">
+      <div class="sectionHead"><h2>Contact</h2><p>Who to reach for league questions</p></div>
+      <div class="grid3" id="contactGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <section id="links">
+      <div class="sectionHead"><h2>Important Links</h2><p>Registration, social pages, donations, and more</p></div>
+      <div class="grid2" id="linksGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <section id="gallery">
+      <div class="sectionHead"><h2>Photo Gallery</h2><p>Tap any photo to view it larger</p></div>
+      <div class="gallery" id="galleryGrid" style="margin-top:14px;"></div>
+    </section>
+
+    <footer id="footerText"></footer>
+  </main>
+
+  <script>
+    /************************************************************
+     * EDIT THIS AREA ONLY
+     *
+     * Adding slideshow/gallery images:
+     * 1. Upload the image to your GitHub repo inside the images folder.
+     * 2. Add a line inside photos below:
+     *    { src:"images/your-file-name.jpg", caption:"Your caption here" },
+     * 3. Save/commit the file.
+     *
+     * Removing images:
+     * Delete that image line from photos, or put // in front of it.
+     ************************************************************/
+
+    const SITE_DATA = {
+      leagueName: "Stroud Little League Baseball",
+      tagLine: "Stroud Tigers • Official League Hub",
+      heroText: "A Tradition of Excellence. Celebrating our players, coaches, families, sponsors, and the community that keeps Stroud baseball strong.",
+      alert: "Support Stroud Baseball through Cash App, Venmo, sponsorships, and community involvement.",
+      logo: "", // Example: "images/logo.png"
+
+      // Put your real payment links here when ready.
+      cashAppUrl: "https://cash.app/",
+      venmoUrl: "https://venmo.com/",
+      facebookUrl: "",
+      registrationUrl: "",
+      sponsorUrl: "",
+
+      photos: [
+        { src:"images/10u2025state.jpeg", caption:"2025 10U State" },
+        { src:"images/2025-10u-region-2nd.jpg", caption:"2025 10U Region Runner-Up" },
+        { src:"images/2024state6u.jpg", caption:"2024 6U State" },
+        { src:"images/8u2024.jpg", caption:"2024 8U Team" },
+        { src:"images/2024-8u-midchamp.jpg", caption:"2024 8U Midseason Champions" },
+        { src:"images/2024-8u-region-2nd.jpg", caption:"2024 8U Region Runner-Up" },
+        { src:"images/6ud22024.jpg", caption:"2024 6U District" },
+        { src:"images/2023-12u-champ.jpg", caption:"2023 12U Champions" },
+        { src:"images/2023-12u-midseason-champ.jpg", caption:"2023 12U Midseason Champions" },
+        { src:"images/2022-10u-midseasonchamp.jpg", caption:"2022 10U Midseason Champions" },
+        { src:"images/2022-D3-6u-champ.jpg", caption:"2022 D3 6U Champions" },
+        { src:"images/2017regionalchamp.jpg", caption:"2017 Regional Champions" },
+        { src:"images/Drumchamp.jpeg", caption:"Championship Moment" }
+      ],
+
+      accomplishments: [
+        { year:"2025", award:"10U State / Region Runner-Up" },
+        { year:"2024", award:"6U State • 8U Midseason Champions" },
+        { year:"2023", award:"12U Champions • 12U Midseason Champions" },
+        { year:"2022", award:"10U Midseason Champions • D3 6U Champions" },
+        { year:"2017", award:"Regional Champions" }
+      ],
+
+      announcements: [
+        { title:"Welcome to Stroud Baseball", text:"This site is being refreshed to better highlight league updates, important links, sponsors, and past team accomplishments." },
+        { title:"Support the League", text:"Use the Cash App and Venmo links at the top to support Stroud Baseball, or reach out about becoming a sponsor." }
+      ],
+
+      sponsors: [
+        // Example:
+        // { name:"Sponsor Name", tier:"Gold Sponsor", logo:"images/sponsor-logo.jpg", url:"https://example.com" }
+      ],
+
+      rules: [
+        // Example:
+        // { title:"League Rules", text:"Current league rules and information.", url:"documents/rules.pdf", type:"PDF" }
+      ],
+
+      minutes: [
+        // Example:
+        // { title:"January Board Meeting", text:"Meeting minutes", url:"documents/january-minutes.pdf", type:"PDF" }
+      ],
+
+      contacts: [
+        // Example:
+        // { role:"President", name:"Name", email:"email@example.com", phone:"" }
+      ],
+
+      links: [
+        // Example:
+        // { title:"Standings", text:"League standings", url:"https://example.com" }
+      ]
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const clean = (v) => v === null || v === undefined ? "" : String(v).trim();
+    const safeUrl = (v) => clean(v);
+
+    const ICONS = {
+      money:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5.5C15.5 4.5 14 4 12 4c-3 0-5 1.4-5 3.5S9 11 12 11s5 1.1 5 3.5S15 20 12 20c-2.3 0-4.2-.7-5.7-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      link:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      users:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM21 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      file:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-6ZM14 2v6h6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'
+    };
+
+    const NAV = [
+      ["home","Home"],
+      ["accomplishments","Accomplishments"],
+      ["announcements","Announcements"],
+      ["sponsors","Sponsors"],
+      ["rules","Rules"],
+      ["minutes","Meeting Minutes"],
+      ["contact","Contact"],
+      ["links","Links"],
+      ["gallery","Gallery"]
+    ];
+
+    function openModal(title, url, type="IMAGE"){
+      const u = safeUrl(url); if(!u) return;
+      $("modalTitle").textContent = clean(title) || "Viewer";
+      const body = $("modalBody"); body.innerHTML = "";
+      if(clean(type).toUpperCase() === "IMAGE"){
+        const img = document.createElement("img"); img.src = u; img.alt = title || "Photo"; body.appendChild(img);
+      } else {
+        const frame = document.createElement("iframe"); frame.src = u; frame.title = title || "Document"; body.appendChild(frame);
+      }
+      $("modalBack").style.display = "flex"; document.body.style.overflow = "hidden";
+    }
+    function closeModal(){ $("modalBack").style.display = "none"; $("modalBody").innerHTML = ""; document.body.style.overflow = ""; }
+
+    function buildNav(){
+      const nav = $("navLinks"), drawer = $("drawerLinks"); nav.innerHTML = drawer.innerHTML = "";
+      NAV.forEach(([id,label]) => {
+        const a = document.createElement("a"); a.href = `#${id}`; a.textContent = label; a.dataset.target = id; nav.appendChild(a);
+        const b = document.createElement("a"); b.href = `#${id}`; b.textContent = label; b.addEventListener("click", closeDrawer); drawer.appendChild(b);
+      });
+    }
+    function setActive(id){ document.querySelectorAll(".navLinks a").forEach(a => a.classList.toggle("active", a.dataset.target === id)); }
+    function openDrawer(){ $("drawerBack").style.display = "flex"; document.body.style.overflow = "hidden"; }
+    function closeDrawer(){ $("drawerBack").style.display = "none"; document.body.style.overflow = ""; }
+
+    function makeCard({title,text,pills=[],actions=[]}){
+      const card = document.createElement("div"); card.className = "card";
+      const pad = document.createElement("div"); pad.className = "pad";
+      if(clean(title)){ const h = document.createElement("p"); h.className = "title"; h.textContent = title; pad.appendChild(h); }
+      if(clean(text)){ const p = document.createElement("p"); p.className = "text"; p.textContent = text; pad.appendChild(p); }
+      if(pills.length){ const row = document.createElement("div"); row.className = "pillRow"; pills.filter(clean).forEach(x => { const p = document.createElement("span"); p.className = "pill"; p.textContent = x; row.appendChild(p); }); pad.appendChild(row); }
+      if(actions.length){ const row = document.createElement("div"); row.className = "btnRow"; actions.forEach(a => { if(!clean(a.label)||!safeUrl(a.url)) return; const btn = document.createElement("button"); btn.className = "linkBtn"; btn.type = "button"; btn.textContent = a.label; btn.onclick = () => a.modal ? openModal(a.label,a.url,a.type) : window.open(a.url,"_blank","noopener"); row.appendChild(btn); }); pad.appendChild(row); }
+      card.appendChild(pad); return card;
+    }
+
+    function renderAction(label,hint,url,icon="link"){
+      if(!safeUrl(url)) return null;
+      const btn = document.createElement("button"); btn.type = "button"; btn.className = "actionBtn"; btn.onclick = () => window.open(url,"_blank","noopener");
+      btn.innerHTML = `<span>${label}<span class="actionHint">${hint}</span></span><span class="actionIcon">${ICONS[icon]||ICONS.link}</span>`;
+      return btn;
+    }
+
+    function renderHero(){
+      document.title = SITE_DATA.leagueName;
+      document.querySelector(".brandName").textContent = SITE_DATA.leagueName;
+      document.querySelector(".brandTag").textContent = SITE_DATA.tagLine;
+      document.querySelector(".hero h1").textContent = SITE_DATA.leagueName;
+      document.querySelector(".heroSub").textContent = SITE_DATA.heroText;
+      if(SITE_DATA.logo){ $("logoBox").innerHTML = `<img src="${SITE_DATA.logo}" alt="${SITE_DATA.leagueName} logo">`; }
+      if(clean(SITE_DATA.alert)){ $("heroAlert").textContent = SITE_DATA.alert; } else { $("heroAlert").style.display = "none"; }
+
+      const qa = $("quickActions"); qa.innerHTML = "";
+      [
+        renderAction("Cash App","Support the league",SITE_DATA.cashAppUrl,"money"),
+        renderAction("Venmo","Support the league",SITE_DATA.venmoUrl,"money"),
+        renderAction("Register","Player signups",SITE_DATA.registrationUrl,"users"),
+        renderAction("Facebook","Updates & posts",SITE_DATA.facebookUrl,"link"),
+        renderAction("Sponsor","Become a sponsor",SITE_DATA.sponsorUrl,"users"),
+        (() => { const b = document.createElement("button"); b.type="button"; b.className="actionBtn"; b.onclick=()=>location.hash="#contact"; b.innerHTML=`<span>Contact<span class="actionHint">League questions</span></span><span class="actionIcon">${ICONS.users}</span>`; return b; })()
+      ].filter(Boolean).forEach(b => qa.appendChild(b));
+    }
+
+    let sliderIndex = 0, sliderTimer = null;
+    function renderSlider(){
+      const photos = SITE_DATA.photos.filter(p => safeUrl(p.src));
+      const host = $("slider"); host.innerHTML = "";
+      if(!photos.length){ host.style.display = "none"; return; }
+      const stage = document.createElement("div"); stage.className = "stage";
+      const dots = document.createElement("div"); dots.className = "dots";
+      const slides = [], dotEls = [], thumbEls = [];
+      photos.forEach((p,i) => {
+        const s = document.createElement("div"); s.className = "slide" + (i===0 ? " active" : "");
+        s.innerHTML = `<img src="${p.src}" alt="${clean(p.caption)||'Stroud Baseball photo'}" loading="lazy"><div class="slideCaption">${clean(p.caption)}</div>`;
+        s.onclick = () => openModal(p.caption,p.src,"IMAGE");
+        stage.appendChild(s); slides.push(s);
+        const d = document.createElement("button"); d.type="button"; d.className = "dot" + (i===0 ? " active" : ""); d.setAttribute("aria-label",`Show photo ${i+1}`); d.onclick = (e)=>{e.stopPropagation(); setSlide(i,true);}; dots.appendChild(d); dotEls.push(d);
+      });
+      stage.appendChild(dots);
+      const nav = document.createElement("div"); nav.className = "slideNav";
+      nav.innerHTML = `<button class="prev" type="button" aria-label="Previous photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="next" type="button" aria-label="Next photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+      stage.appendChild(nav);
+      host.appendChild(stage);
+      const thumbs = document.createElement("div"); thumbs.className = "thumbs";
+      photos.forEach((p,i)=>{ const t=document.createElement("button"); t.type="button"; t.className="thumb"+(i===0?" active":""); t.innerHTML=`<img src="${p.src}" alt="${clean(p.caption)||'Photo'}" loading="lazy">`; t.onclick=()=>setSlide(i,true); thumbs.appendChild(t); thumbEls.push(t); });
+      host.appendChild(thumbs);
+
+      function setSlide(i,pause=false){
+        sliderIndex = (i + photos.length) % photos.length;
+        slides.forEach((s,k)=>s.classList.toggle("active",k===sliderIndex));
+        dotEls.forEach((d,k)=>d.classList.toggle("active",k===sliderIndex));
+        thumbEls.forEach((t,k)=>t.classList.toggle("active",k===sliderIndex));
+        if(pause){ clearInterval(sliderTimer); sliderTimer = setInterval(()=>setSlide(sliderIndex+1),4200); }
+      }
+      nav.querySelector(".prev").onclick = (e)=>{e.stopPropagation(); setSlide(sliderIndex-1,true);};
+      nav.querySelector(".next").onclick = (e)=>{e.stopPropagation(); setSlide(sliderIndex+1,true);};
+      sliderTimer = setInterval(()=>setSlide(sliderIndex+1),4200);
+    }
+
+    function renderAccomplishments(){
+      const host = $("accomplishmentGrid"); host.innerHTML = "";
+      SITE_DATA.accomplishments.forEach(a => {
+        const d = document.createElement("div"); d.className = "accomplishment";
+        d.innerHTML = `<div class="year">${clean(a.year)}</div><div class="award">${clean(a.award)}</div>`;
+        host.appendChild(d);
+      });
+    }
+
+    function renderSimpleSections(){
+      const ann = $("announcementsGrid"); ann.innerHTML = "";
+      SITE_DATA.announcements.forEach(a => ann.appendChild(makeCard({title:a.title,text:a.text,actions:a.url?[{label:a.button||"Open",url:a.url}]:[]})));
+      if(!SITE_DATA.announcements.length) $("announcements").style.display = "none";
+
+      const rules = $("rulesGrid"); rules.innerHTML = "";
+      SITE_DATA.rules.forEach(r => rules.appendChild(makeCard({title:r.title,text:r.text,actions:r.url?[{label:"Open",url:r.url,modal:["PDF","IMAGE"].includes(clean(r.type).toUpperCase()),type:r.type}]:[]})));
+      if(!SITE_DATA.rules.length) $("rules").style.display = "none";
+
+      const minutes = $("minutesGrid"); minutes.innerHTML = "";
+      SITE_DATA.minutes.forEach(m => minutes.appendChild(makeCard({title:m.title,text:m.text,actions:m.url?[{label:"Open",url:m.url,modal:["PDF","IMAGE"].includes(clean(m.type).toUpperCase()),type:m.type}]:[]})));
+      if(!SITE_DATA.minutes.length) $("minutes").style.display = "none";
+
+      const contacts = $("contactGrid"); contacts.innerHTML = "";
+      SITE_DATA.contacts.forEach(c => contacts.appendChild(makeCard({title:c.role,text:[c.name,c.email,c.phone,c.notes].filter(clean).join("\n")})));
+      if(!SITE_DATA.contacts.length) $("contact").style.display = "none";
+
+      const links = $("linksGrid"); links.innerHTML = "";
+      const defaultLinks = [
+        { title:"Cash App", text:"Support Stroud Baseball", url:SITE_DATA.cashAppUrl },
+        { title:"Venmo", text:"Support Stroud Baseball", url:SITE_DATA.venmoUrl },
+        { title:"Registration", text:"Player signups", url:SITE_DATA.registrationUrl },
+        { title:"Facebook", text:"Updates and posts", url:SITE_DATA.facebookUrl },
+        { title:"Become a Sponsor", text:"Support the league", url:SITE_DATA.sponsorUrl }
+      ].filter(x => safeUrl(x.url));
+      [...defaultLinks, ...SITE_DATA.links].forEach(l => links.appendChild(makeCard({title:l.title,text:l.text,actions:[{label:"Open",url:l.url}]})));
+      if(!links.childNodes.length) $("links").style.display = "none";
+    }
+
+    function renderSponsors(){
+      const host = $("sponsorGrid"); host.innerHTML = "";
+      SITE_DATA.sponsors.forEach(s => {
+        const box = document.createElement("div"); box.className = "sponsor"; if(s.url) box.onclick=()=>window.open(s.url,"_blank","noopener");
+        if(s.logo) box.innerHTML += `<img src="${s.logo}" alt="${clean(s.name)} logo" loading="lazy">`; else box.innerHTML += `<div class="sponsorFallback">${clean(s.name)||'Sponsor'}</div>`;
+        box.innerHTML += `<div class="sponsorOverlay"><p class="sponsorName">${clean(s.name)}</p>${clean(s.tier)?`<p class="sponsorTier">${clean(s.tier)}</p>`:""}</div>`;
+        host.appendChild(box);
+      });
+      if(!SITE_DATA.sponsors.length) $("sponsors").style.display = "none";
+    }
+
+    function renderGallery(){
+      const host = $("galleryGrid"); host.innerHTML = "";
+      SITE_DATA.photos.forEach(p => {
+        if(!safeUrl(p.src)) return;
+        const item = document.createElement("button"); item.type="button"; item.className="galleryItem";
+        item.innerHTML = `<img src="${p.src}" alt="${clean(p.caption)||'Stroud Baseball photo'}" loading="lazy">`;
+        item.onclick = () => openModal(p.caption,p.src,"IMAGE");
+        host.appendChild(item);
+      });
+    }
+
+    function init(){
+      buildNav(); renderHero(); renderSlider(); renderAccomplishments(); renderSimpleSections(); renderSponsors(); renderGallery();
+      $("hamburger").onclick = openDrawer; $("drawerClose").onclick = closeDrawer;
+      $("drawerBack").onclick = (e)=>{ if(e.target === $("drawerBack")) closeDrawer(); };
+      $("modalClose").onclick = closeModal; $("modalBack").onclick = (e)=>{ if(e.target === $("modalBack")) closeModal(); };
+      const observer = new IntersectionObserver(entries => { entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio).slice(0,1).forEach(e=>setActive(e.target.id)); }, {threshold:[.2,.35,.5,.7]});
+      NAV.forEach(([id]) => { const el = document.getElementById(id); if(el && el.style.display !== "none") observer.observe(el); });
+      $("footerText").textContent = `${SITE_DATA.leagueName} • © ${new Date().getFullYear()}`;
+    }
+    init();
+  </script>
+</body>
+</html>
